@@ -8,8 +8,15 @@ const CENAS_PRECO_ANTIGO=['site_top','site_cta','brand_cta'];
 // passar de 3,2s só acontece por bug.
 const MEME_MAX=3.2;
 
+// o id vira vt/<id> e render/variacoes/criativo_<id>.mp4 (globais): repetido em dois lotes = um render atropela o outro
+function lotesComId(id){const P=require('path').join(__dirname,'projetos');const achou=[];
+ for(const p of fs.existsSync(P)?fs.readdirSync(P):[]){const ld=require('path').join(P,p,'lotes');if(!fs.existsSync(ld))continue;
+  for(const f of fs.readdirSync(ld))try{if(JSON.parse(fs.readFileSync(require('path').join(ld,f),'utf8')).variacoes.some(v=>v.id===id))achou.push(p+'/'+f);}catch{}}
+ return achou;}
+
 function valida({R,shots,DUR,SENT,MV}){
  const erros=[],avisos=[];
+ const dup=lotesComId(R.id);if(dup.length>1)erros.push(`id ${R.id} existe em mais de um lote (${dup.join(', ')}) — os renders se atropelam; renomeie um deles`);
  const ordem=Object.keys(SENT);const idx=[...R.order].map(c=>ordem.indexOf(c));
  if(idx.some(i=>i<0))erros.push(`ordem "${R.order}" tem frase que não existe no projeto`);
  else if(idx.some((v,i)=>i&&v<=idx[i-1]))erros.push(`frases fora da ordem original ("${R.order}") — reordenar foi reprovado como "bugado"`);
