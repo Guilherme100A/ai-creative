@@ -1,0 +1,316 @@
+{
+ "frases": [
+  {
+   "id": "A",
+   "de": 0.6,
+   "ate": 7.52,
+   "nome": "Eu sei que quando aparece uma conta de Blox Fruits no TikTok… será que eu vou receber mesmo?",
+   "opcional": false
+  },
+  {
+   "id": "B",
+   "de": 7.66,
+   "ate": 14.4,
+   "nome": "E eu acho normal pensar isso… feedbacks de quem já comprou",
+   "opcional": false
+  },
+  {
+   "id": "C",
+   "de": 14.58,
+   "ate": 20.52,
+   "nome": "Você consegue ver outras pessoas recebendo… antes de comprar",
+   "opcional": false
+  },
+  {
+   "id": "D",
+   "de": 20.74,
+   "ate": 28.58,
+   "nome": "E a entrega também é automática… torcendo para responder rápido",
+   "opcional": false
+  },
+  {
+   "id": "E",
+   "de": 28.76,
+   "ate": 34.56,
+   "nome": "Tudo foi pensado para deixar a compra mais simples… primeira vez",
+   "opcional": true
+  },
+  {
+   "id": "F",
+   "de": 34.76,
+   "ate": 38.16,
+   "nome": "E aí quando você olha o que pode vir na conta…",
+   "opcional": false
+  },
+  {
+   "id": "G",
+   "de": 38.34,
+   "ate": 46.74,
+   "nome": "Godhuman, CDK, Soul Guitar… horas tentando conseguir",
+   "opcional": false
+  },
+  {
+   "id": "H",
+   "de": 47.14,
+   "ate": 50.3,
+   "nome": "Então você não precisa simplesmente acreditar no que eu estou falando",
+   "opcional": false
+  },
+  {
+   "id": "I",
+   "de": 50.62,
+   "ate": 56.3,
+   "nome": "Você pode ver os feedbacks… antes de decidir",
+   "opcional": false
+  },
+  {
+   "id": "J",
+   "de": 56.64,
+   "ate": 61.1,
+   "nome": "Se quiser saber mais… clica em saiba mais e vem conhecer a Basic-Build",
+   "opcional": false
+  }
+ ],
+ "direcoes": [
+  {
+   "nome": "hookSite",
+   "de": 0.57,
+   "ate": 2.77,
+   "tipo": "mo",
+   "clip": "site_top2",
+   "wpn": "",
+   "pool": "",
+   "motivo": "abre com o site mobile em 3D no 1º segundo, cobrindo 'conta de Blox Fruits'"
+  },
+  {
+   "nome": "brandIntro",
+   "de": 10.6,
+   "ate": 12.45,
+   "tipo": "mo",
+   "clip": "brand_intro",
+   "wpn": "",
+   "pool": "",
+   "motivo": "primeira vez que fala 'Basic-Build' (11.26)"
+  },
+  {
+   "nome": "brandFb",
+   "de": 12.45,
+   "ate": 14.2,
+   "tipo": "mo",
+   "clip": "brand_feedback",
+   "wpn": "",
+   "pool": "",
+   "motivo": "fala 'os feedbacks de quem já comprou', igual ao texto do card"
+  },
+  {
+   "nome": "siteFb",
+   "de": 14.9,
+   "ate": 19.4,
+   "tipo": "mo",
+   "clip": "site_feedback",
+   "wpn": "",
+   "pool": "",
+   "motivo": "'você consegue ver outras pessoas recebendo, o que elas acharam': mostra o print dos feedbacks"
+  },
+  {
+   "nome": "entrega",
+   "de": 20.7,
+   "ate": 23.3,
+   "tipo": "mo",
+   "clip": "brand_entrega",
+   "wpn": "",
+   "pool": "",
+   "motivo": "'a entrega também é automática… depois da compra'"
+  },
+  {
+   "nome": "siteTop",
+   "de": 35.9,
+   "ate": 38.1,
+   "tipo": "mo",
+   "clip": "site_top2",
+   "wpn": "",
+   "pool": "",
+   "motivo": "'quando você olha o que pode vir na conta': mostra o produto antes de listar os itens (como no gabarito, antes do Godhuman)"
+  },
+  {
+   "nome": "gh",
+   "de": 38.2,
+   "ate": 38.95,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "godhuman",
+   "pool": "",
+   "motivo": "fala 'Godhuman' (38.34)"
+  },
+  {
+   "nome": "cdk",
+   "de": 38.95,
+   "ate": 39.7,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "cdk",
+   "pool": "",
+   "motivo": "fala 'CDK' (39.10)"
+  },
+  {
+   "nome": "sg",
+   "de": 39.7,
+   "ate": 40.6,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "soul guitar",
+   "pool": "",
+   "motivo": "fala 'Soul Guitar' (39.80)"
+  },
+  {
+   "nome": "race",
+   "de": 41.5,
+   "ate": 42.6,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "",
+   "pool": "race",
+   "motivo": "fala 'Raça V4' (41.68)"
+  },
+  {
+   "nome": "inv",
+   "de": 42.6,
+   "ate": 44.4,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "",
+   "pool": "inv",
+   "motivo": "'frutas místicas e outros itens': inventário"
+  },
+  {
+   "nome": "siteFb2",
+   "de": 51.1,
+   "ate": 54.5,
+   "tipo": "mo",
+   "clip": "site_feedback2",
+   "wpn": "",
+   "pool": "",
+   "motivo": "'você pode ver os feedbacks e entender como a entrega funciona': segundo print, diferente do primeiro"
+  },
+  {
+   "nome": "brandCta",
+   "de": 56.6,
+   "ate": 99,
+   "tipo": "mo",
+   "clip": "brand_cta3",
+   "wpn": "",
+   "pool": "",
+   "motivo": "última frase (CTA): card final SÓ R$ 17,90 até o fim"
+  }
+ ],
+ "memes": [
+  {
+   "de": 5.6,
+   "ate": 7.5,
+   "categoria": "duvida",
+   "prioridade": 1,
+   "motivo": "'tá, mas será que eu vou receber mesmo?': a dúvida central do vídeo"
+  },
+  {
+   "de": 25.35,
+   "ate": 26.75,
+   "categoria": "espera",
+   "prioridade": 1,
+   "motivo": "'esperando a pessoa ficar online'"
+  },
+  {
+   "de": 45.1,
+   "ate": 46.9,
+   "categoria": "espera",
+   "prioridade": 1,
+   "motivo": "'muita gente passa horas tentando conseguir'"
+  },
+  {
+   "de": 3.8,
+   "ate": 5.5,
+   "categoria": "duvida",
+   "prioridade": 2,
+   "motivo": "'a primeira dúvida de muita gente'"
+  },
+  {
+   "de": 23.9,
+   "ate": 25.3,
+   "categoria": "frustrado",
+   "prioridade": 2,
+   "motivo": "'ficar chamando alguém no WhatsApp'"
+  },
+  {
+   "de": 48.3,
+   "ate": 50.2,
+   "categoria": "duvida",
+   "prioridade": 2,
+   "motivo": "'não precisa simplesmente acreditar no que eu estou falando'"
+  },
+  {
+   "de": 26.8,
+   "ate": 28.5,
+   "categoria": "duvida",
+   "prioridade": 3,
+   "motivo": "'torcendo para responder rápido'"
+  },
+  {
+   "de": 31.4,
+   "ate": 32.9,
+   "categoria": "sucesso",
+   "prioridade": 3,
+   "motivo": "'passar mais confiança': alívio/positivo, só no modo muitos memes"
+  }
+ ],
+ "destaques": [
+  "BLOX",
+  "FRUITS",
+  "BASIC-BUILD",
+  "FEEDBACKS",
+  "ENTREGA",
+  "AUTOMÁTICA",
+  "WHATSAPP",
+  "GODHUMAN",
+  "CDK",
+  "SOUL",
+  "GUITAR",
+  "RAÇA",
+  "V4",
+  "FRUTAS",
+  "MÍSTICAS",
+  "HORAS",
+  "CLICA"
+ ],
+ "correcoes": [
+  {
+   "de": [
+    "blocks"
+   ],
+   "para": "Blox"
+  },
+  {
+   "de": [
+    "fruits"
+   ],
+   "para": "Fruits"
+  },
+  {
+   "de": [
+    "God Eulman"
+   ],
+   "para": "Godhuman"
+  },
+  {
+   "de": [
+    "Basic Beauty"
+   ],
+   "para": "Basic-Build"
+  },
+  {
+   "de": [
+    "whatsapp"
+   ],
+   "para": "WhatsApp"
+  }
+ ],
+ "observacoes": "Esse vídeo é diferente do gabarito: o foco é CONFIANÇA (será que eu recebo?, feedbacks, entrega automática) e não a dor de farmar. Por isso a edição fica mais nos cards e nos prints do site e tem pouca gameplay. Os quadrados de gameplay ficaram só no bloco G (Godhuman → CDK → Soul Guitar → Raça V4 → frutas/itens), cada um no momento em que ela fala o nome.\n\nPara o dono conferir:\n1) Preço: ela NUNCA fala R$ 17,90 neste vídeo. O preço só aparece no card final brand_cta3 ('SÓ R$ 17,90'). Vale ver se basta ou se é melhor um vídeo que fale o preço.\n2) CTA: ela fala 'clica em saiba mais', mas o card diz 'CLICA ABAIXO'. Não é contraditório, mas confira se o botão do anúncio é mesmo 'Saiba mais'.\n3) Correções de transcrição: 'blocks fruits' (minúsculo escapou da correção global) → Blox Fruits; 'God Eulman' → Godhuman; 'Basic Beauty' no final → Basic-Build (conferir no áudio se ela falou certo; se a pronúncia estiver ruim, talvez valha regravar o fim); 'whatsapp' → WhatsApp.\n4) Bloco de 10,6s a 19,4s: brand_intro, brand_feedback e site_feedback ficam quase seguidos (só ~0,7s de rosto entre o card e o print). Fica coerente com a fala, mas é bastante tempo sem o rosto dela. Se ficar pesado, dá para tirar o brand_feedback.\n5) Usei site_feedback (14,9s) e site_feedback2 (51,1s) para não repetir o mesmo print nas duas vezes que ela fala de feedback.\n6) A frase E ('Tudo foi pensado para deixar a compra mais simples…') está marcada como opcional: é enchimento e cortar não quebra o sentido. O inventário (42,6–44,4s) ficou mais longo que no gabarito porque cobre também 'outros itens'.\n7) Ela cita o TikTok no começo. Se o anúncio for rodar em outra plataforma (Meta/Kwai), a frase soa estranha."
+}

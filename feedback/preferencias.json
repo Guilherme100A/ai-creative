@@ -1,0 +1,1774 @@
+{
+  "geradoEm": "2026-10-07T15:15:06.617Z",
+  "avaliados": 34,
+  "aprovados": 16,
+  "taxaGeral": 0.47058823529411764,
+  "caracteristicas": [
+    {
+      "grupo": "Memes no quadrado",
+      "valor": "Muitos memes",
+      "aprov": 7,
+      "n": 7,
+      "ids": [
+        "v25",
+        "v32",
+        "v34",
+        "v35",
+        "v37",
+        "v39",
+        "v42"
+      ],
+      "notaSoma": 21,
+      "notaN": 6,
+      "notaMedia": 3.5,
+      "taxa": 1,
+      "score": 0.8823529411764706
+    },
+    {
+      "grupo": "Quadrado do meme",
+      "valor": "Meme em 3D (cortado)",
+      "aprov": 10,
+      "n": 11,
+      "ids": [
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40"
+      ],
+      "notaSoma": 34,
+      "notaN": 10,
+      "notaMedia": 3.4,
+      "taxa": 0.9090909090909091,
+      "score": 0.8416289592760181
+    },
+    {
+      "grupo": "Sons",
+      "valor": "YouTube: iPhone + caixa registradora + vine boom",
+      "aprov": 4,
+      "n": 4,
+      "ids": [
+        "v32",
+        "v35",
+        "v38",
+        "v43"
+      ],
+      "notaSoma": 11,
+      "notaN": 3,
+      "notaMedia": 3.6666666666666665,
+      "taxa": 1,
+      "score": 0.823529411764706
+    },
+    {
+      "grupo": "Sons",
+      "valor": "YouTube: cliques + moeda Mario + vine boom",
+      "aprov": 4,
+      "n": 4,
+      "ids": [
+        "v34",
+        "v37",
+        "v39",
+        "v42"
+      ],
+      "notaSoma": 14,
+      "notaN": 4,
+      "notaMedia": 3.5,
+      "taxa": 1,
+      "score": 0.823529411764706
+    },
+    {
+      "grupo": "Som dos memes",
+      "valor": "Som em todos os memes",
+      "aprov": 8,
+      "n": 9,
+      "ids": [
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v35",
+        "v36",
+        "v38",
+        "v39",
+        "v40"
+      ],
+      "notaSoma": 28,
+      "notaN": 8,
+      "notaMedia": 3.5,
+      "taxa": 0.8888888888888888,
+      "score": 0.8128342245989305
+    },
+    {
+      "grupo": "Som dos memes",
+      "valor": "Som só em alguns memes",
+      "aprov": 3,
+      "n": 3,
+      "ids": [
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 12,
+      "notaN": 3,
+      "notaMedia": 4,
+      "taxa": 1,
+      "score": 0.7882352941176471
+    },
+    {
+      "grupo": "Quadrado do meme",
+      "valor": "Meme sem 3D (completo)",
+      "aprov": 3,
+      "n": 3,
+      "ids": [
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 12,
+      "notaN": 3,
+      "notaMedia": 4,
+      "taxa": 1,
+      "score": 0.7882352941176471
+    },
+    {
+      "grupo": "Raça V4 e inventário",
+      "valor": "Mostra raça V4 + inventário",
+      "aprov": 3,
+      "n": 3,
+      "ids": [
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 12,
+      "notaN": 3,
+      "notaMedia": 4,
+      "taxa": 1,
+      "score": 0.7882352941176471
+    },
+    {
+      "grupo": "Memes no quadrado",
+      "valor": "Memes médios",
+      "aprov": 5,
+      "n": 6,
+      "ids": [
+        "v31",
+        "v33",
+        "v36",
+        "v38",
+        "v41",
+        "v43"
+      ],
+      "notaSoma": 22,
+      "notaN": 6,
+      "notaMedia": 3.6666666666666665,
+      "taxa": 0.8333333333333334,
+      "score": 0.7426470588235294
+    },
+    {
+      "grupo": "Som dos memes",
+      "valor": "Meme sem som",
+      "aprov": 2,
+      "n": 2,
+      "ids": [
+        "v34",
+        "v37"
+      ],
+      "notaSoma": 6,
+      "notaN": 2,
+      "notaMedia": 3,
+      "taxa": 1,
+      "score": 0.7352941176470589
+    },
+    {
+      "grupo": "Duração",
+      "valor": "?",
+      "aprov": 2,
+      "n": 2,
+      "ids": [
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 8,
+      "notaN": 2,
+      "notaMedia": 4,
+      "taxa": 1,
+      "score": 0.7352941176470589
+    },
+    {
+      "grupo": "Sons",
+      "valor": "YouTube: cliques + caixa registradora",
+      "aprov": 4,
+      "n": 5,
+      "ids": [
+        "v31",
+        "v33",
+        "v36",
+        "v40",
+        "v41"
+      ],
+      "notaSoma": 17,
+      "notaN": 5,
+      "notaMedia": 3.4,
+      "taxa": 0.8,
+      "score": 0.7058823529411765
+    },
+    {
+      "grupo": "Abertura",
+      "valor": "Pergunta + site + gameplay",
+      "aprov": 8,
+      "n": 11,
+      "ids": [
+        "v14",
+        "v16",
+        "v18",
+        "v32",
+        "v33",
+        "v35",
+        "v37",
+        "v39",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 34,
+      "notaN": 10,
+      "notaMedia": 3.4,
+      "taxa": 0.7272727272727273,
+      "score": 0.6877828054298643
+    },
+    {
+      "grupo": "Cor de destaque",
+      "valor": "Amarelo",
+      "aprov": 12,
+      "n": 18,
+      "ids": [
+        "v02",
+        "v05",
+        "v08",
+        "v12",
+        "v15",
+        "v18",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 49,
+      "notaN": 14,
+      "notaMedia": 3.5,
+      "taxa": 0.6666666666666666,
+      "score": 0.6470588235294118
+    },
+    {
+      "grupo": "Memes no quadrado",
+      "valor": "Poucos memes",
+      "aprov": 1,
+      "n": 1,
+      "ids": [
+        "v40"
+      ],
+      "notaSoma": 3,
+      "notaN": 1,
+      "notaMedia": 3,
+      "taxa": 1,
+      "score": 0.6470588235294118
+    },
+    {
+      "grupo": "Legenda",
+      "valor": "Legenda só com sombra",
+      "aprov": 1,
+      "n": 1,
+      "ids": [
+        "v42"
+      ],
+      "notaSoma": 4,
+      "notaN": 1,
+      "notaMedia": 4,
+      "taxa": 1,
+      "score": 0.6470588235294118
+    },
+    {
+      "grupo": "Reações",
+      "valor": "Sem reações",
+      "aprov": 14,
+      "n": 22,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v25",
+        "v32",
+        "v31",
+        "v34",
+        "v35",
+        "v36",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 39,
+      "notaN": 11,
+      "notaMedia": 3.5454545454545454,
+      "taxa": 0.6363636363636364,
+      "score": 0.6225490196078431
+    },
+    {
+      "grupo": "Ordem da fala",
+      "valor": "Ordem original",
+      "aprov": 16,
+      "n": 28,
+      "ids": [
+        "v01",
+        "v02",
+        "v07",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 69,
+      "notaN": 23,
+      "notaMedia": 3,
+      "taxa": 0.5714285714285714,
+      "score": 0.5647058823529412
+    },
+    {
+      "grupo": "Gancho",
+      "valor": "Gameplay no gancho",
+      "aprov": 16,
+      "n": 29,
+      "ids": [
+        "v01",
+        "v02",
+        "v04",
+        "v08",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 69,
+      "notaN": 23,
+      "notaMedia": 3,
+      "taxa": 0.5517241379310345,
+      "score": 0.5464895635673624
+    },
+    {
+      "grupo": "Cor da imagem",
+      "valor": "Cor viva",
+      "aprov": 6,
+      "n": 11,
+      "ids": [
+        "v12",
+        "v14",
+        "v16",
+        "v17",
+        "v20",
+        "v32",
+        "v34",
+        "v36",
+        "v37",
+        "v39",
+        "v42"
+      ],
+      "notaSoma": 29,
+      "notaN": 10,
+      "notaMedia": 2.9,
+      "taxa": 0.5454545454545454,
+      "score": 0.5339366515837104
+    },
+    {
+      "grupo": "Cor da imagem",
+      "valor": "Cor quente",
+      "aprov": 7,
+      "n": 13,
+      "ids": [
+        "v11",
+        "v13",
+        "v15",
+        "v18",
+        "v19",
+        "v25",
+        "v31",
+        "v33",
+        "v35",
+        "v38",
+        "v40",
+        "v41",
+        "v43"
+      ],
+      "notaSoma": 40,
+      "notaN": 13,
+      "notaMedia": 3.076923076923077,
+      "taxa": 0.5384615384615384,
+      "score": 0.5294117647058824
+    },
+    {
+      "grupo": "Duração",
+      "valor": "Longo (55s+)",
+      "aprov": 14,
+      "n": 27,
+      "ids": [
+        "v01",
+        "v02",
+        "v07",
+        "v08",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40",
+        "v41"
+      ],
+      "notaSoma": 61,
+      "notaN": 21,
+      "notaMedia": 2.9047619047619047,
+      "taxa": 0.5185185185185185,
+      "score": 0.5152129817444219
+    },
+    {
+      "grupo": "Cortes",
+      "valor": "Cortes rápidos (sem pausas)",
+      "aprov": 14,
+      "n": 28,
+      "ids": [
+        "v02",
+        "v03",
+        "v04",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v15",
+        "v17",
+        "v18",
+        "v20",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v37",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 60,
+      "notaN": 19,
+      "notaMedia": 3.1578947368421053,
+      "taxa": 0.5,
+      "score": 0.4980392156862745
+    },
+    {
+      "grupo": "Legenda",
+      "valor": "Legenda com faixa",
+      "aprov": 3,
+      "n": 6,
+      "ids": [
+        "v13",
+        "v16",
+        "v20",
+        "v38",
+        "v41",
+        "v43"
+      ],
+      "notaSoma": 19,
+      "notaN": 6,
+      "notaMedia": 3.1666666666666665,
+      "taxa": 0.5,
+      "score": 0.49264705882352944
+    },
+    {
+      "grupo": "Reações",
+      "valor": "Poucas reações",
+      "aprov": 2,
+      "n": 4,
+      "ids": [
+        "v15",
+        "v18",
+        "v33",
+        "v37"
+      ],
+      "notaSoma": 12,
+      "notaN": 4,
+      "notaMedia": 3,
+      "taxa": 0.5,
+      "score": 0.4901960784313726
+    },
+    {
+      "grupo": "Cor de destaque",
+      "valor": "Várias cores",
+      "aprov": 2,
+      "n": 4,
+      "ids": [
+        "v17",
+        "v20",
+        "v35",
+        "v40"
+      ],
+      "notaSoma": 10,
+      "notaN": 4,
+      "notaMedia": 2.5,
+      "taxa": 0.5,
+      "score": 0.4901960784313726
+    },
+    {
+      "grupo": "Ritmo dos quadrados",
+      "valor": "Quadrados normais",
+      "aprov": 15,
+      "n": 31,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v11",
+        "v12",
+        "v14",
+        "v15",
+        "v16",
+        "v18",
+        "v19",
+        "v20",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 65,
+      "notaN": 21,
+      "notaMedia": 3.0952380952380953,
+      "taxa": 0.4838709677419355,
+      "score": 0.483065953654189
+    },
+    {
+      "grupo": "Zoom na fala",
+      "valor": "Zoom leve",
+      "aprov": 13,
+      "n": 27,
+      "ids": [
+        "v01",
+        "v03",
+        "v04",
+        "v06",
+        "v07",
+        "v08",
+        "v10",
+        "v11",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v25",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43"
+      ],
+      "notaSoma": 60,
+      "notaN": 20,
+      "notaMedia": 3,
+      "taxa": 0.48148148148148145,
+      "score": 0.48073022312373226
+    },
+    {
+      "grupo": "Legenda",
+      "valor": "Legenda com contorno",
+      "aprov": 12,
+      "n": 27,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v11",
+        "v12",
+        "v14",
+        "v15",
+        "v17",
+        "v18",
+        "v19",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v39",
+        "v40"
+      ],
+      "notaSoma": 46,
+      "notaN": 16,
+      "notaMedia": 2.875,
+      "taxa": 0.4444444444444444,
+      "score": 0.4462474645030426
+    },
+    {
+      "grupo": "Zoom na fala",
+      "valor": "Zoom forte",
+      "aprov": 3,
+      "n": 7,
+      "ids": [
+        "v02",
+        "v05",
+        "v09",
+        "v12",
+        "v20",
+        "v32",
+        "v37"
+      ],
+      "notaSoma": 9,
+      "notaN": 3,
+      "notaMedia": 3,
+      "taxa": 0.42857142857142855,
+      "score": 0.43790849673202614
+    },
+    {
+      "grupo": "Raça V4 e inventário",
+      "valor": "Só gameplay das armas",
+      "aprov": 13,
+      "n": 31,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20",
+        "v25",
+        "v32",
+        "v31",
+        "v33",
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40"
+      ],
+      "notaSoma": 57,
+      "notaN": 20,
+      "notaMedia": 2.85,
+      "taxa": 0.41935483870967744,
+      "score": 0.42245989304812837
+    },
+    {
+      "grupo": "Abertura",
+      "valor": "Abre com a pergunta",
+      "aprov": 8,
+      "n": 20,
+      "ids": [
+        "v01",
+        "v02",
+        "v04",
+        "v05",
+        "v07",
+        "v08",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v15",
+        "v17",
+        "v19",
+        "v20",
+        "v25",
+        "v31",
+        "v34",
+        "v36",
+        "v38",
+        "v40"
+      ],
+      "notaSoma": 35,
+      "notaN": 13,
+      "notaMedia": 2.6923076923076925,
+      "taxa": 0.4,
+      "score": 0.40641711229946526
+    },
+    {
+      "grupo": "Cortes",
+      "valor": "Fala natural (com pausas)",
+      "aprov": 1,
+      "n": 3,
+      "ids": [
+        "v01",
+        "v05",
+        "v19"
+      ],
+      "notaSoma": 2,
+      "notaN": 1,
+      "notaMedia": 2,
+      "taxa": 0.3333333333333333,
+      "score": 0.38823529411764707
+    },
+    {
+      "grupo": "Ritmo dos quadrados",
+      "valor": "Quadrados rápidos",
+      "aprov": 1,
+      "n": 3,
+      "ids": [
+        "v10",
+        "v13",
+        "v17"
+      ],
+      "notaSoma": 4,
+      "notaN": 2,
+      "notaMedia": 2,
+      "taxa": 0.3333333333333333,
+      "score": 0.38823529411764707
+    },
+    {
+      "grupo": "Cortes",
+      "valor": "Cortes bem rápidos",
+      "aprov": 1,
+      "n": 3,
+      "ids": [
+        "v14",
+        "v16",
+        "v36"
+      ],
+      "notaSoma": 7,
+      "notaN": 3,
+      "notaMedia": 2.3333333333333335,
+      "taxa": 0.3333333333333333,
+      "score": 0.38823529411764707
+    },
+    {
+      "grupo": "Sons",
+      "valor": "Whooshes (lote 1)",
+      "aprov": 3,
+      "n": 10,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0.3,
+      "score": 0.3284313725490196
+    },
+    {
+      "grupo": "Cor da imagem",
+      "valor": "Sem correção de cor",
+      "aprov": 3,
+      "n": 10,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0.3,
+      "score": 0.3284313725490196
+    },
+    {
+      "grupo": "Duração",
+      "valor": "Curto (<40s)",
+      "aprov": 0,
+      "n": 1,
+      "ids": [
+        "v06"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0,
+      "score": 0.3137254901960784
+    },
+    {
+      "grupo": "Abertura",
+      "valor": "Pergunta → itens",
+      "aprov": 0,
+      "n": 1,
+      "ids": [
+        "v09"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0,
+      "score": 0.3137254901960784
+    },
+    {
+      "grupo": "Sons",
+      "valor": "Pops de balão + boing",
+      "aprov": 1,
+      "n": 5,
+      "ids": [
+        "v12",
+        "v15",
+        "v17",
+        "v20",
+        "v25"
+      ],
+      "notaSoma": 13,
+      "notaN": 5,
+      "notaMedia": 2.6,
+      "taxa": 0.2,
+      "score": 0.2773109243697479
+    },
+    {
+      "grupo": "Abertura",
+      "valor": "Abre com gameplay",
+      "aprov": 0,
+      "n": 2,
+      "ids": [
+        "v03",
+        "v06"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0,
+      "score": 0.23529411764705882
+    },
+    {
+      "grupo": "Sons",
+      "valor": "Cliques + moeda de ouro",
+      "aprov": 0,
+      "n": 2,
+      "ids": [
+        "v14",
+        "v18"
+      ],
+      "notaSoma": 5,
+      "notaN": 2,
+      "notaMedia": 2.5,
+      "taxa": 0,
+      "score": 0.23529411764705882
+    },
+    {
+      "grupo": "Cor de destaque",
+      "valor": "Verde-limão",
+      "aprov": 2,
+      "n": 12,
+      "ids": [
+        "v01",
+        "v03",
+        "v04",
+        "v06",
+        "v07",
+        "v09",
+        "v10",
+        "v11",
+        "v13",
+        "v14",
+        "v16",
+        "v19"
+      ],
+      "notaSoma": 10,
+      "notaN": 5,
+      "notaMedia": 2,
+      "taxa": 0.16666666666666666,
+      "score": 0.21008403361344538
+    },
+    {
+      "grupo": "Memes no quadrado",
+      "valor": "Sem memes",
+      "aprov": 3,
+      "n": 20,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20"
+      ],
+      "notaSoma": 23,
+      "notaN": 10,
+      "notaMedia": 2.3,
+      "taxa": 0.15,
+      "score": 0.179144385026738
+    },
+    {
+      "grupo": "Som dos memes",
+      "valor": "—",
+      "aprov": 3,
+      "n": 20,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20"
+      ],
+      "notaSoma": 23,
+      "notaN": 10,
+      "notaMedia": 2.3,
+      "taxa": 0.15,
+      "score": 0.179144385026738
+    },
+    {
+      "grupo": "Quadrado do meme",
+      "valor": "—",
+      "aprov": 3,
+      "n": 20,
+      "ids": [
+        "v01",
+        "v02",
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v07",
+        "v08",
+        "v09",
+        "v10",
+        "v11",
+        "v12",
+        "v13",
+        "v14",
+        "v15",
+        "v16",
+        "v17",
+        "v18",
+        "v19",
+        "v20"
+      ],
+      "notaSoma": 23,
+      "notaN": 10,
+      "notaMedia": 2.3,
+      "taxa": 0.15,
+      "score": 0.179144385026738
+    },
+    {
+      "grupo": "Duração",
+      "valor": "Médio (40–55s)",
+      "aprov": 0,
+      "n": 4,
+      "ids": [
+        "v03",
+        "v04",
+        "v05",
+        "v09"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0,
+      "score": 0.1568627450980392
+    },
+    {
+      "grupo": "Sons",
+      "valor": "Pops suaves + moeda mágica",
+      "aprov": 0,
+      "n": 4,
+      "ids": [
+        "v11",
+        "v13",
+        "v16",
+        "v19"
+      ],
+      "notaSoma": 9,
+      "notaN": 4,
+      "notaMedia": 2.25,
+      "taxa": 0,
+      "score": 0.1568627450980392
+    },
+    {
+      "grupo": "Reações",
+      "valor": "Reações médias",
+      "aprov": 0,
+      "n": 4,
+      "ids": [
+        "v11",
+        "v13",
+        "v16",
+        "v19"
+      ],
+      "notaSoma": 9,
+      "notaN": 4,
+      "notaMedia": 2.25,
+      "taxa": 0,
+      "score": 0.1568627450980392
+    },
+    {
+      "grupo": "Reações",
+      "valor": "Muitas reações",
+      "aprov": 0,
+      "n": 4,
+      "ids": [
+        "v12",
+        "v14",
+        "v17",
+        "v20"
+      ],
+      "notaSoma": 9,
+      "notaN": 4,
+      "notaMedia": 2.25,
+      "taxa": 0,
+      "score": 0.1568627450980392
+    },
+    {
+      "grupo": "Gancho",
+      "valor": "Sem gameplay no gancho",
+      "aprov": 0,
+      "n": 5,
+      "ids": [
+        "v03",
+        "v05",
+        "v06",
+        "v07",
+        "v09"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0,
+      "score": 0.13445378151260504
+    },
+    {
+      "grupo": "Ordem da fala",
+      "valor": "Ordem mexida",
+      "aprov": 0,
+      "n": 6,
+      "ids": [
+        "v03",
+        "v04",
+        "v05",
+        "v06",
+        "v08",
+        "v09"
+      ],
+      "notaSoma": 0,
+      "notaN": 0,
+      "notaMedia": null,
+      "taxa": 0,
+      "score": 0.11764705882352941
+    }
+  ],
+  "perfil": [
+    {
+      "grupo": "Memes no quadrado",
+      "prefere": "Muitos memes",
+      "evita": "Sem memes",
+      "confianca": 1
+    },
+    {
+      "grupo": "Quadrado do meme",
+      "prefere": "Meme em 3D (cortado)",
+      "evita": "—",
+      "confianca": 1
+    },
+    {
+      "grupo": "Sons",
+      "prefere": "YouTube: iPhone + caixa registradora + vine boom",
+      "evita": "Pops suaves + moeda mágica",
+      "confianca": 1
+    },
+    {
+      "grupo": "Som dos memes",
+      "prefere": "Som em todos os memes",
+      "evita": "—",
+      "confianca": 1
+    },
+    {
+      "grupo": "Raça V4 e inventário",
+      "prefere": "Mostra raça V4 + inventário",
+      "evita": "Só gameplay das armas",
+      "confianca": 1
+    },
+    {
+      "grupo": "Duração",
+      "prefere": "?",
+      "evita": "Médio (40–55s)",
+      "confianca": 1
+    },
+    {
+      "grupo": "Abertura",
+      "prefere": "Pergunta + site + gameplay",
+      "evita": "Abre com gameplay",
+      "confianca": 1
+    },
+    {
+      "grupo": "Cor de destaque",
+      "prefere": "Amarelo",
+      "evita": "Verde-limão",
+      "confianca": 1
+    },
+    {
+      "grupo": "Legenda",
+      "prefere": "Legenda só com sombra",
+      "evita": "Legenda com contorno",
+      "confianca": 1
+    },
+    {
+      "grupo": "Reações",
+      "prefere": "Sem reações",
+      "evita": "Muitas reações",
+      "confianca": 1
+    },
+    {
+      "grupo": "Ordem da fala",
+      "prefere": "Ordem original",
+      "evita": "Ordem mexida",
+      "confianca": 1
+    },
+    {
+      "grupo": "Gancho",
+      "prefere": "Gameplay no gancho",
+      "evita": "Sem gameplay no gancho",
+      "confianca": 1
+    },
+    {
+      "grupo": "Cor da imagem",
+      "prefere": "Cor viva",
+      "evita": "Sem correção de cor",
+      "confianca": 1
+    }
+  ],
+  "motivosAprovacao": [],
+  "motivosReprovacao": [],
+  "notas": [
+    {
+      "id": "v01",
+      "status": "aprovado",
+      "texto": "barulho irritante de chupada tira isso o brarulho no caso"
+    },
+    {
+      "id": "v02",
+      "status": "aprovado",
+      "texto": "barulho de chupada extressante pra caralho ,mmas parece que esta mais rapido gostosiinho"
+    },
+    {
+      "id": "v03",
+      "status": "reprovado",
+      "texto": "meio bugado n gosteii,os barulhos muito horriveis ,o barulho das compra gostei"
+    },
+    {
+      "id": "v04",
+      "status": "reprovado",
+      "texto": "bugado n gostei"
+    },
+    {
+      "id": "v05",
+      "status": "reprovado",
+      "texto": "muito seco muito sem cores muito pouco muito lento n gostei que barulho horrivel da torcida n sei"
+    },
+    {
+      "id": "v06",
+      "status": "reprovado",
+      "texto": "comeco de uma vez n teve hook horrivel"
+    },
+    {
+      "id": "v07",
+      "status": "reprovado",
+      "texto": "tem que mostrar o produto barulho de chupad horrivel"
+    },
+    {
+      "id": "v08",
+      "status": "reprovado",
+      "texto": "fico bugado"
+    },
+    {
+      "id": "v09",
+      "status": "reprovado",
+      "texto": "fico mais ou menos"
+    },
+    {
+      "id": "v10",
+      "status": "aprovado",
+      "texto": "os barulhos tao simpoles mas ate que esta bom"
+    },
+    {
+      "id": "v11",
+      "status": "reprovado",
+      "texto": "uns emote em execesso  e muitos takes de video"
+    },
+    {
+      "id": "v12",
+      "status": "reprovado",
+      "texto": "sons chato mas e emote em execesso relampago na hora da entrega automatica fico muito forcado"
+    },
+    {
+      "id": "v13",
+      "status": "reprovado",
+      "texto": "esses emote e som de trombeta horrivel emotes em uns cantos estranhos estranho raio feio demais"
+    },
+    {
+      "id": "v14",
+      "status": "reprovado",
+      "texto": "emote trombeta horrivel"
+    },
+    {
+      "id": "v15",
+      "status": "reprovado",
+      "texto": "emote de menos"
+    },
+    {
+      "id": "v16",
+      "status": "reprovado",
+      "texto": "os emotes foram bens pra hhora ma sposivcionamento fico horrivel raio e estrelinha horrivel"
+    },
+    {
+      "id": "v17",
+      "status": "reprovado",
+      "texto": "estrelinha no feedback horrivel"
+    },
+    {
+      "id": "v18",
+      "status": "reprovado",
+      "texto": "so raio que quebro ali o gatinnho quebro mas se fosse meme sla poderia ficar bom"
+    },
+    {
+      "id": "v25",
+      "status": "aprovado",
+      "texto": "fico bom mas os sons tao cagado e teve uns meme meio ramdom do nada e muito sons de compra no final"
+    },
+    {
+      "id": "v32",
+      "status": "aprovado",
+      "texto": "n prescisa necessariamente todos os memes terem som pq fica estranho e os quadradinhos de meme pode ser normal sem 3d\n"
+    },
+    {
+      "id": "v33",
+      "status": "aprovado",
+      "texto": "emotes bugados pode remover so deixo os memes"
+    },
+    {
+      "id": "v35",
+      "status": "aprovado",
+      "texto": "alguns memes esperam eles completar pq fica estranho tira esse contorno preto das legenda tbm no motion do feedback as lestras estao redondas deixa o motion mais serio"
+    },
+    {
+      "id": "v36",
+      "status": "aprovado",
+      "texto": "nem todos os memes prescisam ter sons isso deixa meio estranho,motion letra reonda"
+    },
+    {
+      "id": "v37",
+      "status": "aprovado",
+      "texto": "alguns memes espera acabar e deixa os quadradinhos do meme sem 3d tira os emoji de vez"
+    },
+    {
+      "id": "v38",
+      "status": "aprovado",
+      "texto": "mesmo problemas dos outros "
+    },
+    {
+      "id": "v39",
+      "status": "aprovado",
+      "texto": "aqui fico bom mas mantem os mesmos problemas"
+    },
+    {
+      "id": "v40",
+      "status": "aprovado",
+      "texto": "mesmos problemas"
+    },
+    {
+      "id": "v41",
+      "status": "aprovado",
+      "texto": "toma cuidado com os times do meme pq as vezes ta passando as vezes sair um clips meio aleatorios mais ta muito bom"
+    },
+    {
+      "id": "v42",
+      "status": "aprovado",
+      "texto": "gostei muito da legenda e os time dos memes mas ainda mantem uns problemas"
+    },
+    {
+      "id": "v43",
+      "status": "aprovado",
+      "texto": "mesmos problemas"
+    },
+    {
+      "id": "v44",
+      "texto": "ali em itens"
+    }
+  ],
+  "ranking": [
+    {
+      "id": "v43",
+      "lote": 5,
+      "duracao": null,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "mesmos problemas"
+    },
+    {
+      "id": "v42",
+      "lote": 5,
+      "duracao": null,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "gostei muito da legenda e os time dos memes mas ainda mantem uns problemas"
+    },
+    {
+      "id": "v41",
+      "lote": 5,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "toma cuidado com os times do meme pq as vezes ta passando as vezes sair um clips meio aleatorios mais ta muito bom"
+    },
+    {
+      "id": "v39",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "aqui fico bom mas mantem os mesmos problemas"
+    },
+    {
+      "id": "v38",
+      "lote": 4,
+      "duracao": 56.26,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "mesmo problemas dos outros "
+    },
+    {
+      "id": "v33",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "emotes bugados pode remover so deixo os memes"
+    },
+    {
+      "id": "v25",
+      "lote": 3,
+      "duracao": 57.94,
+      "status": "aprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "fico bom mas os sons tao cagado e teve uns meme meio ramdom do nada e muito sons de compra no final"
+    },
+    {
+      "id": "v12",
+      "lote": 2,
+      "duracao": 59.62,
+      "status": "reprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "sons chato mas e emote em execesso relampago na hora da entrega automatica fico muito forcado"
+    },
+    {
+      "id": "v18",
+      "lote": 2,
+      "duracao": 59.62,
+      "status": "reprovado",
+      "nota": 4,
+      "score": 4,
+      "texto": "so raio que quebro ali o gatinnho quebro mas se fosse meme sla poderia ficar bom"
+    },
+    {
+      "id": "v32",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": null,
+      "score": 3.5,
+      "texto": "n prescisa necessariamente todos os memes terem som pq fica estranho e os quadradinhos de meme pode ser normal sem 3d\n"
+    },
+    {
+      "id": "v10",
+      "lote": 1,
+      "duracao": 61.1,
+      "status": "aprovado",
+      "nota": null,
+      "score": 3.5,
+      "texto": "os barulhos tao simpoles mas ate que esta bom"
+    },
+    {
+      "id": "v02",
+      "lote": 1,
+      "duracao": 59.42,
+      "status": "aprovado",
+      "nota": null,
+      "score": 3.5,
+      "texto": "barulho de chupada extressante pra caralho ,mmas parece que esta mais rapido gostosiinho"
+    },
+    {
+      "id": "v01",
+      "lote": 1,
+      "duracao": 61.58,
+      "status": "aprovado",
+      "nota": null,
+      "score": 3.5,
+      "texto": "barulho irritante de chupada tira isso o brarulho no caso"
+    },
+    {
+      "id": "v40",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": "mesmos problemas"
+    },
+    {
+      "id": "v37",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": "alguns memes espera acabar e deixa os quadradinhos do meme sem 3d tira os emoji de vez"
+    },
+    {
+      "id": "v36",
+      "lote": 4,
+      "duracao": 59.52,
+      "status": "aprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": "nem todos os memes prescisam ter sons isso deixa meio estranho,motion letra reonda"
+    },
+    {
+      "id": "v35",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "aprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": "alguns memes esperam eles completar pq fica estranho tira esse contorno preto das legenda tbm no motion do feedback as lestras estao redondas deixa o motion mais serio"
+    },
+    {
+      "id": "v34",
+      "lote": 4,
+      "duracao": 56.26,
+      "status": "aprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": ""
+    },
+    {
+      "id": "v16",
+      "lote": 2,
+      "duracao": 56.16,
+      "status": "reprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": "os emotes foram bens pra hhora ma sposivcionamento fico horrivel raio e estrelinha horrivel"
+    },
+    {
+      "id": "v31",
+      "lote": 4,
+      "duracao": 59.62,
+      "status": "reprovado",
+      "nota": 3,
+      "score": 3,
+      "texto": ""
+    },
+    {
+      "id": "v11",
+      "lote": 2,
+      "duracao": 61.3,
+      "status": "reprovado",
+      "nota": 2,
+      "score": 2,
+      "texto": "uns emote em execesso  e muitos takes de video"
+    },
+    {
+      "id": "v13",
+      "lote": 2,
+      "duracao": 61.3,
+      "status": "reprovado",
+      "nota": 2,
+      "score": 2,
+      "texto": "esses emote e som de trombeta horrivel emotes em uns cantos estranhos estranho raio feio demais"
+    },
+    {
+      "id": "v17",
+      "lote": 2,
+      "duracao": 61.3,
+      "status": "reprovado",
+      "nota": 2,
+      "score": 2,
+      "texto": "estrelinha no feedback horrivel"
+    },
+    {
+      "id": "v19",
+      "lote": 2,
+      "duracao": 61.78,
+      "status": "reprovado",
+      "nota": 2,
+      "score": 2,
+      "texto": ""
+    },
+    {
+      "id": "v20",
+      "lote": 2,
+      "duracao": 59.62,
+      "status": "reprovado",
+      "nota": 2,
+      "score": 2,
+      "texto": ""
+    },
+    {
+      "id": "v03",
+      "lote": 1,
+      "duracao": 46.46,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "meio bugado n gosteii,os barulhos muito horriveis ,o barulho das compra gostei"
+    },
+    {
+      "id": "v04",
+      "lote": 1,
+      "duracao": 43.92,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "bugado n gostei"
+    },
+    {
+      "id": "v05",
+      "lote": 1,
+      "duracao": 49.42,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "muito seco muito sem cores muito pouco muito lento n gostei que barulho horrivel da torcida n sei"
+    },
+    {
+      "id": "v06",
+      "lote": 1,
+      "duracao": 34.44,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "comeco de uma vez n teve hook horrivel"
+    },
+    {
+      "id": "v07",
+      "lote": 1,
+      "duracao": 61.1,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "tem que mostrar o produto barulho de chupad horrivel"
+    },
+    {
+      "id": "v08",
+      "lote": 1,
+      "duracao": 59.42,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "fico bugado"
+    },
+    {
+      "id": "v09",
+      "lote": 1,
+      "duracao": 43.92,
+      "status": "reprovado",
+      "nota": null,
+      "score": 1.5,
+      "texto": "fico mais ou menos"
+    },
+    {
+      "id": "v14",
+      "lote": 2,
+      "duracao": 59.52,
+      "status": "reprovado",
+      "nota": 1,
+      "score": 1,
+      "texto": "emote trombeta horrivel"
+    },
+    {
+      "id": "v15",
+      "lote": 2,
+      "duracao": 57.94,
+      "status": "reprovado",
+      "nota": 1,
+      "score": 1,
+      "texto": "emote de menos"
+    }
+  ]
+}

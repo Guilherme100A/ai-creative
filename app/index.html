@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revisor de Criativos</title>
+<style>
+:root{--bg:#121316;--panel:#1b1d22;--line:#2b2e35;--txt:#eceef2;--mut:#9aa0ab;--lime:#c6f36b;--red:#ff6b6b;--green:#5fd38d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;flex-wrap:wrap}
+h1{font-size:17px;margin:0;letter-spacing:.3px}h1 b{color:var(--lime)}
+.tabs{display:flex;gap:6px;margin-left:auto}
+.tab{background:none;border:1px solid var(--line);color:var(--mut);padding:7px 14px;border-radius:999px;cursor:pointer;font:inherit}
+.tab.on{background:var(--txt);color:#111;border-color:var(--txt)}
+.prog{color:var(--mut);font-size:13px}
+.strip{display:flex;gap:6px;padding:10px 20px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.chipv{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--txt);border-radius:10px;padding:6px 10px;cursor:pointer;font:600 13px system-ui;display:flex;align-items:center;gap:6px}
+.chipv.on{outline:2px solid var(--lime)}
+.dot{width:9px;height:9px;border-radius:50%;background:#555}.dot.aprovado{background:var(--green)}.dot.reprovado{background:var(--red)}
+main{display:grid;grid-template-columns:auto 1fr;gap:24px;padding:20px;max-width:1200px;margin:0 auto}
+.player{display:flex;flex-direction:column;gap:10px;align-items:center}
+video{height:min(78vh,820px);aspect-ratio:9/16;background:#000;border-radius:18px;display:block}
+.nav{display:flex;gap:8px}
+button.b{border:1px solid var(--line);background:var(--panel);color:var(--txt);padding:10px 16px;border-radius:12px;cursor:pointer;font:600 14px system-ui}
+button.b:hover{border-color:#444}
+.side{display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card h2{margin:0 0 10px;font-size:15px}
+.feats{display:flex;flex-wrap:wrap;gap:6px}
+.feat{font-size:12px;background:#24262c;border-radius:8px;padding:4px 8px;color:#cfd3da}.feat i{color:var(--mut);font-style:normal}
+.partes{color:var(--mut);font-size:13px;margin-top:8px}
+.verdict{display:flex;gap:10px}
+.verdict button{flex:1;padding:14px;border-radius:14px;border:2px solid var(--line);background:#202228;color:var(--txt);font:700 16px system-ui;cursor:pointer}
+.verdict .ap.on{background:var(--green);border-color:var(--green);color:#0d1f14}
+.verdict .rp.on{background:var(--red);border-color:var(--red);color:#2a0d0d}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{border:1px solid var(--line);background:none;color:var(--txt);padding:6px 11px;border-radius:999px;cursor:pointer;font:13px system-ui}
+.tag.on{background:var(--lime);color:#111;border-color:var(--lime)}
+textarea,input{width:100%;background:#15161a;border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:10px;font:14px system-ui;resize:vertical}
+.mom{display:flex;gap:8px;margin-top:8px}.mom input{flex:1}
+.moms{margin:8px 0 0;padding:0;list-style:none;font-size:13px}
+.moms li{display:flex;gap:8px;align-items:center;padding:4px 0;border-top:1px dashed var(--line)}
+.moms a{color:var(--lime);cursor:pointer;font-weight:700;min-width:44px}
+.moms .x{margin-left:auto;color:var(--mut);cursor:pointer}
+.saved{font-size:12px;color:var(--mut);height:16px}
+.kbd{font-size:12px;color:var(--mut)}
+#rank{display:none;max-width:1000px;margin:0 auto;padding:20px;gap:12px;flex-direction:column}
+.stars{display:flex;gap:4px;margin-top:12px;align-items:center}
+.stars button{background:none;border:none;font-size:30px;cursor:pointer;color:#444;padding:0 2px;line-height:1}
+.stars button.on{color:#ffd23f}
+.rk{display:grid;grid-template-columns:48px 60px 1fr 110px 90px;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--panel);border:1px solid var(--line);cursor:pointer}
+.rk:hover{border-color:#444}
+.rk .pos{font-size:22px;font-weight:800;color:var(--lime)}
+.rk .st{color:#ffd23f;letter-spacing:2px}
+.rk .tx{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--mut)}
+.lote{flex:none;color:var(--mut);font:700 12px system-ui;padding:0 4px 0 10px;align-self:center;text-transform:uppercase}
+#learn{display:none;max-width:1000px;margin:0 auto;padding:20px;gap:16px;flex-direction:column}
+.big{font-size:28px;font-weight:800}
+.row{display:grid;grid-template-columns:200px 1fr 60px;gap:10px;align-items:center;font-size:13px;padding:4px 0}
+.bar{height:10px;border-radius:6px;background:#26282e;overflow:hidden}.bar>div{height:100%;background:var(--lime)}
+.grp{color:var(--mut);font-size:12px;margin-top:12px;text-transform:uppercase;letter-spacing:.6px}
+.pref{padding:10px 12px;border-radius:12px;background:#20232a;margin-top:8px}
+.pref b{color:var(--lime)}
+.muted{color:var(--mut)}
+#prod{display:none;max-width:1100px;margin:0 auto;padding:20px;gap:16px;flex-direction:column}
+.frm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.frm input,.frm select{width:auto;flex:1;min-width:160px;background:#15161a;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:9px;font:14px system-ui}
+.frm label{font-size:13px;color:var(--mut);display:flex;gap:6px;align-items:center}.frm label input{flex:none;min-width:0;width:auto}
+button.b:disabled{opacity:.45;cursor:not-allowed}
+.tl{position:relative;height:58px;background:#15161a;border-radius:10px;margin-top:10px;overflow:hidden}
+.tl .seg{position:absolute;height:16px;border-radius:4px;font:600 10px system-ui;color:#111;overflow:hidden;white-space:nowrap;padding:1px 3px;box-sizing:border-box}
+.tl .mo{top:4px;background:#8fb7ff}.tl .box{top:4px;background:var(--lime)}.tl .montage{top:4px;background:#ffd23f}.tl .meme{top:22px;background:#ff9bd2}.tl .fr{top:40px;background:#3a3d45;color:#cfd3da}.tl .fr.op{background:#2a2c31;color:#777;border:1px dashed #555}
+.leg{display:flex;gap:12px;font-size:12px;color:var(--mut);margin-top:6px;flex-wrap:wrap}.leg span:before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px;background:var(--c)}
+.job{font:12px ui-monospace,Consolas,monospace;background:#15161a;border-radius:10px;padding:8px 10px;margin-top:8px;max-height:180px;overflow:auto;white-space:pre-wrap;color:#cfd3da}
+.st-ok{color:var(--green)}.st-erro{color:var(--red)}.st-rodando{color:#ffd23f}.st-fila{color:var(--mut)}
+.obs{white-space:pre-wrap;font-size:13px;color:#cfd3da;background:#20232a;border-radius:10px;padding:10px;margin-top:8px}
+details summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:8px}
+.ed{width:100%;min-height:340px;font:12px ui-monospace,Consolas,monospace}
+@media (max-width:860px){main{grid-template-columns:1fr}video{height:auto;width:100%}.row{grid-template-columns:120px 1fr 44px}}
+</style></head>
+<body>
+<header><h1>Revisor de <b>Criativos</b></h1><span class="prog" id="prog"></span>
+<div class="tabs"><button class="tab on" data-t="rev">Revisar</button><button class="tab" data-t="rank">Ranking</button><button class="tab" data-t="learn">Aprendizado</button><button class="tab" data-t="prod">Produzir</button></div></header>
+<div id="rev">
+<div class="strip" id="strip"></div>
+<main>
+ <div class="player"><video id="vid" controls playsinline></video>
+  <div class="nav"><button class="b" id="prev">← Anterior</button><button class="b" id="next">Próximo →</button></div>
+  <div class="kbd">Atalhos: A aprovar · R reprovar · 1-5 nota · ← → navegar · M marcar momento</div></div>
+ <div class="side">
+  <div class="card"><h2 id="titulo"></h2><div class="feats" id="feats"></div><div class="partes" id="partes"></div></div>
+  <div class="card"><div class="verdict"><button class="ap" id="ap">✓ Aprovar</button><button class="rp" id="rp">✕ Reprovar</button></div>
+   <div class="stars" id="stars"></div>
+   <div class="tags" id="tags"></div>
+   <div style="margin-top:12px"><textarea id="texto" rows="3" placeholder="Por que? Escreve do teu jeito…"></textarea></div>
+   <div class="mom"><input id="momnota" placeholder="Nota sobre o momento atual do vídeo (ex: corte estranho aqui)"><button class="b" id="mark">Marcar momento</button></div>
+   <ul class="moms" id="moms"></ul>
+   <div class="saved" id="saved"></div></div>
+ </div>
+</main></div>
+<div id="rank"></div><div id="learn"></div><div id="prod"></div>
+<script>
+const TAGS={aprovado:['Gancho forte','Ritmo bom','Cortes bons','Sons bons','Legenda boa','Quadrado 3D bom','Gameplay boa','Site 3D bom','Duração boa','CTA forte'],
+ reprovado:['Gancho fraco','Lento/arrastado','Corrido demais','Sons ruins','Som alto/baixo','Legenda ruim','Quadrado ruim','Gameplay ruim','Site demais','Muito longo','Cortes estranhos','Perdeu a essência']};
+let S={variacoes:[],feedback:{},aprendizado:null},i=0;
+const $=id=>document.getElementById(id);
+const fmt=t=>`${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
+async function load(){S=await (await fetch('/api/estado')).json();const first=S.variacoes.findIndex(v=>!S.feedback[v.id]?.status);i=first<0?0:first;render(true);renderLearn();renderRank();}
+function cur(){return S.variacoes[i]}
+function fb(){const v=cur();return S.feedback[v.id]||(S.feedback[v.id]={})}
+let saveT;
+function save(){const v=cur();clearTimeout(saveT);$('saved').textContent='salvando…';saveT=setTimeout(async()=>{
+ const r=await (await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:v.id,...S.feedback[v.id]})})).json();
+ S.aprendizado=r.aprendizado;S.ranking=r.ranking;renderRank();$('saved').textContent='salvo ✓';renderStrip();renderLearn();},250);}
+function renderStrip(){const done=S.variacoes.filter(v=>S.feedback[v.id]?.status).length;
+ $('prog').textContent=`${done}/${S.variacoes.length} avaliados`;
+ $('strip').innerHTML=S.variacoes.map((v,k)=>`${k===0||S.variacoes[k-1].lote!==v.lote?`<span class="lote">Lote ${v.lote}</span>`:''}<button class="chipv ${k===i?'on':''}" data-k="${k}"><span class="dot ${S.feedback[v.id]?.status||''}"></span>${v.id.toUpperCase()}${v.duracao?` <span class="muted">${Math.round(v.duracao)}s</span>`:''}</button>`).join('');
+ document.querySelectorAll('.chipv').forEach(b=>b.onclick=()=>{i=+b.dataset.k;render(true)});}
+function render(newVid){const v=cur();if(!v){$('titulo').textContent='Nenhuma variação encontrada';return}
+ if(newVid){$('vid').src='/video/'+encodeURIComponent(v.arquivo);$('vid').play().catch(()=>{});}
+ $('titulo').textContent=`${v.id.toUpperCase()} · ${v.duracao?v.duracao.toFixed(1)+'s':''}`;
+ $('feats').innerHTML=Object.entries(v.feats).map(([k,x])=>`<span class="feat"><i>${k}:</i> ${x}</span>`).join('');
+ $('partes').textContent='Ordem da fala: '+v.partes.join(' → ');
+ const f=fb();$('ap').classList.toggle('on',f.status==='aprovado');$('rp').classList.toggle('on',f.status==='reprovado');
+ const list=f.status?TAGS[f.status]:[];
+ $('tags').innerHTML=f.status?list.map(t=>`<button class="tag ${(f.tags||[]).includes(t)?'on':''}">${t}</button>`).join(''):'<span class="muted" style="font-size:13px">Aprova ou reprova pra escolher os motivos</span>';
+ document.querySelectorAll('.tag').forEach(b=>b.onclick=()=>{const t=b.textContent;f.tags=f.tags||[];f.tags=f.tags.includes(t)?f.tags.filter(x=>x!==t):[...f.tags,t];render();save();});
+ $('stars').innerHTML='<span class="muted" style="font-size:13px;margin-right:6px">Nota:</span>'+[1,2,3,4,5].map(n=>`<button class="${(f.nota||0)>=n?'on':''}" data-n="${n}">★</button>`).join('');
+ document.querySelectorAll('#stars button').forEach(b=>b.onclick=()=>setNota(+b.dataset.n));
+ $('texto').value=f.texto||'';
+ $('moms').innerHTML=(f.momentos||[]).map((m,k)=>`<li><a data-t="${m.t}">${fmt(m.t)}</a><span>${m.nota||''}</span><span class="x" data-k="${k}">remover</span></li>`).join('');
+ document.querySelectorAll('.moms a').forEach(a=>a.onclick=()=>{$('vid').currentTime=+a.dataset.t;$('vid').play()});
+ document.querySelectorAll('.moms .x').forEach(x=>x.onclick=()=>{f.momentos.splice(+x.dataset.k,1);render();save();});
+ renderStrip();}
+function setNota(n){const f=fb();f.nota=f.nota===n?null:n;render();save();}
+function setStatus(s){const f=fb();if(f.status!==s){f.status=s;f.tags=[];}render();save();}
+$('ap').onclick=()=>setStatus('aprovado');$('rp').onclick=()=>setStatus('reprovado');
+$('texto').oninput=e=>{fb().texto=e.target.value;save();};
+function mark(){const f=fb();f.momentos=f.momentos||[];f.momentos.push({t:+$('vid').currentTime.toFixed(2),nota:$('momnota').value.trim()});f.momentos.sort((a,b)=>a.t-b.t);$('momnota').value='';render();save();}
+$('mark').onclick=mark;
+$('prev').onclick=()=>{i=(i-1+S.variacoes.length)%S.variacoes.length;render(true)};
+$('next').onclick=()=>{i=(i+1)%S.variacoes.length;render(true)};
+document.addEventListener('keydown',e=>{if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;
+ if(e.key==='a'||e.key==='A')setStatus('aprovado');else if(e.key==='r'||e.key==='R')setStatus('reprovado');
+ else if(e.key==='ArrowRight')$('next').click();else if(e.key==='ArrowLeft')$('prev').click();else if(e.key==='m'||e.key==='M')mark();else if(/^[1-5]$/.test(e.key))setNota(+e.key);});
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+ $('rev').style.display=t.dataset.t==='rev'?'':'none';for(const k of ['rank','learn','prod'])$(k).style.display=t.dataset.t===k?'flex':'none';if(t.dataset.t!=='rev')$('vid').pause();if(t.dataset.t==='prod')carregaProd();});
+function renderLearn(){const A=S.aprendizado;if(!A)return;
+ if(!A.avaliados){$('learn').innerHTML='<div class="card"><h2>Ainda sem dados</h2><p class="muted">Avalia algumas variações (aprovando ou reprovando) que aqui aparece o que funciona pra você.</p></div>';return}
+ const grupos={};A.caracteristicas.forEach(c=>(grupos[c.grupo]=grupos[c.grupo]||[]).push(c));
+ $('learn').innerHTML=`
+ <div class="card"><div class="big">${A.aprovados}/${A.avaliados} aprovados</div><div class="muted">Taxa geral de aprovação: ${Math.round(A.taxaGeral*100)}%</div></div>
+ <div class="card"><h2>Seu criativo ideal (até agora)</h2>${A.perfil.length?A.perfil.map(p=>`<div class="pref">${p.grupo}: prefere <b>${p.prefere}</b> em vez de ${p.evita} <span class="muted">· confiança ${Math.round(p.confianca*100)}%</span></div>`).join(''):'<p class="muted">Precisa de mais avaliações com aprovação e reprovação pra comparar.</p>'}</div>
+ <div class="card"><h2>O que você mais elogia</h2>${A.motivosAprovacao.length?A.motivosAprovacao.map(([t,n])=>`<div class="row"><span>${t}</span><div class="bar"><div style="width:${n/A.motivosAprovacao[0][1]*100}%"></div></div><span>${n}×</span></div>`).join(''):'<p class="muted">—</p>'}
+  <h2 style="margin-top:14px">O que você mais critica</h2>${A.motivosReprovacao.length?A.motivosReprovacao.map(([t,n])=>`<div class="row"><span>${t}</span><div class="bar"><div style="width:${n/A.motivosReprovacao[0][1]*100}%;background:var(--red)"></div></div><span>${n}×</span></div>`).join(''):'<p class="muted">—</p>'}</div>
+ <div class="card"><h2>Aprovação por característica</h2>${Object.entries(grupos).map(([g,arr])=>`<div class="grp">${g}</div>`+arr.map(c=>`<div class="row"><span>${c.valor} <span class="muted">(${c.n})</span></span><div class="bar"><div style="width:${c.taxa*100}%"></div></div><span>${Math.round(c.taxa*100)}%${c.notaMedia?` ★${c.notaMedia.toFixed(1)}`:''}</span></div>`).join('')).join('')}</div>
+ <div class="card"><h2>Suas anotações</h2>${A.notas.length?A.notas.map(n=>`<div class="pref"><b>${n.id.toUpperCase()}</b> ${n.status?`(${n.status})`:''} ${n.texto?'— '+n.texto:''}${(n.momentos||[]).map(m=>`<div class="muted">${fmt(m.t)} ${m.nota||''}</div>`).join('')}</div>`).join(''):'<p class="muted">—</p>'}</div>`;}
+function renderRank(){const R=S.ranking||[];
+ if(!R.length){$('rank').innerHTML='<div class="card"><h2>Ranking vazio</h2><p class="muted">Avalia as variações (aprovar/reprovar e nota de 1 a 5) que o ranking aparece aqui.</p></div>';return}
+ $('rank').innerHTML='<div class="card"><h2>Ranking dos criativos</h2><p class="muted" style="margin:0">Ordenado pela nota (estrelas). Sem nota: aprovado vale 3,5 e reprovado 1,5. Clica pra abrir.</p></div>'+
+  R.map((r,k)=>`<div class="rk" data-id="${r.id}"><span class="pos">#${k+1}</span><b>${r.id.toUpperCase()}</b><span class="tx">${r.texto||''}</span><span class="st">${r.nota?'★'.repeat(r.nota)+'☆'.repeat(5-r.nota):'<span class="muted">sem nota</span>'}</span><span><span class="dot ${r.status||''}" style="display:inline-block"></span> lote ${r.lote}</span></div>`).join('');
+ document.querySelectorAll('.rk').forEach(el=>el.onclick=()=>{i=S.variacoes.findIndex(v=>v.id===el.dataset.id);document.querySelector('.tab[data-t=rev]').click();render(true);});}
+// ---------- Produzir ----------
+let PR=null,prT=null;
+const esc=x=>String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function api(u,o){const r=await fetch(u,o);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.erro||r.statusText);return j;}
+async function carregaProd(){try{PR=await api('/api/producao');}catch(e){$('prod').innerHTML='<div class="card">'+esc(e.message)+'</div>';return}renderProd();
+ clearTimeout(prT);if(PR.jobs.some(j=>j.status==='rodando'||j.status==='fila'))prT=setTimeout(carregaProd,2500);else if(PR.jobs.some(j=>j.tipo==='render'&&j.status==='ok'))load();}
+async function job(b){try{await api('/api/job',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});carregaProd();}catch(e){alert(e.message)}}
+async function sobe(inp){const f=inp.files[0];if(!f)return null;const r=await api('/api/upload?nome='+encodeURIComponent(f.name),{method:'POST',body:f});return r.arquivo;}
+function timeline(p){const T=p.fimFala||60,x=t=>Math.max(0,Math.min(100,t/T*100));
+ const seg=(cls,a,b,t)=>'<div class="seg '+cls+'" style="left:'+x(a)+'%;width:'+Math.max(0.4,x(b)-x(a))+'%" title="'+esc(t)+' ('+a.toFixed(1)+'–'+b.toFixed(1)+'s)">'+esc(t)+'</div>';
+ return '<div class="tl">'+p.direcoes.map(d=>seg(d.tipo,d.de,d.ate,d.oque)).join('')+p.memes.map(m=>seg('meme',m.de,m.ate,m.cat+(m.prio>1?' ·'+m.prio:''))).join('')+p.frases.map(f=>seg('fr'+(f.opcional?' op':''),f.de,f.ate,f.id+' '+f.nome)).join('')+'</div>'+
+ '<div class="leg"><span style="--c:#8fb7ff">animação/site</span><span style="--c:var(--lime)">gameplay</span><span style="--c:#ffd23f">montagem</span><span style="--c:#ff9bd2">meme (prioridade)</span><span style="--c:#3a3d45">frase</span><span style="--c:#2a2c31">frase opcional</span></div>';}
+function renderProd(){const P=PR,est=P.estilos;
+ const optE='<option value="">estilo: padrão (o que você aprovou)</option>'+est.filter(e=>e.nome!=='padrao').map(e=>'<option value="'+esc(e.nome)+'">'+esc(e.nome)+' — '+esc(e.descricao).slice(0,60)+'</option>').join('');
+ $('prod').innerHTML=
+ '<div class="card"><h2>1. Vídeo base novo</h2><p class="muted" style="margin:0">A pessoa falando (vertical de preferência). Vira um projeto: transcrição, frases, o que aparece em cada fala e memes. O Claude decide a edição usando o vídeo 2 aprovado como gabarito.</p>'+
+ '<div class="frm"><input id="pnome" placeholder="nome do projeto (ex: base3)"><select id="pvid"><option value="">escolher vídeo já na pasta…</option>'+P.videos.map(v=>'<option>'+esc(v.arquivo)+'</option>').join('')+'</select><input type="file" id="pup" accept="video/*"></div>'+
+ '<div class="frm"><label><input type="checkbox" id="psemia"> só regras (sem Claude)</label><label><input type="checkbox" id="psobre"> sobrescrever</label><button class="b" id="pcriar">Criar projeto</button></div>'+
+ '<p class="muted" style="font-size:12px">Estoque de gameplay: '+P.moveset+' clipes · pasta de dados: '+esc(P.dados)+'</p></div>'+
+ '<div class="card"><h2>2. Projetos</h2>'+(P.projetos.length?P.projetos.map(p=>
+  '<div style="border-top:1px solid var(--line);padding-top:12px;margin-top:12px"><b style="font-size:16px">'+esc(p.nome)+'</b> <span class="muted">· '+esc(p.descricao||'')+' · '+esc(p.origem)+'</span>'+(p.videoOk?'':' <span class="st-erro">· vídeo base não está na pasta ('+esc(p.video)+'): dá para planejar, não para renderizar</span>')+
+  timeline(p)+(p.observacoes?'<details><summary>observações do Claude</summary><div class="obs">'+esc(p.observacoes)+'</div></details>':'')+
+  '<div class="frm"><input type="number" min="1" max="20" value="10" id="n_'+p.nome+'" style="max-width:90px;flex:none"><select id="e_'+p.nome+'">'+optE+'</select><button class="b" data-lote="'+p.nome+'">Gerar lote</button><button class="b" data-edit="'+p.nome+'">Editar projeto</button></div>'+
+  (p.lotes.length?'<div style="margin-top:8px">'+p.lotes.map(l=>'<div class="frm" style="margin-top:6px"><span><b>Lote '+l.lote+'</b> <span class="muted">'+l.ids[0]+'–'+l.ids[l.ids.length-1]+(l.estilo?' · '+esc(l.estilo):'')+' · '+l.feitos+'/'+l.ids.length+' renderizados</span></span>'+
+   '<button class="b" data-plano="'+p.nome+'|'+l.lote+'|'+l.ids[0]+'">Ver plano</button>'+(l.feitos<l.ids.length?'<button class="b" data-render="'+p.nome+'|'+l.lote+'"'+(p.videoOk?'':' disabled title="falta o vídeo base"')+'>Renderizar '+(l.feitos?'faltando':'todos')+'</button>':'')+'</div>').join('')+'</div>':'<p class="muted">Sem lotes ainda.</p>')+
+  '<div id="pl_'+p.nome+'"></div></div>').join(''):'<p class="muted">Nenhum projeto.</p>')+'</div>'+
+ '<div class="card"><h2>3. Referências e estilos</h2><p class="muted" style="margin:0">Cole o link de um anúncio (Biblioteca de Anúncios do Facebook, TikTok, YouTube) ou envie o vídeo. O Claude olha os frames e traduz o estilo para o que o motor sabe fazer. Na Biblioteca de Anúncios, se o link não baixar, baixe o vídeo e envie o arquivo.</p>'+
+ '<div class="frm"><input id="rnome" placeholder="nome do estilo (ex: concorrente_x)"><input id="rurl" placeholder="link do anúncio"><input type="file" id="rup" accept="video/*"><label><input type="checkbox" id="rsemia"> só métricas</label><button class="b" id="ranalisa">Analisar</button></div>'+
+ est.map(e=>'<div class="pref"><b>'+esc(e.nome)+'</b> <span class="muted">('+esc(e.origem)+')</span> — '+esc(e.descricao)+'<div class="muted" style="font-size:12px">'+Object.entries(e.fixo||{}).filter(([,v])=>v!=null).map(([k,v])=>k+': '+v).join(' · ')+(e.metricas?' · plano médio '+e.metricas.planoMedio+'s':'')+'</div>'+
+  (e.queNaoDaParaFazer.length?'<div style="font-size:12px;margin-top:4px">o motor ainda não faz: '+esc(e.queNaoDaParaFazer.join('; '))+'</div>':'')+(e.dicasParaGravar?'<div style="font-size:12px;margin-top:4px">dica para gravar: '+esc(e.dicasParaGravar)+'</div>':'')+'</div>').join('')+'</div>'+
+ '<div class="card"><h2>4. Fila</h2>'+(P.jobs.length?P.jobs.map(j=>'<div style="margin-top:10px"><b>'+esc(j.titulo)+'</b> <span class="st-'+j.status+'">'+j.status+'</span> <span class="muted">'+(j.inicio?Math.round(((j.fim||Date.now())-j.inicio)/1000)+'s':'')+'</span><div class="job">'+esc(j.log.join('\n'))+'</div></div>').join(''):'<p class="muted">Nada rodando. Um job por vez (o PC tem pouca RAM).</p>')+'</div>';
+ $('pcriar').onclick=async()=>{const nome=$('pnome').value.trim();let video=$('pvid').value;try{if($('pup').files[0]){$('pcriar').textContent='enviando…';video=await sobe($('pup'));}}catch(e){alert(e.message);}$('pcriar').textContent='Criar projeto';
+  if(!nome||!video)return alert('dê um nome e escolha/envie o vídeo');job({tipo:'projeto',nome,video,semIA:$('psemia').checked,sobrescrever:$('psobre').checked});};
+ $('ranalisa').onclick=async()=>{const nome=$('rnome').value.trim();let fonte=$('rurl').value.trim();try{if($('rup').files[0]){$('ranalisa').textContent='enviando…';fonte=await sobe($('rup'));}}catch(e){alert(e.message);}$('ranalisa').textContent='Analisar';
+  if(!nome||!fonte)return alert('dê um nome e cole um link ou envie o vídeo');job({tipo:'referencia',nome,fonte,semIA:$('rsemia').checked});};
+ document.querySelectorAll('[data-lote]').forEach(b=>b.onclick=()=>{const p=b.dataset.lote;job({tipo:'lote',projeto:p,n:+$('n_'+p).value,estilo:$('e_'+p).value});});
+ document.querySelectorAll('[data-render]').forEach(b=>b.onclick=()=>{const [p,l]=b.dataset.render.split('|');job({tipo:'render',projeto:p,lote:+l,ids:'faltando'});});
+ document.querySelectorAll('[data-plano]').forEach(b=>b.onclick=async()=>{const [p,l,id]=b.dataset.plano.split('|');const el=$('pl_'+p);el.innerHTML='<p class="muted">calculando…</p>';
+  try{const r=await api('/api/plano?projeto='+p+'&lote='+l+'&id='+id);const T=r.duracao,x=t=>t/T*100;
+   el.innerHTML='<div class="pref"><b>'+id.toUpperCase()+'</b> · '+T+'s · '+r.shots.length+' cortes · '+(r.erros.length?'<span class="st-erro">'+esc(r.erros.join('; '))+'</span>':'<span class="st-ok">checagem de qualidade ok</span>')+(r.avisos.length?' · '+esc(r.avisos.join('; ')):'')+
+   '<div class="tl" style="height:24px">'+r.shots.map(s=>'<div class="seg '+(s.k==='th'?'fr':s.k)+'" style="top:4px;left:'+x(s.de)+'%;width:'+Math.max(0.3,x(s.ate)-x(s.de))+'%" title="'+esc((s.clip||s.take||s.meme||'fala')+' '+s.de+'–'+s.ate+'s')+'"></div>').join('')+'</div><div class="muted" style="font-size:12px">linha do vídeo final (cinza = ela falando)</div></div>';}
+  catch(e){el.innerHTML='<p class="st-erro">'+esc(e.message)+'</p>';}});
+ document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=async()=>{const p=b.dataset.edit,el=$('pl_'+p);const t=await (await fetch('/api/projeto?nome='+p)).text();
+  el.innerHTML='<p class="muted" style="font-size:12px">Tempos em segundos da fala original. Direção: s/e (início/fim; e:99 = até o fim), v: mo (cena), box (gameplay: wpn ou pool), montage. Memes: [início, fim, categoria, prioridade]. Uma cópia de segurança é salva antes.</p><textarea class="ed" id="ed_'+p+'"></textarea><div class="frm"><button class="b" id="sv_'+p+'">Salvar</button></div>';
+  $('ed_'+p).value=t;$('sv_'+p).onclick=async()=>{try{await api('/api/projeto?nome='+p,{method:'PUT',body:$('ed_'+p).value});carregaProd();}catch(e){alert(e.message)}};});
+}
+load();
+</script></body></html>

@@ -1,0 +1,35 @@
+// ---------- memes do pack (quadrado arredondado 3D no centro, fundo desfocado) ----------
+const CATALOG=require('C:/Users/rhian/Downloads/criativo/assets/memes/catalogo.json');
+// [início, fim (tempo da fala original), categoria, prioridade]
+const MEME_CUES=[
+ [6.45,7.75,'triste',1],     // "será que eu vou receber mesmo?"
+ [24.6,25.9,'espera',1],     // "esperando a pessoa ficar online"
+ [48.7,49.95,'duvida',1],    // "acreditar no que eu estou falando"
+ [27.4,28.65,'frustrado',2], // "torcendo para responder rápido"
+ [31.9,33.0,'estilo',2],     // "passar mais confiança"
+ [55.7,56.5,'sucesso',2],    // "antes de decidir"
+ [3.85,4.95,'duvida',3],     // "a primeira dúvida"
+ [33.55,34.65,'danca',3],    // "pela primeira vez"
+];
+const MDENS={poucos:1,medios:2,muitos:3};
+const LEVEL_MEMEPACK=0.16;
+const peakCache={};
+function peakOf(f){if(peakCache[f])return peakCache[f];
+ const raw=execFileSync(ff,['-v','error','-i',f,'-t','6','-ac','1','-ar','8000','-f','f32le','-']);const a=new Float32Array(raw.buffer,raw.byteOffset,raw.length/4);
+ const win=160;let best=0,bt=0;for(let i=0;i+win<a.length;i+=40){let s=0;for(let j=i;j<i+win;j++)s+=a[j]*a[j];if(s>best){best=s;bt=i}}
+ const fp=require('ffprobe-static').path;let dur=a.length/8000;try{dur=+execFileSync(fp,['-v','error','-show_entries','format=duration','-of','csv=p=0',f]).toString().trim()}catch(e){}
+ return peakCache[f]={peak:(bt+win/2)/8000,dur,rms:Math.max(0.05,Math.sqrt(best/win))};}
+
+// ---------- receitas do lote 3 ----------
+const V=[
+ {id:'v21',order:'ABCDEFGHIJK',gap:0.28,dirs:STD,zoom:[1,1.12],pack:'p1',seed:21,hl:[LIME],reac:'media',memes:'poucos',grade:'quente',cap:'contorno'},
+ {id:'v22',order:'ACDEFGHIJK',gap:0.28,dirs:STD,zoom:[1.08,1,1.2],pack:'p2',seed:22,hl:[YEL],reac:'leve',memes:'medios',grade:'vivo',cap:'contorno'},
+ {id:'v23',order:'ABCDEFGHIJK',gap:0.28,dirs:STD,zoom:[1.1,1],pack:'p1',seed:23,hl:[LIME],reac:'leve',memes:'muitos',grade:'quente',cap:'faixa',boxLen:0.9},
+ {id:'v24',order:'ACDEFGHIJK',gap:0.2,dirs:['hookSite',...STD],zoom:[1,1.15],pack:'p3',seed:24,hl:[LIME,YEL,PINK],reac:'media',memes:'medios',grade:'vivo',cap:'contorno'},
+ {id:'v25',order:'ABCDEFGHJK',gap:0.28,dirs:STD,zoom:[1,1.15],pack:'p2',seed:25,hl:[YEL],reac:'nenhuma',memes:'muitos',grade:'quente',cap:'contorno'},
+ {id:'v26',order:'ACDEFGHIJK',gap:0.28,dirs:STD,zoom:[1.12,1],pack:'p1',seed:26,hl:[LIME],reac:'muita',memes:'poucos',grade:'vivo',cap:'faixa'},
+ {id:'v27',order:'ABCDEFGHIJK',gap:null,dirs:STD,zoom:[1,1.12],pack:'p1',seed:27,hl:[LIME],reac:'media',memes:'medios',grade:'quente',cap:'contorno'},
+ {id:'v28',order:'ACDEFGHIJK',gap:0.2,dirs:['hookSite',...STD],zoom:[1.12,1],pack:'p2',seed:28,hl:[LIME,YEL],reac:'media',memes:'muitos',grade:'vivo',cap:'contorno'},
+ {id:'v29',order:'ABCDEFGHIJK',gap:0.28,dirs:STD,zoom:[1,1.2],pack:'p3',seed:29,hl:[YEL],reac:'leve',memes:'medios',grade:'quente',cap:'faixa',boxLen:1.0},
+ {id:'v30',order:'ACDEFGHIJK',gap:0.28,dirs:STD,zoom:[1,1.12],pack:'p2',seed:30,hl:[LIME,YEL,PINK],reac:'muita',memes:'muitos',grade:'vivo',cap:'contorno',boxLen:0.9},
+];

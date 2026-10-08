@@ -1,0 +1,227 @@
+{
+ "brand_feedback": {
+  "type": "brand",
+  "dur": 1.5,
+  "tag": "CONTA BLOX FRUITS",
+  "items": [
+   {
+    "icon": "chat",
+    "text": "FEEDBACKS REAIS",
+    "lime": true,
+    "at": 0.35
+   },
+   {
+    "icon": "star",
+    "text": "DE QUEM JÁ COMPROU",
+    "at": 0.7
+   }
+  ]
+ },
+ "site_feedback": {
+  "type": "site",
+  "dur": 4.5,
+  "y0": 4650,
+  "y1": 6050,
+  "r0": [
+   24,
+   -14,
+   6
+  ],
+  "r1": [
+   18,
+   10,
+   -4
+  ],
+  "z0": 1.05,
+  "z1": 1.2
+ },
+ "brand_entrega": {
+  "type": "brand",
+  "dur": 2.6,
+  "tag": "DEPOIS DA COMPRA",
+  "items": [
+   {
+    "icon": "bolt",
+    "text": "ENTREGA AUTOMÁTICA",
+    "lime": true,
+    "at": 0.25
+   },
+   {
+    "icon": "pix",
+    "text": "PAGOU NO PIX",
+    "at": 0.75
+   },
+   {
+    "icon": "shield",
+    "text": "LOGIN NA HORA",
+    "at": 1.3
+   }
+  ]
+ },
+ "site_top": {
+  "type": "site",
+  "dur": 3.6,
+  "y0": 420,
+  "y1": 1500,
+  "r0": [
+   20,
+   12,
+   -5
+  ],
+  "r1": [
+   14,
+   -10,
+   4
+  ],
+  "z0": 1,
+  "z1": 1.18
+ },
+ "site_feedback2": {
+  "type": "site",
+  "dur": 3.4,
+  "y0": 5500,
+  "y1": 7700,
+  "r0": [
+   22,
+   -12,
+   5
+  ],
+  "r1": [
+   20,
+   12,
+   -5
+  ],
+  "z0": 1.05,
+  "z1": 1.15
+ },
+ "site_cta": {
+  "type": "site",
+  "dur": 2.5,
+  "y0": 1900,
+  "y1": 2470,
+  "r0": [
+   16,
+   10,
+   -4
+  ],
+  "r1": [
+   6,
+   -4,
+   1
+  ],
+  "z0": 1,
+  "z1": 1.45
+ },
+ "brand_cta": {
+  "type": "brand",
+  "dur": 3.47,
+  "tag": "CONTA BLOX FRUITS",
+  "items": [
+   {
+    "icon": "cart",
+    "text": "SÓ R$ 18,90",
+    "lime": true,
+    "at": 0.35
+   },
+   {
+    "icon": "bolt",
+    "text": "ENTREGA AUTOMÁTICA",
+    "at": 0.75
+   },
+   {
+    "icon": "star",
+    "text": "CLICA EM SAIBA MAIS",
+    "lime": true,
+    "at": 1.4
+   }
+  ]
+ },
+ "brand_intro": {
+  "type": "brand",
+  "dur": 1.9,
+  "tag": "CONTA BLOX FRUITS",
+  "items": [
+   {
+    "icon": "bolt",
+    "text": "O BÁSICO PRONTO",
+    "lime": true,
+    "at": 0.35
+   },
+   {
+    "icon": "star",
+    "text": "LEVEL MÁXIMO",
+    "at": 0.75
+   },
+   {
+    "icon": "shield",
+    "text": "PRONTA PRA JOGAR",
+    "at": 1.15
+   }
+  ]
+ },
+ "brand_cta2": {
+  "type": "brand",
+  "dur": 4.2,
+  "tag": "CONTA BLOX FRUITS",
+  "items": [
+   {
+    "icon": "bolt",
+    "text": "ENTREGA AUTOMÁTICA",
+    "at": 0.35
+   },
+   {
+    "icon": "chat",
+    "text": "FEEDBACKS REAIS",
+    "at": 0.75
+   },
+   {
+    "icon": "cart",
+    "text": "CLICA ABAIXO",
+    "lime": true,
+    "at": 1.25
+   }
+  ]
+ },
+ "site_top2": {
+  "type": "site",
+  "dur": 2.2,
+  "y0": 300,
+  "y1": 900,
+  "r0": [
+   20,
+   12,
+   -5
+  ],
+  "r1": [
+   14,
+   -10,
+   4
+  ],
+  "z0": 1,
+  "z1": 1.15
+ },
+ "brand_cta3": {
+  "type": "brand",
+  "dur": 4.2,
+  "tag": "CONTA BLOX FRUITS",
+  "items": [
+   {
+    "icon": "cart",
+    "text": "SÓ R$ 17,90",
+    "lime": true,
+    "at": 0.35
+   },
+   {
+    "icon": "bolt",
+    "text": "ENTREGA AUTOMÁTICA",
+    "at": 0.75
+   },
+   {
+    "icon": "star",
+    "text": "CLICA ABAIXO",
+    "lime": true,
+    "at": 1.25
+   }
+  ]
+ }
+}

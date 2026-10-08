@@ -1,0 +1,313 @@
+{
+ "pasta": "Pack de Memes 2.0-20261007T130021Z-1-001/Pack de Memes 2.0",
+ "obs": "Lista curada pelo feedback (sem memes aleatórios). Áudios em assets/sfx/youtube.",
+ "categorias": {
+  "triste": {
+   "memes": [
+    {
+     "id": "V016",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/171eea28ffb45130d9db1460ce00d1e8.mp4",
+     "dur": 1.6,
+     "w": 1080,
+     "h": 810,
+     "audio": true
+    },
+    {
+     "id": "V022",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/2c646dbf36fa0bf390c2706dd5af9e3b.mp4",
+     "dur": 13.33,
+     "w": 240,
+     "h": 176,
+     "audio": true
+    },
+    {
+     "id": "V073",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/be73bf233d6b422c39b53727fb02e8e9_720w.mp4",
+     "dur": 8.87,
+     "w": 720,
+     "h": 720,
+     "audio": true
+    },
+    {
+     "id": "V053",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/7c695859a24a48845330e43285a3d4b6_720w.mp4",
+     "dur": 5.07,
+     "w": 720,
+     "h": 702,
+     "audio": true
+    },
+    {
+     "id": "I030",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/37e4a231d2354f828bd1e6b7454bdddb.jpg",
+     "dur": 0.04,
+     "w": 218,
+     "h": 226,
+     "audio": false
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/triste/violino_triste.mp3",
+    "assets/sfx/youtube/triste/pack_bob_triste.mp3"
+   ]
+  },
+  "espera": {
+   "memes": [
+    {
+     "id": "V021",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/2c246c440bf165a1e3f64c0ff9206960_720w.mp4",
+     "dur": 14.42,
+     "w": 720,
+     "h": 1280,
+     "audio": true
+    },
+    {
+     "id": "V096",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/f5c41e1f7e5fab7a2d241597eafee960.mp4",
+     "dur": 5.9,
+     "w": 720,
+     "h": 720,
+     "audio": true
+    },
+    {
+     "id": "V097",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/fa626e53514e1931c56c6b5020126925.mp4",
+     "dur": 26.03,
+     "w": 352,
+     "h": 262,
+     "audio": true
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/reacao/grilos.mp3",
+    "assets/sfx/youtube/reacao/pack_ronco_mimimi.mp3"
+   ]
+  },
+  "frustrado": {
+   "memes": [
+    {
+     "id": "V080",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/cac69a77036f232c789f2a03a54e1bd9.mp4",
+     "dur": 12.4,
+     "w": 750,
+     "h": 640,
+     "audio": true
+    },
+    {
+     "id": "V094",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/f05233a8985cf745ba6965488ed9a650.mp4",
+     "dur": 12.91,
+     "w": 540,
+     "h": 960,
+     "audio": true
+    },
+    {
+     "id": "V093",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/efb653bc76527640883deef41a655717_720w.mp4",
+     "dur": 8.22,
+     "w": 720,
+     "h": 720,
+     "audio": true
+    },
+    {
+     "id": "I061",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/ad77a769ee47dfc7e1437d9aece426d2.jpg",
+     "dur": 0.04,
+     "w": 355,
+     "h": 355,
+     "audio": false
+    },
+    {
+     "id": "I091",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/ef3ee14feee15daddd90a0751597c97f.jpg",
+     "dur": 0.04,
+     "w": 800,
+     "h": 815,
+     "audio": false
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/reacao/pack_bob_decepcionado.mp3",
+    "assets/sfx/youtube/reacao/bruh.mp3"
+   ]
+  },
+  "duvida": {
+   "memes": [
+    {
+     "id": "V010",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/0cbc4d2697ed64a4a1502a82c72893d4_720w.mp4",
+     "dur": 4.43,
+     "w": 720,
+     "h": 720,
+     "audio": true
+    },
+    {
+     "id": "V018",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/1d4807f74c9706975ffb4d2b3f5760f1.mp4",
+     "dur": 5.88,
+     "w": 640,
+     "h": 640,
+     "audio": true
+    },
+    {
+     "id": "I059",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/a71c2442b1089a2c7828078f35cef133.jpg",
+     "dur": 0.04,
+     "w": 736,
+     "h": 736,
+     "audio": false
+    },
+    {
+     "id": "V051",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/758ac847b08c8abdc64d8a44baa326a3.mp4",
+     "dur": 1.68,
+     "w": 640,
+     "h": 528,
+     "audio": false
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/reacao/pack_huh.mp3",
+    "assets/sfx/youtube/reacao/huh_gato.mp3"
+   ]
+  },
+  "sucesso": {
+   "memes": [
+    {
+     "id": "V066",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/a63dcd0d9d12dbf3a2147848ee5ea882.mp4",
+     "dur": 5.4,
+     "w": 480,
+     "h": 270,
+     "audio": true
+    },
+    {
+     "id": "I098",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/𝙢𝙚𝙢𝙚.jpg",
+     "dur": 0.04,
+     "w": 274,
+     "h": 267,
+     "audio": false
+    },
+    {
+     "id": "V089",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/e4e759bed09d03941cb2ae5d270aea8a.mp4",
+     "dur": 2.24,
+     "w": 1280,
+     "h": 720,
+     "audio": true
+    },
+    {
+     "id": "I002",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/0.jpg",
+     "dur": 0.04,
+     "w": 736,
+     "h": 664,
+     "audio": false
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/ui/sucesso.mp3",
+    "assets/sfx/youtube/ui/ding.mp3"
+   ]
+  },
+  "danca": {
+   "memes": [
+    {
+     "id": "V025",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/34dfa187cdd8fac2bf1bddddf7086c31.mp4",
+     "dur": 7.5,
+     "w": 640,
+     "h": 640,
+     "audio": true
+    },
+    {
+     "id": "V030",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/44395c7a5de469afe0d3c6bc57b56c4b_720w.mp4",
+     "dur": 17.35,
+     "w": 576,
+     "h": 1024,
+     "audio": true
+    },
+    {
+     "id": "V104",
+     "tipo": "video",
+     "arquivo": "IMAGENS/dfb2cca82fb93a84a519a2a10d4c67cf.mp4",
+     "dur": 1.92,
+     "w": 240,
+     "h": 240,
+     "audio": false
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/vibe/pack_gato_candyland.mp3"
+   ]
+  },
+  "choque": {
+   "memes": [
+    {
+     "id": "V007",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/0869c15e2fc6cbaa690c04a8b3884484.mp4",
+     "dur": 1.3,
+     "w": 224,
+     "h": 320,
+     "audio": false
+    },
+    {
+     "id": "V013",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/127443250e3e5db151155a6791bc7283.mp4",
+     "dur": 4.57,
+     "w": 640,
+     "h": 640,
+     "audio": true
+    },
+    {
+     "id": "V064",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/a125c73e55363dec9a1f86103ca53dde_t4.mp4",
+     "dur": 6.57,
+     "w": 720,
+     "h": 1280,
+     "audio": true
+    },
+    {
+     "id": "I022",
+     "tipo": "imagem",
+     "arquivo": "IMAGENS/1841c11f1d7bf4b67673e80aba2b50c9.jpg",
+     "dur": 0.04,
+     "w": 572,
+     "h": 584,
+     "audio": false
+    }
+   ],
+   "audios": [
+    "assets/sfx/youtube/reacao/pack_choque.mp3",
+    "assets/sfx/youtube/reacao/anime_wow.mp3"
+   ]
+  }
+ }
+}

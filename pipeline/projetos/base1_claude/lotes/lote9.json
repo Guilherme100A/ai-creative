@@ -1,0 +1,95 @@
+{
+ "lote": 9,
+ "projeto": "base1_claude",
+ "estilo": null,
+ "criadoEm": "2026-10-08T22:32:41.743Z",
+ "variacoes": [
+  {
+   "id": "v81",
+   "order": "ABCDFGHIJ",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 81,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.5,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v82",
+   "order": "ABCDEFGHIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 82,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "faixa",
+   "raceInv": true,
+   "boxLen": 1.5
+  },
+  {
+   "id": "v83",
+   "order": "ABCDEFGHIJ",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y1",
+   "seed": 83,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  },
+  {
+   "id": "v84",
+   "order": "ABCDFGHIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.1,
+    1
+   ],
+   "pack": "y2",
+   "seed": 84,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.5,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  }
+ ]
+}

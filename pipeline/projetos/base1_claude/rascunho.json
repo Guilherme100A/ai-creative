@@ -1,0 +1,212 @@
+{
+ "frases": [
+  {
+   "id": "A",
+   "de": 0.6,
+   "ate": 7.52,
+   "nome": "Eu sei que quando aparece uma…",
+   "opcional": false
+  },
+  {
+   "id": "B",
+   "de": 7.66,
+   "ate": 14.4,
+   "nome": "E eu acho normal pensar isso,…",
+   "opcional": false
+  },
+  {
+   "id": "C",
+   "de": 14.58,
+   "ate": 20.52,
+   "nome": "Você consegue ver outras pessoas recebendo…",
+   "opcional": false
+  },
+  {
+   "id": "D",
+   "de": 20.74,
+   "ate": 28.58,
+   "nome": "E a entrega também é automática,…",
+   "opcional": false
+  },
+  {
+   "id": "E",
+   "de": 28.76,
+   "ate": 34.56,
+   "nome": "Tudo foi pensado para deixar a…",
+   "opcional": false
+  },
+  {
+   "id": "F",
+   "de": 34.76,
+   "ate": 38.16,
+   "nome": "E aí quando você olha que…",
+   "opcional": false
+  },
+  {
+   "id": "G",
+   "de": 38.34,
+   "ate": 46.74,
+   "nome": "God Eulman, CDK, Soul Guitar e…",
+   "opcional": false
+  },
+  {
+   "id": "H",
+   "de": 47.14,
+   "ate": 50.3,
+   "nome": "Então você não precisa simplesmente acreditar…",
+   "opcional": false
+  },
+  {
+   "id": "I",
+   "de": 50.62,
+   "ate": 56.3,
+   "nome": "Você pode ver os feedbacks e…",
+   "opcional": false
+  },
+  {
+   "id": "J",
+   "de": 56.64,
+   "ate": 61.1,
+   "nome": "Se quiser saber mais como funciona,…",
+   "opcional": false
+  }
+ ],
+ "direcoes": [
+  {
+   "nome": "hookSite",
+   "de": 0.57,
+   "ate": 1.72,
+   "tipo": "mo",
+   "clip": "site_top2",
+   "wpn": "",
+   "pool": "",
+   "motivo": "abre mostrando o produto"
+  },
+  {
+   "nome": "brandIntro",
+   "de": 10.66,
+   "ate": 12.31,
+   "tipo": "mo",
+   "clip": "brand_intro",
+   "wpn": "",
+   "pool": "",
+   "motivo": "primeira vez que fala a marca"
+  },
+  {
+   "nome": "entrega",
+   "de": 20.68,
+   "ate": 23.38,
+   "tipo": "mo",
+   "clip": "brand_entrega",
+   "wpn": "",
+   "pool": "",
+   "motivo": "fala da entrega automática"
+  },
+  {
+   "nome": "cdk",
+   "de": 38.98,
+   "ate": 39.75,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "cdk",
+   "pool": "",
+   "motivo": "fala \"CDK,\""
+  },
+  {
+   "nome": "race",
+   "de": 41.55,
+   "ate": 42.85,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "",
+   "pool": "race",
+   "motivo": "fala da raça V4"
+  },
+  {
+   "nome": "siteFb",
+   "de": 50.62,
+   "ate": 54.62,
+   "tipo": "mo",
+   "clip": "site_feedback",
+   "wpn": "",
+   "pool": "",
+   "motivo": "fala dos feedbacks"
+  },
+  {
+   "nome": "brandCta",
+   "de": 56.59,
+   "ate": 99,
+   "tipo": "mo",
+   "clip": "brand_cta3",
+   "wpn": "",
+   "pool": "",
+   "motivo": "última frase: card final com o preço"
+  }
+ ],
+ "memes": [
+  {
+   "de": 3.94,
+   "ate": 5.56,
+   "categoria": "duvida",
+   "prioridade": 1,
+   "motivo": "palavra-chave"
+  },
+  {
+   "de": 5.8,
+   "ate": 7.62,
+   "categoria": "duvida",
+   "prioridade": 1,
+   "motivo": "palavra-chave"
+  },
+  {
+   "de": 25.2,
+   "ate": 27.96,
+   "categoria": "espera",
+   "prioridade": 1,
+   "motivo": "palavra-chave"
+  },
+  {
+   "de": 45.3,
+   "ate": 46.84,
+   "categoria": "espera",
+   "prioridade": 1,
+   "motivo": "palavra-chave"
+  },
+  {
+   "de": 48.72,
+   "ate": 50.4,
+   "categoria": "duvida",
+   "prioridade": 1,
+   "motivo": "palavra-chave"
+  }
+ ],
+ "destaques": [
+  "GODHUMAN",
+  "CDK",
+  "BASIC-BUILD",
+  "V4",
+  "RAÇA",
+  "FULL",
+  "MÍSTICAS",
+  "MÍTICAS",
+  "LEVEL",
+  "MÁXIMO",
+  "BLOX",
+  "FRUITS",
+  "17,90",
+  "AUTOMATICAMENTE",
+  "FEEDBACKS",
+  "PARAR",
+  "BÁSICO",
+  "HORAS",
+  "DIAS",
+  "ZERO",
+  "E-MAIL",
+  "JOGAR",
+  "JOGO",
+  "SOUL",
+  "GUITAR"
+ ],
+ "correcoes": [],
+ "observacoes": "rascunho por regras"
+}

@@ -1,0 +1,167 @@
+{
+ "dinheiro/gold_coin_prize.mp3": {
+  "peak": 0.175,
+  "dur": 1.962,
+  "rms": 0.182
+ },
+ "dinheiro/magical_coin_win.mp3": {
+  "peak": 0.175,
+  "dur": 2.605,
+  "rms": 0.196
+ },
+ "dinheiro/winning_coin.mp3": {
+  "peak": 0.035,
+  "dur": 1.025,
+  "rms": 0.453
+ },
+ "impacto/big_impact.mp3": {
+  "peak": 2.18,
+  "dur": 7.929,
+  "rms": 0.726
+ },
+ "impacto/cool_impact.mp3": {
+  "peak": 0.16,
+  "dur": 6,
+  "rms": 0.712
+ },
+ "impacto/short_bass_hit.mp3": {
+  "peak": 0.09,
+  "dur": 1.101,
+  "rms": 0.916
+ },
+ "impacto/trailer_whoosh_impact.mp3": {
+  "peak": 3.04,
+  "dur": 9.568,
+  "rms": 0.381
+ },
+ "impacto/whoosh_impact.mp3": {
+  "peak": 0.935,
+  "dur": 3.527,
+  "rms": 0.471
+ },
+ "meme/apito.mp3": {
+  "peak": 0.27,
+  "dur": 1.212,
+  "rms": 0.585
+ },
+ "meme/balao_pop.mp3": {
+  "peak": 0.015,
+  "dur": 1.178,
+  "rms": 0.174
+ },
+ "meme/ba_dum_tss.mp3": {
+  "peak": 0.055,
+  "dur": 2.484,
+  "rms": 0.796
+ },
+ "meme/boing.mp3": {
+  "peak": 0.185,
+  "dur": 1.241,
+  "rms": 0.686
+ },
+ "meme/bolha_pop.mp3": {
+  "peak": 0.28,
+  "dur": 0.521,
+  "rms": 0.31
+ },
+ "meme/conquista_bolha.mp3": {
+  "peak": 0.38,
+  "dur": 4.5,
+  "rms": 0.212
+ },
+ "meme/corneta_triste.mp3": {
+  "peak": 0.26,
+  "dur": 1.548,
+  "rms": 0.283
+ },
+ "meme/falha_grave.mp3": {
+  "peak": 0.67,
+  "dur": 1.515,
+  "rms": 0.275
+ },
+ "meme/miau.mp3": {
+  "peak": 0.415,
+  "dur": 1.347,
+  "rms": 0.26
+ },
+ "meme/miau_pedindo.mp3": {
+  "peak": 0.68,
+  "dur": 2.633,
+  "rms": 0.649
+ },
+ "meme/piano_falha.mp3": {
+  "peak": 0.115,
+  "dur": 2.31,
+  "rms": 0.658
+ },
+ "meme/slide_game.mp3": {
+  "peak": 0.05,
+  "dur": 1.044,
+  "rms": 0.422
+ },
+ "meme/splat.mp3": {
+  "peak": 0.095,
+  "dur": 1.036,
+  "rms": 0.442
+ },
+ "meme/squeaky_toy.mp3": {
+  "peak": 0.04,
+  "dur": 1.08,
+  "rms": 0.261
+ },
+ "meme/tontura_passarinhos.mp3": {
+  "peak": 0.045,
+  "dur": 1.873,
+  "rms": 0.457
+ },
+ "meme/trombone_triste.mp3": {
+  "peak": 0.5,
+  "dur": 2.651,
+  "rms": 0.442
+ },
+ "notificacao/positive.mp3": {
+  "peak": 0.225,
+  "dur": 2.8,
+  "rms": 0.375
+ },
+ "notificacao/scifi_confirm.mp3": {
+  "peak": 0.495,
+  "dur": 1.044,
+  "rms": 0.361
+ },
+ "notificacao/unlock.mp3": {
+  "peak": 0.175,
+  "dur": 1.397,
+  "rms": 0.178
+ },
+ "notificacao/unlock_item.mp3": {
+  "peak": 0.17,
+  "dur": 2.374,
+  "rms": 0.284
+ },
+ "pop/bubble_pop.mp3": {
+  "peak": 0.245,
+  "dur": 0.381,
+  "rms": 0.311
+ },
+ "pop/dry_pop.mp3": {
+  "peak": 0.045,
+  "dur": 0.305,
+  "rms": 0.289
+ },
+ "pop/hard_pop_click.mp3": {
+  "peak": 0.05,
+  "dur": 1.175,
+  "rms": 0.439
+ },
+ "pop/light_pop_whoosh.mp3": {
+  "peak": 0.03,
+  "dur": 0.18,
+  "rms": 0.565
+ },
+ "pop/message_pop.mp3": {
+  "peak": 0.06,
+  "dur": 1.059,
+  "rms": 0.191
+ }
+}

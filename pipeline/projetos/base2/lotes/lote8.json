@@ -1,0 +1,223 @@
+{
+ "lote": 8,
+ "projeto": "base2",
+ "estilo": null,
+ "criadoEm": "2026-10-08T22:26:30.964Z",
+ "variacoes": [
+  {
+   "id": "v71",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1.12,
+    1
+   ],
+   "pack": "y2",
+   "seed": 71,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.3,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  },
+  {
+   "id": "v72",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1.1,
+    1
+   ],
+   "pack": "y2",
+   "seed": 72,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.3,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v73",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y3",
+   "seed": 73,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.3,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v74",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y3",
+   "seed": 74,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "faixa",
+   "raceInv": true,
+   "boxLen": 1.5
+  },
+  {
+   "id": "v75",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.1,
+    1
+   ],
+   "pack": "y3",
+   "seed": 75,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v76",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y3",
+   "seed": 76,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  },
+  {
+   "id": "v77",
+   "order": "ABCDEFGHJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 77,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.3,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v78",
+   "order": "ABCDEFGHJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.1,
+    1
+   ],
+   "pack": "y3",
+   "seed": 78,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  },
+  {
+   "id": "v79",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y3",
+   "seed": 79,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.3,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v80",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 80,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  }
+ ]
+}

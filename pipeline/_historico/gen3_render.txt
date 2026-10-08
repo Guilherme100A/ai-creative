@@ -1,0 +1,7 @@
+  else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
+   const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
+   const inArgs=s.meme.tipo==='video'?['-stream_loop','-1','-ss',(0.1+s.off).toFixed(3),'-i',file]:['-loop','1','-i',file];
+   run([...inArgs,'-frames:v',String(n),'-vf',"fps=30,crop='min(iw,ih)':'min(iw,ih)',scale=860:860:flags=lanczos,setsar=1",'-q:v','2',path.join(fd,'f%04d.jpg')]);
+   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off})],{stdio:'inherit'});
+   args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
+    `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];}

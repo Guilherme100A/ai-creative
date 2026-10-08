@@ -1,0 +1,420 @@
+{
+ "nome": "base2",
+ "descricao": "Vídeo base 2 (83s) — lote 7",
+ "video": "copy_9DC70B42-AAC8-4AD9-B7EA-CE126A2CD8FD.mov",
+ "palavras": "palavras.json",
+ "fix": [
+  [
+   [
+    "^Base$",
+    "^Key$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^BaseK$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^base$",
+    "^que$",
+    "^bill$",
+    "^e$"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^God$",
+    "^of$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^God$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Blocks$"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^BASIC$"
+   ],
+   "básico"
+  ],
+  [
+   [
+    "^Leve$",
+    "^ao$"
+   ],
+   "Level"
+  ],
+  [
+   [
+    "^e$",
+    "^-mail"
+   ],
+   "e-mail"
+  ],
+  [
+   [
+    "^apagacar$",
+    "^o$"
+   ],
+   "pagar caro"
+  ],
+  [
+   [
+    "^17$",
+    "^,90"
+   ],
+   "17,90"
+  ]
+ ],
+ "frases": {
+  "A": [
+   0.88,
+   11.28
+  ],
+  "B": [
+   11.82,
+   20.84
+  ],
+  "C": [
+   21.72,
+   23.88
+  ],
+  "D": [
+   24.56,
+   30.22
+  ],
+  "E": [
+   30.8,
+   32.18
+  ],
+  "F": [
+   32.9,
+   38.16
+  ],
+  "G": [
+   38.78,
+   42.38
+  ],
+  "H": [
+   43.14,
+   50.9
+  ],
+  "I": [
+   52.24,
+   54.88
+  ],
+  "J": [
+   55.36,
+   61.6
+  ],
+  "K": [
+   62.34,
+   64.38
+  ],
+  "L": [
+   64.82,
+   70.18
+  ],
+  "M": [
+   70.96,
+   76.7
+  ],
+  "N": [
+   77.6,
+   81.42
+  ]
+ },
+ "nomesFrases": {
+  "A": "Se você ainda está gastando horas…",
+  "B": "Pensa comigo, quantas horas você ainda…",
+  "C": "Foi exatamente por isso que criamos…",
+  "D": "A ideia é simples, você não…",
+  "E": "Você precisa do BASIC pronto.",
+  "F": "Leve ao máximo God of Human,…",
+  "G": "E algumas contas ainda podem vir…",
+  "H": "Agora compara. Você pode gastar horas…",
+  "I": "E você nem precisa ficar esperando…",
+  "J": "Assim que a compra é aprovada,…",
+  "K": "É comprar, receber e entrar no…",
+  "L": "E se você ainda estiver em…",
+  "M": "No final, a escolha é simples.…",
+  "N": "BaseK Build, o básico pronto para…"
+ },
+ "frasesOpcionais": [
+  "I",
+  "M"
+ ],
+ "fimFala": 82.9,
+ "direcoes": {
+  "hookSite": {
+   "s": 0.85,
+   "e": 2,
+   "v": "mo",
+   "clip": "site_top2"
+  },
+  "gh": {
+   "s": 3.3,
+   "e": 3.95,
+   "v": "box",
+   "wpn": "godhuman"
+  },
+  "cdk": {
+   "s": 3.95,
+   "e": 4.55,
+   "v": "box",
+   "wpn": "cdk"
+  },
+  "brandIntro": {
+   "s": 22.85,
+   "e": 24.5,
+   "v": "mo",
+   "clip": "brand_intro"
+  },
+  "siteTop": {
+   "s": 30.7,
+   "e": 32.85,
+   "v": "mo",
+   "clip": "site_top2"
+  },
+  "gh2": {
+   "s": 33.8,
+   "e": 34.6,
+   "v": "box",
+   "wpn": "godhuman"
+  },
+  "cdk2": {
+   "s": 34.6,
+   "e": 35.3,
+   "v": "box",
+   "wpn": "cdk"
+  },
+  "montage1": {
+   "s": 35.3,
+   "e": 38.3,
+   "v": "montage"
+  },
+  "race": {
+   "s": 40.45,
+   "e": 41.75,
+   "v": "box",
+   "pool": "race"
+  },
+  "inv": {
+   "s": 41.85,
+   "e": 42.7,
+   "v": "box",
+   "pool": "inv"
+  },
+  "entrega": {
+   "s": 55.3,
+   "e": 58,
+   "v": "mo",
+   "clip": "brand_entrega"
+  },
+  "jogo": {
+   "s": 62.9,
+   "e": 64.5,
+   "v": "box",
+   "wpn": "any"
+  },
+  "siteFb": {
+   "s": 66.3,
+   "e": 70.3,
+   "v": "mo",
+   "clip": "site_feedback"
+  },
+  "final": {
+   "s": 75,
+   "e": 76.8,
+   "v": "box",
+   "wpn": "any"
+  },
+  "brandCta": {
+   "s": 77.55,
+   "e": 99,
+   "v": "mo",
+   "clip": "brand_cta3"
+  }
+ },
+ "direcoesPadrao": [
+  "hookSite",
+  "gh",
+  "cdk",
+  "brandIntro",
+  "siteTop",
+  "gh2",
+  "cdk2",
+  "montage1",
+  "race",
+  "inv",
+  "entrega",
+  "jogo",
+  "siteFb",
+  "final",
+  "brandCta"
+ ],
+ "reacoes": [
+  [
+   4.14,
+   "1f914",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   6.75,
+   "1f97a",
+   "shake",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   24.8,
+   "1f634",
+   "float",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   27.9,
+   "1f62d",
+   "shake",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   32.1,
+   "1f91d",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   37.4,
+   "1f440",
+   "pop",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   48.9,
+   "1f928",
+   "pop",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   56.15,
+   "2705",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   59.05,
+   "1f447",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ]
+ ],
+ "memes": [
+  [
+   14.85,
+   16.6,
+   "espera",
+   1
+  ],
+  [
+   17.4,
+   18.95,
+   "frustrado",
+   1
+  ],
+  [
+   29.1,
+   30.25,
+   "choque",
+   1
+  ],
+  [
+   53,
+   54.9,
+   "espera",
+   1
+  ],
+  [
+   65.3,
+   66.3,
+   "duvida",
+   1
+  ],
+  [
+   27,
+   28.95,
+   "duvida",
+   2
+  ],
+  [
+   44.7,
+   47.4,
+   "espera",
+   2
+  ],
+  [
+   72.6,
+   74.85,
+   "frustrado",
+   2
+  ],
+  [
+   8.6,
+   11.3,
+   "choque",
+   3
+  ]
+ ],
+ "destaques": [
+  "GODHUMAN",
+  "CDK",
+  "BASIC-BUILD",
+  "V4",
+  "RAÇA",
+  "FULL",
+  "MÍSTICAS",
+  "LEVEL",
+  "MÁXIMO",
+  "BLOX",
+  "FRUITS",
+  "17,90",
+  "AUTOMATICAMENTE",
+  "FEEDBACKS",
+  "PARAR",
+  "BÁSICO",
+  "HORAS",
+  "DIAS",
+  "ZERO",
+  "E-MAIL",
+  "JOGAR",
+  "JOGO"
+ ],
+ "moedaEm": 50.62
+}

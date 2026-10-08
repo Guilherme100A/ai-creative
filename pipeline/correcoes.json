@@ -1,0 +1,21 @@
+{
+ "obs": "Erros conhecidos do Whisper (sequência de palavras -> correção). Vale para todo vídeo novo; o projeto pode ter mais.",
+ "fix": [
+  [["^Base$","^Key$","^Build"],"Basic-Build"],
+  [["^BaseK$","^Build"],"Basic-Build"],
+  [["^base$","^que$","^bill$","^e$"],"Basic-Build"],
+  [["^Besky$","^Build"],"Basic-Build"],
+  [["^Base$","^Ki$","^Build"],"Basic-Build"],
+  [["^God$","^of$","^Human"],"Godhuman"],
+  [["^God$","^Human"],"Godhuman"],
+  [["^Blocks$"],"Blox"],
+  [["^BASIC$"],"básico"],
+  [["^Leve$","^ao$"],"Level"],
+  [["^Rasa$"],"Raça"],
+  [["^serve$","^a$","^mais"],"saiba mais"],
+  [["^e$","^-mail"],"e-mail"],
+  [["^apagacar$","^o$"],"pagar caro"],
+  [["^17$","^,90"],"17,90"]
+ ],
+ "destaques": ["GODHUMAN","CDK","BASIC-BUILD","V4","RAÇA","FULL","MÍSTICAS","MÍTICAS","LEVEL","MÁXIMO","BLOX","FRUITS","17,90","AUTOMATICAMENTE","FEEDBACKS","PARAR","BÁSICO","HORAS","DIAS","ZERO","E-MAIL","JOGAR","JOGO","SOUL","GUITAR"]
+}

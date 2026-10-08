@@ -1,0 +1,349 @@
+{
+ "nome": "base1",
+ "descricao": "Vídeo base 1 (62s) — lotes 1 a 6",
+ "video": "copy_7C70940D-340D-4468-8D9F-35E228D90892.mov",
+ "palavras": "palavras.json",
+ "fix": [
+  [
+   [
+    "^[Bb][Ll][Oo][Cc][Kk][Ss]$"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^Besky$",
+    ".*"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^God$",
+    ".*"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Rasa$"
+   ],
+   "Raça"
+  ],
+  [
+   [
+    "^serve$"
+   ],
+   "saiba"
+  ],
+  [
+   [
+    "^Basic$",
+    ".*"
+   ],
+   "Basic-Build"
+  ]
+ ],
+ "frases": {
+  "A": [
+   0.6,
+   7.52
+  ],
+  "B": [
+   7.66,
+   9.14
+  ],
+  "C": [
+   9.28,
+   14.4
+  ],
+  "D": [
+   14.58,
+   20.52
+  ],
+  "E": [
+   20.74,
+   28.58
+  ],
+  "F": [
+   28.76,
+   34.56
+  ],
+  "G": [
+   34.76,
+   38.16
+  ],
+  "H": [
+   38.34,
+   46.74
+  ],
+  "I": [
+   47.14,
+   50.3
+  ],
+  "J": [
+   50.62,
+   56.3
+  ],
+  "K": [
+   56.64,
+   61.1
+  ]
+ },
+ "fimFala": 62.4,
+ "direcoes": {
+  "hookSite": {
+   "s": 1,
+   "e": 2.1,
+   "v": "mo",
+   "clip": "site_top"
+  },
+  "hook": {
+   "s": 2.1,
+   "e": 3.5,
+   "v": "box",
+   "wpn": "any"
+  },
+  "brandFb": {
+   "s": 11.2,
+   "e": 12.42,
+   "v": "mo",
+   "clip": "brand_feedback"
+  },
+  "siteFb": {
+   "s": 12.42,
+   "e": 17,
+   "v": "mo",
+   "clip": "site_feedback"
+  },
+  "entrega": {
+   "s": 20.7,
+   "e": 23.3,
+   "v": "mo",
+   "clip": "brand_entrega"
+  },
+  "siteTop": {
+   "s": 34.7,
+   "e": 38.3,
+   "v": "mo",
+   "clip": "site_top"
+  },
+  "gh": {
+   "s": 38.3,
+   "e": 39.04,
+   "v": "box",
+   "wpn": "godhuman"
+  },
+  "cdk": {
+   "s": 39.04,
+   "e": 39.76,
+   "v": "box",
+   "wpn": "cdk"
+  },
+  "sg": {
+   "s": 39.76,
+   "e": 40.5,
+   "v": "box",
+   "wpn": "soul guitar"
+  },
+  "montage": {
+   "s": 40.5,
+   "e": 46.8,
+   "v": "montage"
+  },
+  "montage1": {
+   "s": 40.5,
+   "e": 41.62,
+   "v": "montage"
+  },
+  "race": {
+   "s": 41.62,
+   "e": 42.66,
+   "v": "box",
+   "pool": "race"
+  },
+  "inv": {
+   "s": 42.66,
+   "e": 43.62,
+   "v": "box",
+   "pool": "inv"
+  },
+  "montageB": {
+   "s": 43.62,
+   "e": 46.8,
+   "v": "montage"
+  },
+  "siteFb2": {
+   "s": 50.55,
+   "e": 53.95,
+   "v": "mo",
+   "clip": "site_feedback2"
+  },
+  "siteCta": {
+   "s": 56.55,
+   "e": 59,
+   "v": "mo",
+   "clip": "site_cta"
+  },
+  "brandCta": {
+   "s": 59,
+   "e": 99,
+   "v": "mo",
+   "clip": "brand_cta"
+  }
+ },
+ "direcoesPadrao": [
+  "hook",
+  "brandFb",
+  "siteFb",
+  "entrega",
+  "siteTop",
+  "gh",
+  "cdk",
+  "sg",
+  "montage",
+  "siteFb2",
+  "siteCta",
+  "brandCta"
+ ],
+ "reacoes": [
+  [
+   4.14,
+   "1f914",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   6.75,
+   "1f97a",
+   "shake",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   24.8,
+   "1f634",
+   "float",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   27.9,
+   "1f62d",
+   "shake",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   32.1,
+   "1f91d",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   37.4,
+   "1f440",
+   "pop",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   48.9,
+   "1f928",
+   "pop",
+   "ui/pack_click.mp3",
+   1
+  ],
+  [
+   56.15,
+   "2705",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ],
+  [
+   59.05,
+   "1f447",
+   "pop",
+   "ui/pack_click.mp3",
+   2
+  ]
+ ],
+ "memes": [
+  [
+   6.45,
+   7.75,
+   "triste",
+   1
+  ],
+  [
+   24.6,
+   25.9,
+   "espera",
+   1
+  ],
+  [
+   48.7,
+   49.95,
+   "duvida",
+   1
+  ],
+  [
+   27.4,
+   28.65,
+   "frustrado",
+   2
+  ],
+  [
+   31.9,
+   33,
+   "sucesso",
+   2
+  ],
+  [
+   55.7,
+   56.5,
+   "sucesso",
+   2
+  ],
+  [
+   3.85,
+   4.95,
+   "duvida",
+   3
+  ],
+  [
+   33.55,
+   34.65,
+   "danca",
+   3
+  ]
+ ],
+ "destaques": [
+  "GODHUMAN",
+  "CDK",
+  "SOUL",
+  "GUITAR",
+  "BASIC-BUILD",
+  "FEEDBACKS",
+  "AUTOMÁTICA",
+  "RAÇA",
+  "V4",
+  "MÍSTICAS",
+  "CONFIANÇA",
+  "BLOX",
+  "FRUITS",
+  "SAIBA",
+  "PIX",
+  "RECEBER",
+  "MESMO\\?",
+  "WHATSAPP",
+  "RÁPIDO",
+  "INTERESSANTE",
+  "DECIDIR",
+  "TIKTOK"
+ ],
+ "moedaEm": null
+}

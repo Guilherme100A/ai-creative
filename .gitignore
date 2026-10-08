@@ -1,0 +1,8 @@
+# gerados / pesados
+render/
+pipeline/node_modules/
+pipeline/vt/
+pipeline/stk/
+pipeline/memecat/
+pipeline/projetos/*/projeto.bak_*.json
+*.log

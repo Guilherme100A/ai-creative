@@ -1,0 +1,6 @@
+ // memes: só entram onde não tem animação nem gameplay
+ const usedM=new Set();
+ for(const [ms,me,cat,prio] of MEME_CUES){if(prio>MDENS[R.memes])continue;const a=s2o(ms),b=s2o(me);if(a==null||b==null||b-a<0.6)continue;
+  if(vis.some(v=>v.oS<b+0.1&&v.oE>a-0.1))continue;const C=CATALOG.categorias[cat];
+  let cand=C.memes.filter(m=>!usedM.has(m.id));if(!cand.length)cand=C.memes;const m=pick(cand);usedM.add(m.id);
+  vis.push({k:'meme',cat,meme:m,audio:pick(C.audios),oS:a,oE:b});}

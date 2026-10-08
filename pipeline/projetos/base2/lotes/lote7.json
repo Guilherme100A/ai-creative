@@ -1,0 +1,223 @@
+{
+ "lote": 7,
+ "variacoes": [
+  {
+   "id": "v61",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 61,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v62",
+   "order": "ABCDEFGHJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.12,
+    1
+   ],
+   "pack": "y1",
+   "seed": 62,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v63",
+   "order": "ABCDEFGHIJKLN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.12,
+    1
+   ],
+   "pack": "y3",
+   "seed": 63,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v64",
+   "order": "ABCDEFGHJKLN",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1.08,
+    1,
+    1.2
+   ],
+   "pack": "y2",
+   "seed": 64,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.3,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v65",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y1",
+   "seed": 65,
+   "hl": [
+    "amarelo",
+    "limao"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.5,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v66",
+   "order": "ABCDEFGHJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.12,
+    1
+   ],
+   "pack": "y3",
+   "seed": 66,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "faixa",
+   "raceInv": true
+  },
+  {
+   "id": "v67",
+   "order": "ABCDEFGHIJKLN",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 67,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v68",
+   "order": "ABCDEFGHJKLN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.1,
+    1
+   ],
+   "pack": "y1",
+   "seed": 68,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.3,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true
+  },
+  {
+   "id": "v69",
+   "order": "ABCDEFGHIJKLMN",
+   "gap": 0.28,
+   "dirs": {
+    "sem": [
+     "race",
+     "inv"
+    ]
+   },
+   "zoom": [
+    1.12,
+    1
+   ],
+   "pack": "y3",
+   "seed": 69,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": false
+  },
+  {
+   "id": "v70",
+   "order": "ABCDEFGHJKLMN",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 70,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.4,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5
+  }
+ ]
+}

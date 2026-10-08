@@ -1,0 +1,375 @@
+{
+ "nome": "base1_claude",
+ "descricao": "Vídeo base 1 — edição feita pelo Claude (teste contra a edição à mão do base1)",
+ "video": "copy_7C70940D-340D-4468-8D9F-35E228D90892.mov",
+ "palavras": "palavras.json",
+ "fix": [
+  [
+   [
+    "^Base$",
+    "^Key$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^BaseK$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^base$",
+    "^que$",
+    "^bill$",
+    "^e$"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^Besky$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^Base$",
+    "^Ki$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^God$",
+    "^of$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^God$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Blocks$"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^BASIC$"
+   ],
+   "básico"
+  ],
+  [
+   [
+    "^Leve$",
+    "^ao$"
+   ],
+   "Level"
+  ],
+  [
+   [
+    "^Rasa$"
+   ],
+   "Raça"
+  ],
+  [
+   [
+    "^serve$",
+    "^a$",
+    "^mais"
+   ],
+   "saiba mais"
+  ],
+  [
+   [
+    "^e$",
+    "^-mail"
+   ],
+   "e-mail"
+  ],
+  [
+   [
+    "^apagacar$",
+    "^o$"
+   ],
+   "pagar caro"
+  ],
+  [
+   [
+    "^17$",
+    "^,90"
+   ],
+   "17,90"
+  ],
+  [
+   [
+    "^blocks"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^fruits"
+   ],
+   "Fruits"
+  ],
+  [
+   [
+    "^God$",
+    "^Eulman"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Basic$",
+    "^Beauty"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^whatsapp"
+   ],
+   "WhatsApp"
+  ]
+ ],
+ "frases": {
+  "A": [
+   0.6,
+   7.52
+  ],
+  "B": [
+   7.66,
+   14.4
+  ],
+  "C": [
+   14.58,
+   20.52
+  ],
+  "D": [
+   20.74,
+   28.58
+  ],
+  "E": [
+   28.76,
+   34.56
+  ],
+  "F": [
+   34.76,
+   38.16
+  ],
+  "G": [
+   38.34,
+   46.74
+  ],
+  "H": [
+   47.14,
+   50.3
+  ],
+  "I": [
+   50.62,
+   56.3
+  ],
+  "J": [
+   56.64,
+   61.1
+  ]
+ },
+ "nomesFrases": {
+  "A": "Eu sei que quando aparece uma conta de Blox Fruits no TikTok… será que eu vou receber mesmo?",
+  "B": "E eu acho normal pensar isso… feedbacks de quem já comprou",
+  "C": "Você consegue ver outras pessoas recebendo… antes de comprar",
+  "D": "E a entrega também é automática… torcendo para responder rápido",
+  "E": "Tudo foi pensado para deixar a compra mais simples… primeira vez",
+  "F": "E aí quando você olha o que pode vir na conta…",
+  "G": "Godhuman, CDK, Soul Guitar… horas tentando conseguir",
+  "H": "Então você não precisa simplesmente acreditar no que eu estou falando",
+  "I": "Você pode ver os feedbacks… antes de decidir",
+  "J": "Se quiser saber mais… clica em saiba mais e vem conhecer a Basic-Build"
+ },
+ "frasesOpcionais": [
+  "E"
+ ],
+ "fimFala": 62.55,
+ "direcoes": {
+  "hookSite": {
+   "s": 0.57,
+   "e": 2.77,
+   "v": "mo",
+   "clip": "site_top2"
+  },
+  "brandIntro": {
+   "s": 10.6,
+   "e": 12.45,
+   "v": "mo",
+   "clip": "brand_intro"
+  },
+  "brandFb": {
+   "s": 12.45,
+   "e": 14.2,
+   "v": "mo",
+   "clip": "brand_feedback"
+  },
+  "siteFb": {
+   "s": 14.9,
+   "e": 19.4,
+   "v": "mo",
+   "clip": "site_feedback"
+  },
+  "entrega": {
+   "s": 20.7,
+   "e": 23.3,
+   "v": "mo",
+   "clip": "brand_entrega"
+  },
+  "siteTop": {
+   "s": 35.9,
+   "e": 38.1,
+   "v": "mo",
+   "clip": "site_top2"
+  },
+  "gh": {
+   "s": 38.2,
+   "e": 38.95,
+   "v": "box",
+   "wpn": "godhuman"
+  },
+  "cdk": {
+   "s": 38.95,
+   "e": 39.7,
+   "v": "box",
+   "wpn": "cdk"
+  },
+  "sg": {
+   "s": 39.7,
+   "e": 40.6,
+   "v": "box",
+   "wpn": "soul guitar"
+  },
+  "race": {
+   "s": 41.5,
+   "e": 42.6,
+   "v": "box",
+   "pool": "race"
+  },
+  "inv": {
+   "s": 42.6,
+   "e": 44.4,
+   "v": "box",
+   "pool": "inv"
+  },
+  "siteFb2": {
+   "s": 51.1,
+   "e": 54.5,
+   "v": "mo",
+   "clip": "site_feedback2"
+  },
+  "brandCta": {
+   "s": 56.6,
+   "e": 99,
+   "v": "mo",
+   "clip": "brand_cta3"
+  }
+ },
+ "direcoesPadrao": [
+  "hookSite",
+  "brandIntro",
+  "brandFb",
+  "siteFb",
+  "entrega",
+  "siteTop",
+  "gh",
+  "cdk",
+  "sg",
+  "race",
+  "inv",
+  "siteFb2",
+  "brandCta"
+ ],
+ "reacoes": [],
+ "memes": [
+  [
+   5.6,
+   7.5,
+   "duvida",
+   1
+  ],
+  [
+   25.35,
+   26.75,
+   "espera",
+   1
+  ],
+  [
+   45.1,
+   46.9,
+   "espera",
+   1
+  ],
+  [
+   3.8,
+   5.5,
+   "duvida",
+   2
+  ],
+  [
+   23.9,
+   25.3,
+   "frustrado",
+   2
+  ],
+  [
+   48.3,
+   50.2,
+   "duvida",
+   2
+  ],
+  [
+   26.8,
+   28.5,
+   "duvida",
+   3
+  ],
+  [
+   31.4,
+   32.9,
+   "sucesso",
+   3
+  ]
+ ],
+ "destaques": [
+  "BLOX",
+  "FRUITS",
+  "BASIC-BUILD",
+  "FEEDBACKS",
+  "ENTREGA",
+  "AUTOMÁTICA",
+  "WHATSAPP",
+  "GODHUMAN",
+  "CDK",
+  "SOUL",
+  "GUITAR",
+  "RAÇA",
+  "V4",
+  "FRUTAS",
+  "MÍSTICAS",
+  "HORAS",
+  "CLICA"
+ ],
+ "moedaEm": null,
+ "origem": "claude",
+ "observacoes": "Esse vídeo é diferente do gabarito: o foco é CONFIANÇA (será que eu recebo?, feedbacks, entrega automática) e não a dor de farmar. Por isso a edição fica mais nos cards e nos prints do site e tem pouca gameplay. Os quadrados de gameplay ficaram só no bloco G (Godhuman → CDK → Soul Guitar → Raça V4 → frutas/itens), cada um no momento em que ela fala o nome.\n\nPara o dono conferir:\n1) Preço: ela NUNCA fala R$ 17,90 neste vídeo. O preço só aparece no card final brand_cta3 ('SÓ R$ 17,90'). Vale ver se basta ou se é melhor um vídeo que fale o preço.\n2) CTA: ela fala 'clica em saiba mais', mas o card diz 'CLICA ABAIXO'. Não é contraditório, mas confira se o botão do anúncio é mesmo 'Saiba mais'.\n3) Correções de transcrição: 'blocks fruits' (minúsculo escapou da correção global) → Blox Fruits; 'God Eulman' → Godhuman; 'Basic Beauty' no final → Basic-Build (conferir no áudio se ela falou certo; se a pronúncia estiver ruim, talvez valha regravar o fim); 'whatsapp' → WhatsApp.\n4) Bloco de 10,6s a 19,4s: brand_intro, brand_feedback e site_feedback ficam quase seguidos (só ~0,7s de rosto entre o card e o print). Fica coerente com a fala, mas é bastante tempo sem o rosto dela. Se ficar pesado, dá para tirar o brand_feedback.\n5) Usei site_feedback (14,9s) e site_feedback2 (51,1s) para não repetir o mesmo print nas duas vezes que ela fala de feedback.\n6) A frase E ('Tudo foi pensado para deixar a compra mais simples…') está marcada como opcional: é enchimento e cortar não quebra o sentido. O inventário (42,6–44,4s) ficou mais longo que no gabarito porque cobre também 'outros itens'.\n7) Ela cita o TikTok no começo. Se o anúncio for rodar em outra plataforma (Meta/Kwai), a frase soa estranha.",
+ "criadoEm": "2026-10-08T22:17:12.728Z"
+}
