@@ -22,7 +22,9 @@ if(process.argv[2]==='--captura'){ // processo filho: instrumenta e roda o gerad
 }
 
 const [A,B,ids='all']=process.argv.slice(2);
-const cap=(cmdline,tag)=>{const [script,...rest]=cmdline.split(' ');const out=path.join(require('os').tmpdir(),`equiv_${tag}.json`);
+const cap=(cmdline,tag)=>{const [script,...rest0]=cmdline.split(' ');
+ // o motor barra receitas antigas que quebram leis novas (ex.: legenda "faixa"); aqui só importa comparar o render
+ const rest=script==='motor.js'?[...rest0,'--forcar']:rest0;const out=path.join(require('os').tmpdir(),`equiv_${tag}.json`);
  const r=spawnSync(process.execPath,[__filename,'--captura',out,script,...rest,ids],{cwd:PIPE,stdio:['ignore','ignore','inherit']});
  if(r.status!==0)throw new Error(cmdline+' falhou');return JSON.parse(fs.readFileSync(out,'utf8'));};
 const a=cap(A,'a'),b=cap(B,'b');

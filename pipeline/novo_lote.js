@@ -35,13 +35,22 @@ const DIM={
  grade:{op:['vivo','quente'],grupo:'Cor da imagem',rot:v=>v==='vivo'?'Cor viva':'Cor quente'},
  memes:{op:['muitos','medios'],grupo:'Memes no quadrado',rot:v=>v==='muitos'?'Muitos memes':'Memes médios'},
  memeSom:{op:[0.3,0.4,0.5]},
- cap:{op:['sombra','faixa'],grupo:'Legenda',rot:v=>v==='faixa'?'Legenda com faixa':'Legenda só com sombra'},
  boxLen:{op:[null,1.5]},
+ // efeitos novos (R.fx): sorteados para o revisor aprender qual você prefere
+ musica:{op:['energia','leve','tech'],grupo:'Música de fundo',rot:v=>({energia:'Música: energia',leve:'Música: leve',tech:'Música: tech'})[v]},
+ gancho:{op:[true,false],grupo:'Título no gancho',rot:v=>v?'Com título no gancho':'Sem título no gancho'},
+ progresso:{op:[true,false],grupo:'Barra de progresso',rot:v=>v?'Com barra de progresso':'Sem barra de progresso'},
 };
+// lei do dono: legenda branca sem contorno e sem caixa — sempre "sombra"
+const CAP='sombra';
+// sempre ligados nos lotes novos: 1º frame claro, sem legenda brigando com o site, nitidez nela
+const FX_FIXO={abertura:true,legendaSite:false,nitidez:true};
+const temMusica=fs.existsSync(path.join(ROOT,'assets','musica','catalogo.json'));
 const rng=(seed=>()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296})(LOTE*7919+N);
 // peso = nota aprendida ao cubo (puxa forte para o que você aprovou), com piso para ainda explorar um pouco
 function sorteia(nome){const d=DIM[nome];let op=d.op;
- const fixo=ESTILO&&ESTILO.fixo&&ESTILO.fixo[nome]!==undefined?ESTILO.fixo[nome]:undefined;if(fixo!==undefined)return fixo;
+ const fx=['musica','gancho','progresso'].includes(nome);const F=ESTILO&&(fx?ESTILO.fx:ESTILO.fixo);
+ const fixo=F&&F[nome]!==undefined?F[nome]:undefined;if(fixo!==undefined)return fx&&nome==='musica'&&fixo&&typeof fixo==='object'?fixo.mood:fixo;
  if(ESTILO&&ESTILO.opcoes&&ESTILO.opcoes[nome])op=ESTILO.opcoes[nome];
  const w=op.map(v=>d.grupo?Math.max(0.08,score(d.grupo,d.rot(v)))**3:1);const tot=w.reduce((a,b)=>a+b,0);let r=rng()*tot;
  for(let i=0;i<op.length;i++){r-=w[i];if(r<=0)return op[i];}return op[op.length-1];}
@@ -50,13 +59,14 @@ const letras=Object.keys(PROJ.frases).join('');const opc=PROJ.frasesOpcionais||[
 const temRaca=Object.values(PROJ.direcoes).some(d=>d.pool==='race'||d.pool==='inv');
 const vistos=new Set();const V=[];
 for(let tent=0;V.length<N&&tent<500;tent++){
- const r={gap:sorteia('gap'),zoom:sorteia('zoom'),pack:sorteia('pack'),grade:sorteia('grade'),memes:sorteia('memes'),memeSom:sorteia('memeSom'),cap:sorteia('cap'),boxLen:sorteia('boxLen')};
- // legenda: "sombra" é a preferida; faixa só de vez em quando, para continuar comparando
- if(!(ESTILO&&ESTILO.fixo&&ESTILO.fixo.cap)&&r.cap==='faixa'&&rng()<0.75)r.cap='sombra';
+ const r={gap:sorteia('gap'),zoom:sorteia('zoom'),pack:sorteia('pack'),grade:sorteia('grade'),memes:sorteia('memes'),memeSom:sorteia('memeSom'),boxLen:sorteia('boxLen'),
+  musica:temMusica?sorteia('musica'):false,gancho:PROJ.gancho?sorteia('gancho'):false,progresso:sorteia('progresso')};
  let order=letras;if(opc.length&&rng()<0.35){const tira=opc[Math.floor(rng()*opc.length)];order=letras.replace(tira,'');}
  const chave=JSON.stringify({...r,order});if(vistos.has(chave))continue;vistos.add(chave);
  const id='v'+nextId++;
- const v={id,order,gap:r.gap,dirs:'padrao',zoom:r.zoom,pack:r.pack,seed:+id.slice(1),hl:['amarelo'],reac:'nenhuma',memes:r.memes,memeSom:r.memeSom,grade:r.grade,cap:r.cap,raceInv:temRaca};
+ const fx={...FX_FIXO,...(ESTILO&&ESTILO.fx?Object.fromEntries(Object.entries(ESTILO.fx).filter(([k])=>!['musica','gancho','progresso'].includes(k))):{})};
+ if(r.musica)fx.musica={mood:r.musica,db:-16};if(r.gancho)fx.gancho=true;if(r.progresso)fx.progresso=true;
+ const v={id,order,gap:r.gap,dirs:'padrao',zoom:r.zoom,pack:r.pack,seed:+id.slice(1),hl:['amarelo'],reac:'nenhuma',memes:r.memes,memeSom:r.memeSom,grade:r.grade,cap:CAP,raceInv:temRaca,fx};
  if(r.boxLen)v.boxLen=r.boxLen;
  V.push(v);}
 const out={lote:LOTE,projeto:PROJ_NOME,estilo:ESTILO?ESTILO.nome:null,criadoEm:new Date().toISOString(),variacoes:V};

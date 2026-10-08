@@ -58,6 +58,12 @@ function variacoes() {
         'Cor de destaque': hl.length > 1 ? 'Várias cores' : (HL_NAMES[hl[0]] || hl[0]),
         'Ritmo dos quadrados': r.boxLen && r.boxLen < 1 ? 'Quadrados rápidos' : 'Quadrados normais',
       };
+      // efeitos novos (R.fx) — mesmos rótulos que o novo_lote.js usa para puxar as notas
+      if (r.fx) {
+        feats['Música de fundo'] = r.fx.musica ? ({ energia: 'Música: energia', leve: 'Música: leve', tech: 'Música: tech' })[r.fx.musica.mood] || 'Com música' : 'Sem música';
+        feats['Título no gancho'] = r.fx.gancho ? 'Com título no gancho' : 'Sem título no gancho';
+        feats['Barra de progresso'] = r.fx.progresso ? 'Com barra de progresso' : 'Sem barra de progresso';
+      }
       return { id: r.id, lote, arquivo: `criativo_${r.id}.mp4`, duracao: dur, ordem: r.order, projeto: r.projeto || null, partes: [...r.order].map(c => nomesDoProjeto(r.projeto)[c] || c), feats, takes: resumo[r.id]?.takes || [] };
     });
 }

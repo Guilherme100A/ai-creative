@@ -1,0 +1,30 @@
+{
+ "nome": "premium",
+ "descricao": "Modelo premium: jump cuts normais, memes médios, cor quente, música leve e título no gancho, sem barra",
+ "origem": "manual",
+ "fixo": {
+  "gap": 0.28,
+  "memes": "medios",
+  "grade": "quente",
+  "boxLen": null
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.12
+   ],
+   [
+    1.1,
+    1
+   ]
+  ]
+ },
+ "fx": {
+  "musica": {
+   "mood": "leve"
+  },
+  "gancho": true,
+  "progresso": false
+ }
+}

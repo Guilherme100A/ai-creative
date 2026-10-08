@@ -1,0 +1,58 @@
+{
+ "nome": "fb_sombralblox",
+ "descricao": "Referência da Sombral Blox, 23 s, sem ninguém falando na tela: é só narração em off sobre gameplay em tela cheia. O ritmo é frenético, com 1,24 corte por segundo, 4 cortes nos 3 primeiros segundos e plano médio de 0,78 s. O vídeo abre com um flash branco no meio de uma luta (personagem com asas azuis e ataque vermelho). Linhas de velocidade estilo anime (speed lines) ficam por cima de quase todos os planos: gameplay, prints da loja, checkout. Os planos se alternam assim: (1) gameplay em tela cheia com zoom/punch-in e flash; (2) telas de reação com emoji gigante sobre fundo vermelho escuro com grade e partículas, com a palavra da fala em amarelo grande e brilhante por cima do emoji; (3) logo da loja em ícone 3D com fundo borrado; (4) prints da loja em tela cheia (cards 'V4 FULL' com preço R$ 19,50 / 17,99 e 'COMPRAR AGORA', página do produto com descrição e checkout com Pix 'aprovação imediata'); (5) gameplay mostrando frutas e raças V4 enquanto a narração fala 'permanentes', 'melhorar', 'V4'. A legenda vem palavra por palavra, em caixa alta, branca, com sombra e sem caixa atrás, no meio-baixo da tela. Nas telas de emoji ela vira um texto amarelo grande e centralizado. A cor é bem saturada e de alto contraste: vermelho neon, azul elétrico, fundos escuros. A história segue esta ordem: dor (horas farmando no Blox) → achar a loja → itens permanentes/V4 → compra simples no Pix → 'disponível'.",
+ "fonte": "C:/Users/green/Downloads/criativo/referencias/_fb/sombralblox_1.mp4",
+ "origem": "claude",
+ "metricas": {
+  "duracao": 23.3,
+  "formato": "360x640",
+  "vertical": true,
+  "cortes": 29,
+  "planoMedio": 0.78,
+  "cortesPorSegundo": 1.24,
+  "primeiroCorte": 0.03,
+  "cortesNos3s": 4,
+  "saturacao": 26.2
+ },
+ "gancho": "Abre direto na ação, sem rosto. Em 0,0 s vem um flash branco em cima de um golpe de gameplay e, a cada ~0,25 s, um punch-in com linhas de velocidade, enquanto a fala 'Entrei no Bloxs querendo conta...' aparece palavra por palavra. Em 1,75 s corta seco para um emoji de 'olhos revirando' num fundo vermelho, com 'QUERIA MAIS DE HORAS' em amarelo gigante. Ou seja, a dor (perder horas farmando) é dita no primeiro segundo e meio, com impacto visual a cada palavra.",
+ "fixo": {
+  "gap": 0.2,
+  "grade": "vivo",
+  "memes": "muitos",
+  "cap": "sombra",
+  "boxLen": 1.5
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.2
+   ],
+   [
+    1.2,
+    1
+   ],
+   [
+    1,
+    1.15
+   ]
+  ]
+ },
+ "queNaoDaParaFazer": [
+  "Linhas de velocidade estilo anime (speed lines) por cima de quase todos os planos",
+  "Flash branco como transição/impacto entre cortes",
+  "Gameplay em tela cheia, sem o quadrado 3D e sem pessoa desfocada atrás (vídeo todo em narração em off)",
+  "Telas de reação com fundo vermelho escuro com grade e partículas, com a palavra da fala em amarelo gigante e brilhante centralizada sobre a imagem de reação (no nosso caso seria um meme, já que emoji está vetado)",
+  "Legenda que muda de estilo conforme o plano (pequena branca no gameplay, enorme amarela com brilho nas telas de reação)",
+  "Logo da marca como ícone de app 3D sobre fundo borrado da própria logo",
+  "Prints da loja em tela cheia com zoom e tremida, incluindo o carrossel de produtos e a tela de checkout/Pix",
+  "Zoom blur/motion blur nas transições de gameplay (frames finais com borrão radial)",
+  "Gameplay sincronizada com palavras específicas da fala (mostrar a fruta/raça V4 exatamente quando a narração diz 'permanentes', 'V4')"
+ ],
+ "dicasParaGravar": "Grave falando rápido e com energia, sem pausas entre as frases, em frases bem curtas (2 a 4 palavras por ideia), para os jump cuts de 0,2 s funcionarem. Comece já na dor, sem 'oi' nem apresentação, por exemplo: 'Entrei no Blox querendo conta boa e perdi horas farmando'. Logo depois venha a virada: 'até que achei um lugar...'. Diga palavras de impacto bem destacadas e com ênfase ('HORAS', 'PERMANENTES', 'V4', 'SIMPLES', 'DISPONÍVEL'), porque nelas cabem o meme de reação, o punch-in e a gameplay. Siga a estrutura dor → descoberta → o que vem na conta → paga no Pix e chega na hora → R$ 17,90, clica abaixo, para os cards e o site entrarem na ordem original da fala. Enquadre do peito para cima com folga acima da cabeça, para os zooms fortes não cortarem o rosto. Use luz forte e fundo escuro ou colorido (LED vermelho/azul ajuda), assim a cor viva combina com a gameplay neon. Grave a gameplay das armas e da raça V4 com golpes chamativos e muitos efeitos, já que a referência vive de efeito visual.",
+ "folhas": [
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_sombralblox\\folha_geral.jpg",
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_sombralblox\\folha_gancho.jpg"
+ ],
+ "criadoEm": "2026-10-08T22:53:21.816Z"
+}

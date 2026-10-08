@@ -97,12 +97,13 @@ log(`rascunho: ${frases0.length} frases, ${R0.direcoes.length} direções, ${R0.
 const SCENES=JSON.parse(fs.readFileSync(path.join(__dirname,'scenes.json'),'utf8'));
 const CLIPS=Object.keys(SCENES).filter(k=>!CENAS_PRECO_ANTIGO.includes(k));
 const CATS=Object.keys(JSON.parse(fs.readFileSync(path.join(__dirname,'..','assets','memes','catalogo.json'),'utf8')).categorias);
-const SCHEMA={type:'object',additionalProperties:false,required:['frases','direcoes','memes','destaques','correcoes','observacoes'],properties:{
+const SCHEMA={type:'object',additionalProperties:false,required:['frases','direcoes','memes','destaques','gancho','correcoes','observacoes'],properties:{
  frases:{type:'array',items:{type:'object',additionalProperties:false,required:['id','de','ate','nome','opcional'],properties:{id:{type:'string'},de:{type:'number'},ate:{type:'number'},nome:{type:'string'},opcional:{type:'boolean'}}}},
  direcoes:{type:'array',items:{type:'object',additionalProperties:false,required:['nome','de','ate','tipo','clip','wpn','pool','motivo'],properties:{nome:{type:'string'},de:{type:'number'},ate:{type:'number'},tipo:{type:'string',enum:['mo','box','montage']},clip:{type:'string',enum:['',...CLIPS]},wpn:{type:'string',enum:['','godhuman','cdk','soul guitar','any']},pool:{type:'string',enum:['','race','inv']},motivo:{type:'string'}}}},
  memes:{type:'array',items:{type:'object',additionalProperties:false,required:['de','ate','categoria','prioridade','motivo'],properties:{de:{type:'number'},ate:{type:'number'},categoria:{type:'string',enum:CATS},prioridade:{type:'integer',enum:[1,2,3]},motivo:{type:'string'}}}},
  destaques:{type:'array',items:{type:'string'}},
  correcoes:{type:'array',items:{type:'object',additionalProperties:false,required:['de','para'],properties:{de:{type:'array',items:{type:'string'}},para:{type:'string'}}}},
+ gancho:{type:'string'},
  observacoes:{type:'string'}}};
 const transcr=W=>W.map(w=>`${w.s.toFixed(2)} ${w.t}`).join('\n');
 
@@ -146,6 +147,8 @@ ${transcr(W)}
 Rascunho automático por regras (pode corrigir à vontade; é só ponto de partida):
 ${JSON.stringify({frases:frases0,direcoes:R0.direcoes,memes:R0.memes})}
 
+Em "gancho", escreva o TÍTULO grande que aparece nos primeiros 2 segundos (em MAIÚSCULAS, 2 a 5 palavras, no máx. 28 caracteres, sem emoji): a dor ou a promessa mais forte da fala, para parar o scroll. Ponha entre *asteriscos* a palavra que fica amarela (uma só). Ex.: "PARE DE *FARMAR* LEVEL".
+
 Devolva o projeto do vídeo novo no formato pedido. Em "observacoes", diga em português o que achou do vídeo e qualquer ponto que o dono deveria conferir.`;
 }
 
@@ -182,7 +185,7 @@ if(!preco)avisos.push('não achei o preço falado — sem som de moeda na fala (
 else if(!/^17,90/.test(preco.t))avisos.push(`preço falado é "${preco.t}" — o oficial é R$ 17,90`);
 if(!Object.values(direcoes).some(d=>d.clip==='brand_cta3'))avisos.push('sem card final brand_cta3');
 const proj={nome:NOME,descricao:opt('--descricao')||`Vídeo base ${NOME} (${DUR.toFixed(0)}s)`,video:VIDEO_REF,palavras:'palavras.json',fix:FIX,frases,nomesFrases,frasesOpcionais:opcionais,fimFala:SRC_END,
- direcoes,direcoesPadrao:Object.keys(direcoes),reacoes:[],memes,destaques,moedaEm:preco?+preco.s.toFixed(2):null,
+ direcoes,direcoesPadrao:Object.keys(direcoes),reacoes:[],memes,destaques,moedaEm:preco?+preco.s.toFixed(2):null,gancho:(P.gancho||'').trim().toUpperCase().slice(0,40)||null,
  origem:IA?'claude':'regras',observacoes:P.observacoes||'',criadoEm:new Date().toISOString()};
 fs.writeFileSync(path.join(DIR,'projeto.json'),JSON.stringify(proj,null,1));
 console.log(`\nprojeto salvo: projetos/${NOME}/projeto.json  (origem: ${proj.origem})`);

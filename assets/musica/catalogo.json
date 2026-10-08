@@ -1,0 +1,161 @@
+{
+  "obs": "Todas as faixas sao do Mixkit (Mixkit Stock Music Free License, https://mixkit.co/license/#musicFree): uso comercial gratuito, inclusive anuncios online/redes sociais, sem atribuicao obrigatoria. Proibido: redistribuir a musica isolada, remixar em faixa so de musica, registrar em Content ID/gestao de direitos, usar em TV/radio, CD/DVD ou video games. Todas instrumentais. LUFS = loudness integrada original (normalizar/abaixar na mixagem).",
+  "faixas": [
+    {
+      "arquivo": "energia/mixkit-pop-10-703.mp3",
+      "mood": "energia",
+      "titulo": "Pop 10",
+      "artista": "Grigoriy Nuzhny",
+      "dur": 111.28,
+      "lufs": -8.2,
+      "inicioSom": 0.4,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/pop-10-703/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "energia/mixkit-we-all-need-a-fix-1123.mp3",
+      "mood": "energia",
+      "titulo": "We All Need A Fix",
+      "artista": "Michael Ramir C.",
+      "dur": 115.96,
+      "lufs": -14.8,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/we-all-need-a-fix-1123/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "energia/mixkit-daylight-robbery-1136.mp3",
+      "mood": "energia",
+      "titulo": "Daylight Robbery",
+      "artista": "Michael Ramir C.",
+      "dur": 135.26,
+      "lufs": -15.2,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/daylight-robbery-1136/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "energia/mixkit-trap-electro-vibes-126.mp3",
+      "mood": "energia",
+      "titulo": "Trap Electro Vibes",
+      "artista": "Alejandro Magaña (A. M.)",
+      "dur": 115.78,
+      "lufs": -9.8,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/trap-electro-vibes-126/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "energia/mixkit-games-music-706.mp3",
+      "mood": "energia",
+      "titulo": "Games Music",
+      "artista": "Grigoriy Nuzhny",
+      "dur": 118.33,
+      "lufs": -8.7,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/games-music-706/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "energia/mixkit-need-for-speed-369.mp3",
+      "mood": "energia",
+      "titulo": "Need for speed",
+      "artista": "Arulo",
+      "dur": 97.83,
+      "lufs": -14.2,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/need-for-speed-369/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "leve/mixkit-hip-hop-02-738.mp3",
+      "mood": "leve",
+      "titulo": "Hip Hop 02",
+      "artista": "Lily J",
+      "dur": 115.02,
+      "lufs": -11.9,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/hip-hop-02-738/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "leve/mixkit-cotton-candy-rb-beat-1094.mp3",
+      "mood": "leve",
+      "titulo": "Cotton Candy R&B Beat",
+      "artista": "Michael Ramir C.",
+      "dur": 117.45,
+      "lufs": -15.5,
+      "inicioSom": 0.62,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/cotton-candy-rb-beat-1094/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "leve/mixkit-funky-hip-hop-231.mp3",
+      "mood": "leve",
+      "titulo": "Funky Hip Hop",
+      "artista": "Arulo",
+      "dur": 131.42,
+      "lufs": -15.5,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/funky-hip-hop-231/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "leve/mixkit-hippidi-hop-330.mp3",
+      "mood": "leve",
+      "titulo": "Hippidi Hop",
+      "artista": "Arulo",
+      "dur": 101.28,
+      "lufs": -13.5,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/hippidi-hop-330/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "tech/mixkit-space-game-668.mp3",
+      "mood": "tech",
+      "titulo": "Space Game",
+      "artista": "Francisco Alvear",
+      "dur": 120.84,
+      "lufs": -8.5,
+      "inicioSom": 0.8,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/space-game-668/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "tech/mixkit-workout-01-755.mp3",
+      "mood": "tech",
+      "titulo": "Workout 01",
+      "artista": "Lily J",
+      "dur": 98.64,
+      "lufs": -10.2,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/workout-01-755/",
+      "licenca": "Mixkit Stock Music Free License"
+    },
+    {
+      "arquivo": "tech/mixkit-pop-09-702.mp3",
+      "mood": "tech",
+      "titulo": "Pop 09",
+      "artista": "Grigoriy Nuzhny",
+      "dur": 68.05,
+      "lufs": -7.8,
+      "inicioSom": 0,
+      "fonte": "mixkit",
+      "pagina": "https://mixkit.co/free-stock-music/discover/pop-09-702/",
+      "licenca": "Mixkit Stock Music Free License"
+    }
+  ]
+}

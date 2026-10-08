@@ -1,0 +1,58 @@
+{
+ "nome": "fb_rdblox",
+ "descricao": "A referência da RD Blox não mostra pessoa na câmera. O vídeo inteiro é gameplay do Roblox/Blox Fruits em tela cheia, com o avatar (capa preta, espada nas costas) parado no campo e uma narração por cima. O roteiro é de \"golpe de sorte\": \"Cara, olha a sorte que eu dei, essa conta lá na RD Blox, muito barata, 19,90\". Em seguida abre o inventário do jogo como sobreposição e mostra as frutas (Kitsune, Portal, Divine, as míticas). Aí revela a Dark Blade com linhas de velocidade estilo anime. Depois aparece o site da loja num celular com borda roxa neon, rolando pelas categorias, e o fechamento é um card com o logo da RD Blox num fundo cinza, com uma mão segurando o cupom \"RD700\", mais \"não perca\" com punch-in no rosto do avatar. Só tem um meme (o hamster amarelo, num quadrado com o fundo desfocado), logo no 0,75s, para reforçar o \"sorte que eu dei\". A legenda vai palavra por palavra, branca, com a palavra-chave em verde ou roxo (cor da marca). As cores são vivas e saturadas: céu azul forte, grama verde, UI vermelha e amarela do jogo, roxo neon da marca. O ritmo é médio (8 cortes em 27s), mas quase sempre tem alguma inserção trocando na tela: logo, inventário, site, meme. Zooms fortes no avatar no final (19s e 24s).",
+ "fonte": "C:/Users/green/Downloads/criativo/referencias/_fb/rdblox_1.mp4",
+ "origem": "claude",
+ "metricas": {
+  "duracao": 27.2,
+  "formato": "360x640",
+  "vertical": true,
+  "cortes": 8,
+  "planoMedio": 3.02,
+  "cortesPorSegundo": 0.29,
+  "primeiroCorte": 1.43,
+  "cortesNos3s": 1,
+  "saturacao": 32.5
+ },
+ "gancho": "0–0,5s: avatar parado no campo de Blox Fruits, já com a voz dizendo \"Cara, olha a…\". 0,5s: \"SORTE\" em verde. 0,75s: entra o meme do hamster amarelo num quadrado, com o fundo desfocado (\"sorte que eu dei\"). 1,5s: corte para outro ângulo de gameplay (\"essa conta lá\"). 2,25s: o logo RD BLOX pula no topo com \"na RD BLOX\" (BLOX em roxo). 2,75s: \"MUITO BARATA\" e, logo depois, o preço \"19,90\" grande em verde. Em 3 segundos a fórmula fica clara: reação de sorte + meme + marca + preço baixo. Para a Basic-Build, abrir com a fala de sorte/achado (\"cara, olha o que eu peguei por 17,90\"), com um meme de reação no primeiro segundo e o preço antes de 3s.",
+ "fixo": {
+  "gap": 0.28,
+  "grade": "vivo",
+  "memes": "medios",
+  "cap": "sombra",
+  "boxLen": null
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.2
+   ],
+   [
+    1.2,
+    1
+   ],
+   [
+    1,
+    1.15
+   ]
+  ]
+ },
+ "queNaoDaParaFazer": [
+  "Base 100% gameplay em tela cheia com narração por cima (sem pessoa na câmera): o motor parte de uma pessoa falando e só põe o gameplay num quadrado 3D",
+  "Inventário do jogo (lista de frutas) entrando por cima da cena e rolando, com a palavra destacada casando com o item da tela (Kitsune, Portal, Divine)",
+  "Logo da marca saltando no topo da tela (pop com bounce) por cima da cena, fora dos cards",
+  "Linhas de velocidade/efeito anime na revelação de uma arma (Dark Blade)",
+  "Preço gigante colorido no centro da tela como texto solto (19,90 em verde), fora do card de preço",
+  "Card final com logo grande em fundo liso e uma mão segurando um cupom de desconto (RD700)",
+  "Destaque da legenda em mais de uma cor (verde para preço e sorte, roxo para a marca); o motor só destaca em amarelo",
+  "Moldura de celular com borda neon na cor da marca em volta do site",
+  "Legenda que muda de posição (topo, meio, embaixo) conforme o que está na tela"
+ ],
+ "dicasParaGravar": "Grave com tom de \"achado/sorte\", não de vendedor. Comece direto: \"Cara, olha a sorte que eu dei…\" ou \"Olha o que eu peguei por 17,90\", sem se apresentar antes. Fale frases curtas e com energia, uma ideia por frase, para os jump cuts e o zoom em degraus terem onde cortar. Cite os itens pelo nome, um de cada vez, com uma pausa pequena entre eles (\"tem a Kitsune… tem a Portal… e a Dark Blade\"), porque isso dá ponto para entrar o gameplay das armas. Diga o preço cedo, antes dos 3s, e repita no fim. Feche com urgência e chamada (\"não perca, entra no site e garante a sua\"), olhando para a câmera e mais perto dela, para o punch-in final funcionar. Mostre empolgação de verdade no rosto na palavra \"sorte\" e na revelação da arma, que é onde entra o meme de reação. Grave com luz forte e bem de frente, fundo colorido ou claro, para combinar com a cor viva do gameplay. Se der, grave também pela tela o inventário da conta aberto e passeando pelas frutas, para usar como gameplay no quadrado 3D.",
+ "folhas": [
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_rdblox\\folha_geral.jpg",
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_rdblox\\folha_gancho.jpg"
+ ],
+ "criadoEm": "2026-10-08T22:52:49.014Z"
+}

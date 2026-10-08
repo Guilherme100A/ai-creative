@@ -1,0 +1,59 @@
+{
+ "nome": "fb_emperialbloxx",
+ "descricao": "Anúncio 100% gameplay em tela cheia com narração em off. Não aparece nenhuma pessoa na câmera em nenhum dos 20 frames. São 24 s com corte a cada ~0,7 s (1,36 por segundo), sempre trocando de clipe: combate com efeitos explosivos, personagens montados com espadas, corrida no mapa, coliseu das Raças V4, print do ranking de bounty, inventário de frutas. Isso é intercalado com cards de texto em tela cheia sobre fundo radial colorido (amarelo \"MUUITA VANTAGEM\", roxo \"INÍCIO\"). A legenda é palavra por palavra em fonte condensada grossa (tipo Anton), branca com sombra e sem caixa, centralizada no meio-baixo da tela. As palavras-chave mudam de cor conforme o assunto: \"RAÇAS V4\" amarelo, \"BOUNTY ALTO\" verde, \"FRUTAS EXCLUSIVAS\" azul, \"ESPADAS PODEROSAS\" vermelho. O logo da loja aparece por cima do gameplay por volta de 6 s. Nos últimos ~6 s, o site rola em tela cheia, plano e não em 3D, e vai ficando desfocado sob as palavras finais (\"MAIS\", \"PIX?\", \"AGORA\", \"SONHOS\"). Fecha com a URL em amarelo e o cursor clicando. A cor é bem viva e saturada: céu azul forte, grama verde, efeitos neon ciano, roxo e verde-limão.",
+ "fonte": "C:/Users/green/Downloads/criativo/referencias/_fb/emperialbloxx_1.mp4",
+ "origem": "claude",
+ "metricas": {
+  "duracao": 24.3,
+  "formato": "360x640",
+  "vertical": true,
+  "cortes": 33,
+  "planoMedio": 0.72,
+  "cortesPorSegundo": 1.36,
+  "primeiroCorte": 0.03,
+  "cortesNos3s": 1,
+  "saturacao": 35.9
+ },
+ "gancho": "Já abre no frame 0 em gameplay de combate com efeitos de explosão ciano, roxo e verde-limão, sem nenhum respiro. A narração entra em ~1,2 s: \"CHEGA / DE / JOGAR / COM / CONTA / FRACA\", uma palavra a cada ~0,25 s. \"FRACA\" entra inclinada e tremendo, como um punch na palavra da dor. Do 0 ao 3 s quase não tem corte (cortesNos3s = 1). Quem prende a atenção é o caos visual do gameplay e o ritmo da legenda. A dor (\"conta fraca\") vem antes de qualquer menção à loja.",
+ "fixo": {
+  "gap": 0.2,
+  "grade": "vivo",
+  "memes": "medios",
+  "cap": "sombra",
+  "boxLen": 1.5
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.15
+   ],
+   [
+    1.12,
+    1
+   ],
+   [
+    1,
+    1.12
+   ]
+  ]
+ },
+ "queNaoDaParaFazer": [
+  "Gameplay em tela cheia como plano principal, com narração em off e sem pessoa na câmera (no nosso motor o gameplay fica num quadrado 3D com a pessoa desfocada atrás)",
+  "Palavra da legenda com animação própria: 'FRACA' entra inclinada e tremendo (shake/rotação numa palavra de impacto)",
+  "Destaque de palavra com cor por tema (amarelo, verde, azul, vermelho) em vez de só o amarelo fixo",
+  "Fonte condensada grossa tipo Anton na legenda, com a palavra bem grande ocupando quase a largura da tela",
+  "Cards de texto em tela cheia sobre fundo radial colorido (amarelo/roxo com raios e brilhos), tipo 'MUUITA VANTAGEM' e 'INÍCIO'",
+  "Print de ranking (bounty) com um círculo vermelho desenhado à mão em volta do nome",
+  "Logo/nome da loja sobreposto ao gameplay como lettering (tipo o 'EMPERIAL BLOXX' aos 6 s)",
+  "Site rolando em tela cheia e plano, desfocando progressivamente por baixo das palavras finais",
+  "URL da loja em letreiro amarelo no fechamento, com o cursor clicando",
+  "Alongar a palavra na escrita para dar ênfase ('MUUUITO', 'MUUITA')"
+ ],
+ "dicasParaGravar": "A referência não tem rosto. Para chegar perto com o nosso motor, a pessoa deve gravar uma fala curta e com energia, em frases de 2 a 4 palavras, sem pausa entre elas. O gap 0.2 vai cortar tudo, então qualquer respiro some. Comece direto pela dor, sem \"oi\" nem apresentação: \"Chega de jogar com conta fraca.\" Depois vem a lista de vantagens, um item por frase, para cada uma virar um quadro de gameplay rápido: \"Raças V4. Bounty alto. Frutas exclusivas. Espadas poderosas.\" Dê ênfase falada esticando a vogal (\"muuuito\", \"muuuita vantagem\"), porque é isso que o estilo faz na legenda. Feche com preço, Pix e chamada, em frases curtíssimas: \"Só R$ 17,90. Pagou no Pix, chegou. Clica abaixo agora.\" Grave na vertical, com o rosto em plano fechado (o motor não vai dar punch-in forte) e um fundo simples e bem iluminado, já que a cor vai no grade vivo. Separe bastante gameplay de combate com efeito neon para os primeiros 3 segundos: é o que segura o gancho nessa referência.",
+ "folhas": [
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_emperialbloxx\\folha_geral.jpg",
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_emperialbloxx\\folha_gancho.jpg"
+ ],
+ "criadoEm": "2026-10-08T22:51:37.756Z"
+}

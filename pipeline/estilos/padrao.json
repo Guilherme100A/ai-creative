@@ -1,1 +1,8 @@
-{"nome":"padrao","descricao":"Receita boa atual: cortes rápidos, legenda só com sombra, memes curados, puxando para o que foi aprovado","origem":"manual","fixo":{},"opcoes":{}}
+{
+ "nome": "padrao",
+ "descricao": "Receita boa + efeitos novos: 1º frame claro, sem legenda brigando com o site, nitidez; música, título e barra são sorteados para aprender o seu gosto",
+ "origem": "manual",
+ "fixo": {},
+ "opcoes": {},
+ "fx": {}
+}

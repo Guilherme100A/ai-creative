@@ -1,0 +1,61 @@
+{
+ "nome": "fb_luckzs",
+ "descricao": "Referência da loja Luckzs (23,9 s, 21 cortes, média de 1,09 s por plano). Não aparece pessoa falando: quem faz o papel de narrador é um avatar de Roblox (boné vermelho e jaqueta preta) recortado sobre telas da loja e sobre o mapa do jogo, com a voz narrando por cima. A estética é de motion graphics bem frenético. O fundo é azul-escuro/neon, com saturação alta e contraste forte, puxado para azul elétrico e ciano. Os cards de produto ficam inclinados e giram em 3D. Há borrão de movimento forte nas transições, aberração cromática e glitch RGB (contorno rosa/verde no avatar e nos textos) e textos da descrição passando inclinados e desfocados. A estrutura é: gancho com comparação de preço entre dois cards (\"CINCO REAIS\" e \"CEM\"), depois a descrição do produto (Level 2800, Raça V4, GodHuman, CDK), depois o catálogo da loja em grade rolando com o avatar dançando por cima, o avatar no mapa do jogo com a legenda \"ATÉ… COMPLETAS\", e o fechamento com a logo da loja e o catálogo borrado. A legenda é pequena, branca, em caixa alta e só com sombra, perto da base. Não tem memes de reação: a energia vem da edição e não de piadas.",
+ "fonte": "C:/Users/green/Downloads/criativo/referencias/_fb/luckzs_1.mp4",
+ "origem": "claude",
+ "metricas": {
+  "duracao": 23.9,
+  "formato": "360x640",
+  "vertical": true,
+  "cortes": 21,
+  "planoMedio": 1.09,
+  "cortesPorSegundo": 0.88,
+  "primeiroCorte": 0.27,
+  "cortesNos3s": 7,
+  "saturacao": 20.8
+ },
+ "gancho": "0,00 s: avatar caindo do céu (fundo branco/azul-claro), cortado em 0,27 s. De 0,25 s a 1,0 s: card do produto \"LEVEL MAX GOD HUMAN – R$ 5,90\" girando e inclinado em 3D sobre fundo azul-escuro, com zoom de entrada. Em 1,25 s, texto 3D grosso \"CINCO REAIS\" entra por cima do card (o preço dito por extenso). Em 1,75 s, transição girando pelo fundo azul com o card pequeno no meio, e em 2,0 s entra com borrão de movimento um segundo card mais caro (\"30 MILHÕES BOUNTY + RAÇA V4 – R$ 109,90\") com o texto \"CEM\" e a logo do Blox Fruits subindo e dando zoom por cima. São 7 cortes em 3 s: um contraste de preço barato contra caro mostrado sem nenhum rosto. Para a Basic-Build, a tradução direta é abrir com o print do site em 3D já girando e \"Só R$ 17,90\" grande logo no primeiro segundo.",
+ "fixo": {
+  "gap": 0.2,
+  "grade": "vivo",
+  "memes": "medios",
+  "cap": "sombra",
+  "boxLen": 1.5
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.2
+   ],
+   [
+    1.2,
+    1
+   ],
+   [
+    1,
+    1.15
+   ]
+  ]
+ },
+ "queNaoDaParaFazer": [
+  "Narrador em avatar de Roblox: o avatar recortado (chroma) fala e dança no lugar da pessoa, sobre o site, o catálogo e o mapa",
+  "Texto 3D grande e grosso em cima do card dizendo o preço por extenso ('CINCO REAIS', 'CEM'), entrando com pop/zoom",
+  "Logo do Blox Fruits entrando com pop e zoom por cima do card",
+  "Comparação lado a lado ou em sequência de dois cards de preço (barato contra caro) no gancho",
+  "Transições com borrão de movimento forte (giro, chicote, zoom borrado) entre os planos",
+  "Glitch RGB / aberração cromática nos contornos do avatar e dos textos",
+  "Card do produto girando livremente em 3D no espaço (rotação e flip), e não só inclinado rolando",
+  "Catálogo da loja em grade de produtos rolando, com o avatar por cima",
+  "Texto da descrição passando inclinado e desfocado como textura de fundo",
+  "Fundo azul-escuro neon com vinheta e partículas no lugar do fundo da pessoa",
+  "Abertura com o avatar caindo do céu (clipe de queda em céu aberto)",
+  "Fechamento com a logo da loja girando em 3D"
+ ],
+ "dicasParaGravar": "1) Fale rápido e em frases curtas: a referência troca de plano a cada ~1 s, então diga uma ideia por frase e não deixe respiro longo. 2) Diga o preço por extenso logo na primeira frase (\"Conta pronta de Blox Fruits por dezessete e noventa\"), porque o gancho todo é o preço. Se puder, faça a comparação: \"enquanto os outros cobram cem, aqui é dezessete e noventa\". 3) Liste os itens um por um, com nomes curtos e pausas mínimas entre eles (level máximo, raça, estilo de luta, espada), para cada item cair num corte ou num quadro de gameplay. 4) Grave num ambiente mais escuro, com luz azul ou fria de lado (LED ou monitor), para a pele e o fundo combinarem com a paleta neon azul do grade 'vivo'. Evite fundo de parede clara e luz amarela. 5) Mantenha energia alta e rosto bem enquadrado (peito para cima), deixando margem em volta para o zoom forte não cortar a cabeça. 6) Grave clipes extras do jogo pensando nos quadros rápidos de 1,5 s: o avatar caindo do céu ou pulando de lugar alto, o avatar dançando ou fazendo emote, e golpes vistosos das armas. São as imagens que dão o ritmo da referência. 7) Termine com uma chamada curta e direta (\"Clica abaixo e recebe na hora\"), sem enrolar, porque o vídeo inteiro tem menos de 25 s.",
+ "folhas": [
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_luckzs\\folha_geral.jpg",
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_luckzs\\folha_gancho.jpg"
+ ],
+ "criadoEm": "2026-10-08T22:54:29.248Z"
+}

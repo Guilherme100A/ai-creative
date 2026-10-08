@@ -1,0 +1,59 @@
+{
+ "nome": "fb_infinitedigital",
+ "descricao": "Não aparece uma pessoa real em momento nenhum. Quem \"apresenta\" é o próprio avatar do Roblox, em close dentro do jogo, dançando e fazendo emotes, com a voz em off por cima. O vídeo tem 29s e 11 cortes, um a cada 2,45s em média, então o ritmo é moderado. A sensação de velocidade vem da legenda palavra por palavra e das inserções que trocam de tela. O roteiro segue esta ordem:\n- 0–3,6s: gancho com o avatar dançando.\n- 2,9s: flash de texto gigante \"MELHOR LOJA BLOX…\" em rosa/roxo.\n- 4–10s: o site da loja ocupa a tela inteira, em tema escuro e roxo, rolando, com chuva de confete, o logo BLOXIO e o carrinho com \"DRAGON / KITSUNE garantida\".\n- 8,8s: o fundo desfoca e um card de produto (\"Caixa de frutas míticas\") salta na frente.\n- 10–13s: o avatar no gramado, em tela cheia, com o personagem já pronto.\n- 13s: zoom no painel de stats, destacando \"Lv. 2800 (nível MAX)\" e o dinheiro.\n- 14–21s: gravação de tela do inventário em tela cheia (Yama, Spiky Trident, Gravity, Dough, Shadow, Yeti), rolando, com confete.\n- 22–28s: volta ao avatar, com uma moeda pixelada em sticker sobre \"entrega\".\n- 26,5s: card branco \"SAIBA MAIS\" com cursor clicando, e depois o avatar fechando com \"estoque\".\n\nA legenda é branca, em minúsculas, com sombra e sem caixa, posicionada no meio-baixo da tela. As cores são vivas e saturadas: o gramado verde forte, o céu azul e o roxo neon do site. Não há memes de reação; o que aparece são stickers ligados ao assunto (o card do jogo Blox Fruits e a moeda).",
+ "fonte": "C:/Users/green/Downloads/criativo/referencias/_fb/infinitedigital_1.mp4",
+ "origem": "claude",
+ "metricas": {
+  "duracao": 29.4,
+  "formato": "360x640",
+  "vertical": true,
+  "cortes": 11,
+  "planoMedio": 2.45,
+  "cortesPorSegundo": 0.37,
+  "primeiroCorte": 3.67,
+  "cortesNos3s": 0,
+  "saturacao": 27.7
+ },
+ "gancho": "Nos primeiros 3,6s não há corte nenhum. O avatar do Roblox aparece em close, na cidade à noite, dançando e jogando os braços na câmera. A fala é \"essa é com certeza a melhor loja de blox fruits\", palavra por palavra, em minúsculas. Em 2,0s o card do jogo Blox Fruits salta inclinado na frente do avatar, como um sticker, e em 2,75s sai girando. Em 2,9s entra um flash de texto gigante, rosa e roxo, com \"MELHOR LOJA BLOX…\". O que segura a atenção é o movimento do próprio personagem e o sticker, não os cortes.",
+ "fixo": {
+  "gap": 0.28,
+  "grade": "vivo",
+  "memes": "medios",
+  "cap": "sombra",
+  "boxLen": null
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.15
+   ],
+   [
+    1.12,
+    1
+   ],
+   [
+    1,
+    1.12
+   ]
+  ]
+ },
+ "queNaoDaParaFazer": [
+  "Apresentador sendo o avatar do Roblox em tela cheia, com voz em off, em vez de uma pessoa real com gameplay num quadrado 3D",
+  "Gravação de tela do inventário (Itens/Blox Fruits) em tela cheia rolando, em vez de dentro do quadrado 3D",
+  "Chuva de confete colorido por cima do site e do inventário",
+  "Flash de texto gigante em tela cheia (\"MELHOR LOJA BLOX…\") como tipografia cinética",
+  "Sticker do card do jogo Blox Fruits saltando inclinado na frente da pessoa e saindo girando",
+  "Sticker de moeda pixelada surgindo sobre a palavra-chave (\"entrega\")",
+  "Fundo desfocado com um card de produto saltando na frente (\"Caixa de frutas míticas\")",
+  "Zoom de destaque num ponto da gravação de tela (painel de stats, \"Lv. 2800 nível MAX\")",
+  "Card final branco \"SAIBA MAIS\" com animação de cursor clicando",
+  "Legenda em minúsculas posicionada no meio da tela"
+ ],
+ "dicasParaGravar": "1. Grave o gancho sem cortar e já com energia: entre falando \"essa é com certeza a melhor loja de blox fruits\" mexendo braços e mãos, perto da câmera, nos 3 primeiros segundos.\n2. Para chegar perto da referência, grave à parte trechos do avatar da conta pronta. Valem um close dele fazendo emote e uma tomada dele parado no gramado mostrando a skin, para usar como gameplay.\n3. Grave a tela do inventário rolando devagar pelas frutas míticas (Dough, Gravity, Shadow, Yeti) e pelas espadas (Yama, Trident). Grave também a tela de stats com \"Lv. 2800 / nível MAX\" parada por uns 2 segundos, para dar tempo de ler.\n4. Fale nesta ordem, como a referência: loja confiável, preço barato, o que vem na conta (nível máximo + frutas garantidas), entrega automática e \"clica em saiba mais antes que acabe o estoque\".\n5. Feche com urgência de estoque.\n6. Use um lugar bem iluminado e colorido para combinar com a cor viva do jogo.",
+ "folhas": [
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_infinitedigital\\folha_geral.jpg",
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_infinitedigital\\folha_gancho.jpg"
+ ],
+ "criadoEm": "2026-10-08T22:53:54.215Z"
+}

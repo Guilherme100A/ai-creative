@@ -1,0 +1,33 @@
+LICENCAS DAS MUSICAS DE FUNDO (assets/musica/)
+================================================
+
+Todas as 13 faixas desta pasta vem do Mixkit (https://mixkit.co/free-stock-music/)
+e estao sob a "Mixkit Stock Music Free License":
+  https://mixkit.co/license/#musicFree
+  Termos gerais: https://mixkit.co/terms/
+Texto da licenca conferido em 2026-10-08.
+
+PERMITIDO (segundo o texto da licenca)
+- Uso comercial e nao comercial, gratis.
+- Baixar, copiar, modificar (cortar, fazer loop, abaixar volume, fade), distribuir e
+  executar publicamente as musicas em qualquer plataforma web/rede social, incluindo
+  "online marketing ads" / anuncios, video on demand na internet, podcasts e YouTube.
+- Atribuicao NAO e obrigatoria (manter os .fonte.txt para registro).
+
+PROIBIDO
+- Redistribuir a musica sozinha (arquivo de audio avulso, pack de musicas, etc.).
+  Ela tem que estar dentro do video/projeto.
+- Remixar ou incorporar a musica numa faixa que seja so musica.
+- Dizer que a musica e sua, ou registra-la em qualquer servico de gestao de direitos
+  (YouTube Content ID, etc.).
+- Usar em CD/DVD, transmissao de TV ou radio, ou em video games.
+  (Anuncios em Meta/TikTok/YouTube/Kwai sao "online"; veiculacao em TV nao e coberta.)
+
+SE RECEBER CLAIM / CONTESTACAO DE DIREITOS
+- Encaminhar os detalhes para team@mixkit.co (orientacao do proprio Mixkit), junto com
+  a pagina da faixa que esta no .fonte.txt.
+
+ARQUIVOS DE PROCEDENCIA
+- Cada <faixa>.mp3 tem um <faixa>.fonte.txt ao lado, com titulo, artista, pagina,
+  URL do arquivo, licenca e data do download.
+- catalogo.json lista todas as faixas com duracao, loudness (LUFS) e licenca.

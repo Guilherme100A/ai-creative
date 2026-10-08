@@ -1,0 +1,58 @@
+{
+ "nome": "fb_bloxrealm",
+ "descricao": "A referência não tem pessoa real. O vídeo inteiro é uma esquete feita dentro do Roblox, com o avatar da marca (camisa com o \"B\" roxo) fazendo o papel de narrador. O ritmo é lento: média de 3,35 s por plano e nenhum corte nos 3 primeiros segundos. Quem segura a atenção é a câmera, que fica bem perto do personagem e balança o tempo todo, junto com a legenda de 1 a 2 palavras que troca a cada 0,25 a 0,5 s.\n\nComo o vídeo anda:\n- 0 a 5 s: o personagem aparece de cabeça para baixo, sendo segurado pelas pernas por outro jogador (\"Calvos\"), em close extremo. Ele fala como se estivesse sendo assaltado: \"Cara, me larga, eu já disse que eu não tenho nenhuma...\".\n- 5 a 8 s: a câmera abre e mostra os dois personagens.\n- 8 a 13 s: gameplay em tela cheia com várias frutas raras jogadas no chão (prova de valor).\n- 13 a 16 s: volta para a esquete, agora com um meme de olhos esbugalhados dentro do jogo.\n- 16 a 25 s: o personagem com frutas e itens. Um card \"CONTA DISPONÍVEL\" surge no canto e o preço cai de R$ 9,90 para R$ 3,90. Depois o card aparece em tela cheia.\n- 26 a 29 s: outro avatar fala \"também tem na sua...\".\n- Fim: volta a cena do assalto, com \"CLIQUE EM: SAIBA MAIS\" digitado no topo.\n\nVisual e legenda: a cor é saturada e viva, típica do Roblox (amarelo da parede, verde-limão, roxo neon). A legenda é amarela, com borda escura e sombra, e fica levemente inclinada (palavras giradas). Às vezes aparece uma legenda branca no topo (\"TA QUERENDO\").\n\nTradução para o nosso motor:\n- gap 0.28: a referência não é frenética.\n- boxLen 1.8: o gameplay fica na tela por bastante tempo.\n- memes medios: quase não tem meme de reação.\n- grade vivo: a cor é punchy.\n- cap sombra: é o mais perto da referência sem o contorno preto, que o dono não usa.\n- zoomForte true: para imitar o enquadramento colado no rosto e a câmera viva do gancho.",
+ "fonte": "C:/Users/green/Downloads/criativo/referencias/_fb/bloxrealm_2.mp4",
+ "origem": "claude",
+ "metricas": {
+  "duracao": 33.5,
+  "formato": "360x640",
+  "vertical": true,
+  "cortes": 9,
+  "planoMedio": 3.35,
+  "cortesPorSegundo": 0.27,
+  "primeiroCorte": 6.33,
+  "cortesNos3s": 0,
+  "saturacao": 26.3
+ },
+ "gancho": "A cena começa no meio de um conflito. O personagem está de cabeça para baixo, em close extremo, sendo \"assaltado\", e diz \"Cara, me larga, eu já disse que eu não tenho nenhuma...\". Não tem apresentação nem produto no começo. O que prende é a curiosidade (\"nenhuma o quê? por que estão segurando ele?\"), junto com um rosto ocupando a tela inteira e a legenda amarela trocando a cada 0,25 a 0,5 s. O produto só entra depois, como a resposta para a situação: ter as frutas e a conta.",
+ "fixo": {
+  "gap": 0.28,
+  "grade": "vivo",
+  "memes": "medios",
+  "cap": "sombra",
+  "boxLen": null
+ },
+ "opcoes": {
+  "zoom": [
+   [
+    1,
+    1.2
+   ],
+   [
+    1.2,
+    1
+   ],
+   [
+    1,
+    1.15
+   ]
+  ]
+ },
+ "queNaoDaParaFazer": [
+  "Vídeo inteiro em machinima/esquete do Roblox com o avatar como narrador, sem pessoa real e com diálogo entre personagens",
+  "Câmera em movimento contínuo (balanço, rotação, câmera na mão) sobre o personagem. O motor só faz zoom em degraus",
+  "Legenda com palavras levemente giradas ou inclinadas",
+  "Gameplay em tela cheia, como plano principal, em vez de dentro do quadrado 3D",
+  "Card do produto aparecendo por cima do gameplay, no canto, com o preço caindo (R$ 9,90 riscado para R$ 3,90 / animação de desconto)",
+  "Card do produto em tela cheia como plano próprio",
+  "Texto grande no topo da tela ('TA QUERENDO') separado da legenda de baixo",
+  "CTA 'CLIQUE EM: SAIBA MAIS' sendo digitado no topo, apontando para o botão do Facebook",
+  "Final em loop, voltando para a cena do gancho"
+ ],
+ "dicasParaGravar": "1) Comece no meio de uma situação, sem dizer \"oi\" nem apresentar nada. Por exemplo: \"Cara, para, eu já falei que eu não tenho fruta nenhuma...\" dito como se alguém estivesse te cobrando. Depois revele a solução (a conta pronta da Basic-Build por R$ 17,90).\n2) Grave o gancho com o rosto bem perto da câmera, ocupando quase o quadro todo, e com o celular levemente inclinado ou em movimento. Isso compensa a falta de cortes nos primeiros segundos e combina com zoomForte.\n3) Fale em blocos curtos, de 1 a 3 palavras, com energia de reação. A legenda palavra por palavra fica no mesmo ritmo da referência.\n4) Use um fundo colorido e bem iluminado (parede de cor forte, luz de frente) para o grade vivo não deixar a pele estranha.\n5) Grave gameplay de prova de valor: muitas frutas raras no chão ou no inventário, o avatar com itens brilhando. Se der, use um avatar com camisa ou cor da marca.\n6) Deixe uma fala para o preço e o CTA no fim (\"só R$ 17,90, clica em saiba mais\") e, se quiser o efeito de loop, termine com uma frase que conecte de volta ao gancho.\n7) Não copie a âncora de preço da referência (R$ 9,90 para R$ 3,90). Use só o preço real de R$ 17,90.",
+ "folhas": [
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_bloxrealm\\folha_geral.jpg",
+  "C:\\Users\\green\\Downloads\\criativo\\referencias\\fb_bloxrealm\\folha_gancho.jpg"
+ ],
+ "criadoEm": "2026-10-08T22:52:15.764Z"
+}

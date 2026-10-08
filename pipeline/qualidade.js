@@ -13,6 +13,7 @@ function valida({R,shots,DUR,SENT,MV}){
  const ordem=Object.keys(SENT);const idx=[...R.order].map(c=>ordem.indexOf(c));
  if(idx.some(i=>i<0))erros.push(`ordem "${R.order}" tem frase que não existe no projeto`);
  else if(idx.some((v,i)=>i&&v<=idx[i-1]))erros.push(`frases fora da ordem original ("${R.order}") — reordenar foi reprovado como "bugado"`);
+ if(R.cap==='faixa')erros.push('legenda com faixa/caixa escura — lei do dono: legenda branca sem contorno e sem caixa (cap:"sombra")');
  if(R.reac&&R.reac!=='nenhuma')erros.push(`reações com emoji ("${R.reac}") — descontinuadas, use reac:"nenhuma"`);
  for(const s of shots){
   if(s.k==='mo'&&CENAS_PRECO_ANTIGO.includes(s.clip))erros.push(`cena "${s.clip}" mostra R$ 18,90 — use site_top2 / brand_cta3`);
