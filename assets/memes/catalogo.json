@@ -1,6 +1,6 @@
 {
  "pasta": "Pack de Memes 2.0-20261007T130021Z-1-001/Pack de Memes 2.0",
- "obs": "Lista curada pelo feedback (sem memes aleatórios). Áudios em assets/sfx/youtube.",
+ "obs": "Lista curada pelo feedback (sem memes aleatórios). Áudios em assets/sfx/youtube. | Cada meme tem \"som\" (efeito que combina com a imagem; \"proprio\" = áudio do próprio meme; null = sem som) e \"ini\" (segundo onde começa a ação). Usados pelo motor com fx.memeCurado.",
  "categorias": {
   "triste": {
    "memes": [
@@ -11,7 +11,8 @@
      "dur": 1.6,
      "w": 1080,
      "h": 810,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/triste/violino_triste.mp3"
     },
     {
      "id": "V022",
@@ -20,7 +21,8 @@
      "dur": 13.33,
      "w": 240,
      "h": 176,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/triste/pack_bob_triste.mp3"
     },
     {
      "id": "V073",
@@ -29,7 +31,9 @@
      "dur": 8.87,
      "w": 720,
      "h": 720,
-     "audio": true
+     "audio": true,
+     "ini": 3.5,
+     "som": "assets/sfx/youtube/triste/violino_triste.mp3"
     },
     {
      "id": "V053",
@@ -38,7 +42,8 @@
      "dur": 5.07,
      "w": 720,
      "h": 702,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/triste/violino_triste.mp3"
     },
     {
      "id": "I030",
@@ -47,7 +52,8 @@
      "dur": 0.04,
      "w": 218,
      "h": 226,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/triste/violino_triste.mp3"
     }
    ],
    "audios": [
@@ -64,7 +70,9 @@
      "dur": 14.42,
      "w": 720,
      "h": 1280,
-     "audio": true
+     "audio": true,
+     "ini": 4.3,
+     "som": "assets/sfx/youtube/reacao/grilos.mp3"
     },
     {
      "id": "V096",
@@ -73,16 +81,18 @@
      "dur": 5.9,
      "w": 720,
      "h": 720,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/reacao/pack_ronco_mimimi.mp3"
     },
     {
-     "id": "V097",
+     "id": "V093",
      "tipo": "video",
-     "arquivo": "VÍDEOS/fa626e53514e1931c56c6b5020126925.mp4",
-     "dur": 26.03,
-     "w": 352,
-     "h": 262,
-     "audio": true
+     "arquivo": "VÍDEOS/efb653bc76527640883deef41a655717_720w.mp4",
+     "dur": 8.22,
+     "w": 720,
+     "h": 720,
+     "audio": true,
+     "som": "assets/sfx/youtube/reacao/grilos.mp3"
     }
    ],
    "audios": [
@@ -99,7 +109,8 @@
      "dur": 12.4,
      "w": 750,
      "h": 640,
-     "audio": true
+     "audio": true,
+     "som": "proprio"
     },
     {
      "id": "V094",
@@ -108,16 +119,9 @@
      "dur": 12.91,
      "w": 540,
      "h": 960,
-     "audio": true
-    },
-    {
-     "id": "V093",
-     "tipo": "video",
-     "arquivo": "VÍDEOS/efb653bc76527640883deef41a655717_720w.mp4",
-     "dur": 8.22,
-     "w": 720,
-     "h": 720,
-     "audio": true
+     "audio": true,
+     "ini": 5,
+     "som": "assets/sfx/youtube/reacao/pack_bo_womp.mp3"
     },
     {
      "id": "I061",
@@ -126,7 +130,8 @@
      "dur": 0.04,
      "w": 355,
      "h": 355,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/reacao/bruh.mp3"
     },
     {
      "id": "I091",
@@ -135,7 +140,19 @@
      "dur": 0.04,
      "w": 800,
      "h": 815,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/reacao/oh_no.mp3"
+    },
+    {
+     "id": "V097",
+     "tipo": "video",
+     "arquivo": "VÍDEOS/fa626e53514e1931c56c6b5020126925.mp4",
+     "dur": 26.03,
+     "w": 352,
+     "h": 262,
+     "audio": true,
+     "ini": 12.5,
+     "som": "proprio"
     }
    ],
    "audios": [
@@ -152,7 +169,9 @@
      "dur": 4.43,
      "w": 720,
      "h": 720,
-     "audio": true
+     "audio": true,
+     "ini": 1,
+     "som": "assets/sfx/youtube/impacto/vine_boom.mp3"
     },
     {
      "id": "V018",
@@ -161,7 +180,9 @@
      "dur": 5.88,
      "w": 640,
      "h": 640,
-     "audio": true
+     "audio": true,
+     "ini": 2,
+     "som": "assets/sfx/youtube/reacao/pack_huh.mp3"
     },
     {
      "id": "I059",
@@ -170,7 +191,8 @@
      "dur": 0.04,
      "w": 736,
      "h": 736,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/reacao/pack_constrangedor.mp3"
     },
     {
      "id": "V051",
@@ -179,7 +201,8 @@
      "dur": 1.68,
      "w": 640,
      "h": 528,
-     "audio": false
+     "audio": false,
+     "som": null
     }
    ],
    "audios": [
@@ -196,7 +219,9 @@
      "dur": 5.4,
      "w": 480,
      "h": 270,
-     "audio": true
+     "audio": true,
+     "ini": 0.8,
+     "som": "assets/sfx/youtube/ui/sucesso.mp3"
     },
     {
      "id": "I098",
@@ -205,7 +230,8 @@
      "dur": 0.04,
      "w": 274,
      "h": 267,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/ui/ding.mp3"
     },
     {
      "id": "V089",
@@ -214,7 +240,8 @@
      "dur": 2.24,
      "w": 1280,
      "h": 720,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/ui/sucesso.mp3"
     },
     {
      "id": "I002",
@@ -223,7 +250,8 @@
      "dur": 0.04,
      "w": 736,
      "h": 664,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/ui/level_up.mp3"
     }
    ],
    "audios": [
@@ -240,7 +268,8 @@
      "dur": 7.5,
      "w": 640,
      "h": 640,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/vibe/pack_gato_candyland.mp3"
     },
     {
      "id": "V030",
@@ -249,7 +278,8 @@
      "dur": 17.35,
      "w": 576,
      "h": 1024,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/vibe/pack_gato_candyland.mp3"
     },
     {
      "id": "V104",
@@ -258,7 +288,8 @@
      "dur": 1.92,
      "w": 240,
      "h": 240,
-     "audio": false
+     "audio": false,
+     "som": null
     }
    ],
    "audios": [
@@ -274,7 +305,8 @@
      "dur": 1.3,
      "w": 224,
      "h": 320,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/reacao/pack_choque.mp3"
     },
     {
      "id": "V013",
@@ -283,7 +315,8 @@
      "dur": 4.57,
      "w": 640,
      "h": 640,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/reacao/pack_choque.mp3"
     },
     {
      "id": "V064",
@@ -292,7 +325,8 @@
      "dur": 6.57,
      "w": 720,
      "h": 1280,
-     "audio": true
+     "audio": true,
+     "som": "assets/sfx/youtube/reacao/huh_gato.mp3"
     },
     {
      "id": "I022",
@@ -301,7 +335,8 @@
      "dur": 0.04,
      "w": 572,
      "h": 584,
-     "audio": false
+     "audio": false,
+     "som": "assets/sfx/youtube/reacao/huh_gato.mp3"
     }
    ],
    "audios": [

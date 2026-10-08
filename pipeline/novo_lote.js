@@ -45,7 +45,7 @@ const DIM={
 const CAP='sombra';
 // sempre ligados nos lotes novos: 1º frame claro, sem legenda brigando com o site, nitidez nela
 // (configuração aprovada pelo crítico no v981: legenda grande + punch em degrau nas palavras de destaque)
-const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true};
+const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true,memeCurado:true};
 const temMusica=fs.existsSync(path.join(ROOT,'assets','musica','catalogo.json'));
 const rng=(seed=>()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296})(LOTE*7919+N);
 // peso = nota aprendida ao cubo (puxa forte para o que você aprovou), com piso para ainda explorar um pouco
