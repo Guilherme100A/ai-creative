@@ -1,0 +1,18 @@
+{
+ "nome": "curto",
+ "descricao": "Modelo curto (nicho, 25–38s): só as frases mais fortes escolhidas pelo Claude, cortes bem rápidos, música de energia, título no gancho",
+ "origem": "manual",
+ "fixo": {
+  "corte": "sortear",
+  "gap": 0.2,
+  "memes": "medios"
+ },
+ "opcoes": {},
+ "fx": {
+  "musica": {
+   "mood": "energia"
+  },
+  "gancho": true,
+  "progresso": false
+ }
+}

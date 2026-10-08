@@ -53,7 +53,7 @@ function estado() {
     return { nome: n, descricao: p.descricao, origem: p.origem || 'manual', observacoes: p.observacoes || '', video: p.video, videoOk, fimFala: p.fimFala,
       frases: Object.entries(p.frases || {}).map(([id, [de, ate]]) => ({ id, de, ate, nome: (p.nomesFrases || {})[id] || '', opcional: (p.frasesOpcionais || []).includes(id) })),
       direcoes: Object.entries(p.direcoes || {}).map(([nome, d]) => ({ nome, de: d.s, ate: d.e >= 99 ? p.fimFala : d.e, tipo: d.v, oque: d.clip || d.wpn || d.pool || d.v })),
-      memes: (p.memes || []).map(([de, ate, cat, prio]) => ({ de, ate, cat, prio })), lotes };
+      memes: (p.memes || []).map(([de, ate, cat, prio]) => ({ de, ate, cat, prio })), gancho: p.gancho || null, cortes: p.cortes || [], lotes };
   }) : [];
   const estilos = fs.existsSync(EST_DIR) ? fs.readdirSync(EST_DIR).filter(f => f.endsWith('.json')).map(f => readJSON(path.join(EST_DIR, f), null)).filter(Boolean)
     .map(e => ({ nome: e.nome, descricao: e.descricao, origem: e.origem, fixo: e.fixo, fonte: e.fonte || null, queNaoDaParaFazer: e.queNaoDaParaFazer || [], dicasParaGravar: e.dicasParaGravar || '', metricas: e.metricas || null })) : [];
@@ -76,6 +76,10 @@ function criarJob(b) {
     const n = Math.max(1, Math.min(20, +b.n || 10)); const args = [node('novo_lote.js'), b.projeto, '--n', String(n)];
     if (b.estilo) { if (!NOME_OK.test(b.estilo) || !fs.existsSync(path.join(EST_DIR, b.estilo + '.json'))) throw new Error('estilo inválido'); args.push('--estilo', b.estilo); }
     return enfileirar('lote', `Lote novo de ${b.projeto} (${n}${b.estilo ? ', ' + b.estilo : ''})`, args);
+  }
+  if (b.tipo === 'cortes') {
+    if (!NOME_OK.test(b.projeto || '') || !fs.existsSync(path.join(PROJ_DIR, b.projeto, 'projeto.json'))) throw new Error('projeto inválido');
+    return enfileirar('cortes', `Versões curtas de ${b.projeto}`, [node('cortes.js'), b.projeto]);
   }
   if (b.tipo === 'render') {
     if (!NOME_OK.test(b.projeto || '') || !/^\d+$/.test(String(b.lote))) throw new Error('projeto/lote inválido');

@@ -62,6 +62,11 @@ for(let tent=0;V.length<N&&tent<500;tent++){
  const r={gap:sorteia('gap'),zoom:sorteia('zoom'),pack:sorteia('pack'),grade:sorteia('grade'),memes:sorteia('memes'),memeSom:sorteia('memeSom'),boxLen:sorteia('boxLen'),
   musica:temMusica?sorteia('musica'):false,gancho:PROJ.gancho?sorteia('gancho'):false,progresso:sorteia('progresso')};
  let order=letras;if(opc.length&&rng()<0.35){const tira=opc[Math.floor(rng()*opc.length)];order=letras.replace(tira,'');}
+ // versão curta (cortes.js): estilo com fixo.corte = nome do corte, ou "sortear"
+ const corteNome=ESTILO&&ESTILO.fixo&&ESTILO.fixo.corte;
+ if(corteNome){const cs=(PROJ.cortes||[]).filter(c=>corteNome==='sortear'||c.nome===corteNome);
+  if(!cs.length){console.error(`o projeto não tem o corte "${corteNome}" — rode: node cortes.js ${PROJ_NOME}`);process.exit(1);}
+  order=cs[Math.floor(rng()*cs.length)].ordem;}
  const chave=JSON.stringify({...r,order});if(vistos.has(chave))continue;vistos.add(chave);
  const id='v'+nextId++;
  const fx={...FX_FIXO,...(ESTILO&&ESTILO.fx?Object.fromEntries(Object.entries(ESTILO.fx).filter(([k])=>!['musica','gancho','progresso'].includes(k))):{})};

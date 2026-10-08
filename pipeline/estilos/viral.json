@@ -1,6 +1,6 @@
 {
  "nome": "viral",
- "descricao": "Modelo viral: cortes bem rápidos, quadros curtos, muitos memes, música de energia, título no gancho e barra de progresso",
+ "descricao": "Modelo viral (nicho): cortes bem rápidos, quadros curtos, muitos memes, música de energia, título no gancho",
  "origem": "manual",
  "fixo": {
   "gap": 0.2,
@@ -13,6 +13,6 @@
    "mood": "energia"
   },
   "gancho": true,
-  "progresso": true
+  "progresso": false
  }
 }

@@ -44,6 +44,18 @@ Em **22 vídeos de 12 anunciantes, zero têm uma pessoa real falando para a câm
 
 Implicação para o nosso motor: a pessoa na câmera não é obrigatória — pode até ser um diferencial, mas **o gameplay em tela cheia é o plano principal em 100% dos vencedores**, não um card/quadrado.
 
+### Roteiros (transcrição Whisper, corrigida à mão nos nomes)
+
+- **Emperial (24 s):** "Chega de jogar com conta fraca, é hora de jogar com muita vantagem. Na Emperial Bloxx a experiência é única. Você está pronto para competir desde o início. Raças V4, bounty alto, frutas exclusivas, espadas poderosas e muito mais. Mais poder no seu PvP. Garanta agora sua conta dos sonhos na Emperial Bloxx."
+- **RD BLOX (27 s):** "Cara, olha a sorte que eu dei. Peguei essa conta lá na RD Blox muito barata e olha o que veio. Abrindo o inventário, me deparei com duas Dragon, Kitsune, Yeti, Portal, Divine e muitas outras míticas. E ainda vem uma Dark Blade na conta. Agora vou mostrar como eu consegui: entrando no link desse vídeo você vai na RD Blox, entra em contas de Blox Fruits… Já somos mais de 20 mil clientes satisfeitos, e usando o cupom RD700 você ganha desconto. Não perca tempo e venha pra RD Blox."
+- **Bloxrealm (34 s, esquete):** "Cara, me larga, eu já disse que não tenho culpa! Você pediu fruta e eu te dei… [piada das frutas de plástico] … era só ter passado na BloxRealm. Todas essas frutas você acha lá por um precinho de banana. A partir de 3,90 você já tem chance de mítica. Fora fruta permanente direto na conta. Vai lá na BloxRealm igual todo mundo tá fazendo."
+- **Luckzs (24 s):** "Mano, olha a diferença de uma conta de 5 reais e uma de mais de 100 no Blox Fruits. Na primeira… pra começar gastando praticamente nada. Agora vamos subir o nível: Level Max, Godhuman, CDK, V4, frutas míticas no inventário, bounty… e a diferença fica absurda. … Acessa o site da Luckzs Store. Qual dessas você escolheria?" (fecha com pergunta → comentários)
+- **bloxshop (13 s, o mais antigo no ar):** "Você quer ficar forte o suficiente pra derrotar todos os seus amigos? Imagina a próxima vez que você jogar estar mais forte que todo mundo. Se você quer chegar nesse nível, a bloxshop tem a solução: conta mais forte, entrega rápida e ofertas acessíveis. Mais de 39 mil clientes já compraram, então não vacila. Clica no link agora e compra já."
+- **Infinite (29 s):** "Essa com certeza é a melhor loja de Blox Fruits… é bem barata e com o cupom fica mais barato ainda. Comprei essa caixa de míticas aleatórias e… veio com Godhuman, level máximo, todas essas espadas… 10 frutas míticas! Mano, cê tá maluco? Qual loja te dá isso? E a entrega foi na hora. … Clica em saiba mais antes que o estoque acabe."
+- **Starrblox (17 s):** "Ainda tá procurando aquela fruta mítica dos sonhos e não sabe onde encontrar? Eu te apresento a StarBlox… preço mais baixo… entrega rápida e com segurança. Clica em saiba mais e vem rápido."
+
+**Estrutura que se repete:** gancho (dor / sorte / comparação) → revelação da conta com lista de itens falados um a um (cada item = 1 plano) → "vou mostrar como" + site rolando → prova social (nº de clientes) + cupom/preço → CTA curto com urgência ("antes que acabe", "não vacila"). Narração em 1ª pessoa de jogador, nunca de "loja".
+
 ---
 
 ## 3. Padrões de edição que se repetem

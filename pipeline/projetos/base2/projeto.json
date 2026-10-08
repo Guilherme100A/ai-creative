@@ -417,5 +417,25 @@
   "JOGO"
  ],
  "gancho": "PARE DE *FARMAR* LEVEL",
- "moedaEm": 50.62
+ "moedaEm": 50.62,
+ "cortes": [
+  {
+   "nome": "curto",
+   "ordem": "AEFHN",
+   "duracao": 30,
+   "motivo": "Abre com a dor de perder horas formando a conta (A), mostra o que vem pronto (E+F), dá o preço de R$ 17,90 (H) e fecha no CTA, somando 29,97 s."
+  },
+  {
+   "nome": "medio",
+   "ordem": "ACEFGHKN",
+   "duracao": 38.5,
+   "motivo": "Gancho de dor, nome do produto, o que vem na conta, bônus V4 e frutas místicas, preço, entrega imediata e CTA, somando 38,46 s."
+  },
+  {
+   "nome": "gancho_forte",
+   "ordem": "BCEFHKN",
+   "duracao": 33.3,
+   "motivo": "Começa pela pergunta de maior impacto (quantas horas ainda vai gastar), apresenta a Basic-Build, o conteúdo, o preço e a entrega imediata antes do CTA, somando 33,33 s."
+  }
+ ]
 }
