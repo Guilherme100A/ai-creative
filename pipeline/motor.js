@@ -89,8 +89,11 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
-// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true
 const MUS=ROOT+'/assets/musica';
+// pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
+const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
+const lerTela=()=>fs.existsSync(MV+'/_tela_cheia.txt')?new Set(fs.readFileSync(MV+'/_tela_cheia.txt','utf8').split(/\r?\n/).map(x=>path.basename(x.trim())).filter(Boolean)):null;
 // abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
 const ABRE_F=MO+'/_abertura.json';
 function aberturaDe(clip){const f=`${MO}/${clip}.mp4`,mt=fs.statSync(f).mtimeMs;let C={};try{C=JSON.parse(fs.readFileSync(ABRE_F,'utf8'))}catch(e){}
@@ -152,8 +155,12 @@ function build(R){
  const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
  if(cur<DUR-0.02)full.push({k:'th',oS:cur,oE:DUR});
  const cuts=pieces.map(p=>p.o).slice(1);let shots=[];
- for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS});a=c;}}
- const FX=R.fx||{};const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
+ for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS,vd:v.oE-v.oS});a=c;}}
+ const FX=R.fx||{};
+ const PICOS=FX.pico?lerPicos():null,TELA=FX.telaCheia?lerTela():null;
+ const cheia=s=>!!FX.telaCheia&&!s.pool&&(!TELA||TELA.has(path.basename(s.take))); // gameplay em tela cheia (só clipe limpo da lista)
+ // início do clipe: padrão 0,15 (YouTube) / 0,9 (gravação); com pico, o auge cai a ~40% do shot (nunca antes do padrão)
+ const iniClipe=(s,isYT)=>{const p=PICOS&&(PICOS[s.take]??PICOS[path.basename(s.take)]);const v=p==null?null:typeof p==='object'?p.pico:p;const b=isYT?0.15:0.9;return v==null?b:Math.max(b,v-0.4*s.vd);};const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
  // abertura: cena logo no início começa no 0 (some o fiapo dela antes) e pula o fade escuro da cena
  if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
   if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
@@ -188,18 +195,18 @@ function build(R){
    execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,flat:true,...(FX.memeSeco?{seco:true}:{})})],{stdio:'inherit'});
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];}
-  else if(FX.telaCheia&&!s.pool){ // telaCheia: gameplay de arma em tela cheia (9:16 do clipe, leve zoom); speed: linhas + punch 1,08→1,0 na entrada
-   const isYT=path.basename(s.take).startsWith('yt_');const gss=(isYT?0.15:0.9)+s.off;const ent=FX.speed&&s.off<0.28;
+  else if(cheia(s)){ // telaCheia: gameplay de arma em tela cheia (9:16 do clipe, leve zoom); speed: linhas + punch 1,08→1,0 na entrada
+   const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;const ent=FX.speed&&s.off<0.28;
    const crop=isYT?"crop='ih*9/16/1.04':'ih/1.04':(iw-ow)/2:(ih-oh)/2":'crop=780:1386:1320:27';
    const g=`[0:v]fps=30,${crop},scale=1080:1920:flags=lanczos,eq=saturation=1.2:contrast=1.04${ent?`,zoompan=z='1+0.08*pow(1-min(1,(on+${fr(s.off)})/6),2)':d=1:x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':s=1080x1920:fps=30`:''},setsar=1`;
    args=['-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,...(ent?slIn(s):[]),'-filter_complex',ent?`${g}[g];[1:v]${slFade(s)}[sl];[g][sl]overlay=0:0:eof_action=pass[out]`:`${g}[out]`,'-map','[out]'];
    if(!isYT){const wav=path.join(TMP,`g${i}.wav`);execFileSync(ff,['-v','error','-y','-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-t',(s.oE-s.oS).toFixed(3),'-vn','-ac','2','-ar','48000','-af',`afade=t=in:d=0.03,afade=t=out:st=${Math.max(0,s.oE-s.oS-0.05).toFixed(3)}:d=0.05`,wav]);
    gameAudio.push([wav,s.oS]);}}
-  else{const isYT=path.basename(s.take).startsWith('yt_');const gss=(isYT?0.15:0.9)+s.off;
+  else{const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;
    const vf=!isYT?'crop=980:980:1220:330,scale=860:860:flags=lanczos':s.pool==='inv'?'scale=860:-2:flags=lanczos,pad=860:860:0:(oh-ih)/2:color=0x16171a':"crop='ih*0.72':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6,scale=860:860:flags=lanczos";
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);
    run(['-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-frames:v',String(n),'-vf',`fps=30,${vf},eq=saturation=1.2:contrast=1.04`,'-q:v','2',path.join(fd,'f%04d.jpg')]);
-   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off})],{stdio:'inherit'});
+   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,...(FX.boxSeco?{seco:true}:{})})],{stdio:'inherit'});
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];
    if(FX.speed&&s.off<0.28&&!s.pool){args.splice(args.indexOf('-filter_complex'),0,...slIn(s)); // speed também no quadrado 3D
@@ -223,7 +230,7 @@ function build(R){
  const stkDir=r=>path.join(__dirname,'stk',`${r.emoji}_${r.style}_${Math.round(r.dur*30)}_${r.tilt}`);
 
  // 5) legendas
- const inBox=o=>shots.some(s=>((s.k==='box'&&!(FX.telaCheia&&!s.pool))||s.k==='meme')&&o>=s.oS-0.03&&o<s.oE); // gameplay em tela cheia leva legenda
+ const inBox=o=>shots.some(s=>((s.k==='box'&&!cheia(s))||s.k==='meme')&&o>=s.oS-0.03&&o<s.oE); // gameplay em tela cheia leva legenda
  // zona da legenda: box (sem legenda), site (sem legenda com legendaSite:false), brand (legenda mais baixa), n (normal)
  const zona=o=>{if(inBox(o))return 'box';if(FX.legendaSite===false){const s=shotAt(o);if(s&&s.k==='mo')return /^site_/.test(s.clip)?'site':/^brand_/.test(s.clip)?'brand':'n';}return 'n';};
  const ws=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e)ws.push({...w,o:p.o+(w.s-p.s),oe:p.o+(Math.min(w.e,p.e)-p.s)});
@@ -243,7 +250,7 @@ function build(R){
   ass+=`Dialogue: 2,${ts(0)},${ts(Math.min(2.2,DUR))},G,,0,0,0,,{\\an8\\pos(540,470)\\fad(0,220)\\fscx60\\fscy60\\t(0,140,\\fscx108\\fscy108)\\t(140,240,\\fscx100\\fscy100)}${G2.txt}\n`;}
  let hi=0;const lim=t=>t.replace(/\{[^}]*\}/g,''); // legenda grande: sobe para a parede (y=1300) e palavra comprida encolhe para caber em ~85% da largura
  groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;let s=g[0].o;const nx=groups[i+1];const e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
-  if(FX.speed&&FX.telaCheia){const sh=shots.find(x=>x.k==='box'&&!x.pool&&x.first&&s>=x.oS-0.03&&s<x.oS+0.3);if(sh){s=sh.oS+0.3;if(s>e-0.15)return;}} // speed: legenda só depois das linhas (~0,3s)
+  if(FX.speed&&FX.telaCheia){const sh=shots.find(x=>x.k==='box'&&cheia(x)&&x.first&&s>=x.oS-0.03&&s<x.oS+0.3);if(sh){s=sh.oS+0.3;if(s>e-0.15)return;}} // speed: legenda só depois das linhas (~0,3s)
   const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||(FX.corTema&&PRECO_RE.test(u))){const c=FX.corTema?temaCor(u):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
   ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='brand'?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
  // precoGigante: "R$ 17,90" verde gigante no alto (na parede, acima da cabeça) por ~1,2s quando ela fala o preço (sem moedaEm: logo depois do gancho, antes dos 3s)
@@ -301,6 +308,17 @@ function build(R){
  console.log(JSON.stringify(desc));return desc;
 }
 if(FLAGS.has('--receitas')){fs.writeFileSync(path.join(OUTDIR,`_receitas_lote${LOTE}.json`),JSON.stringify(V.map(R=>({...R,lote:LOTE,jump:R.gap!=null,packName:PACK_NAMES[R.pack],projeto:PROJ.nome})),null,1));process.exit(0);}
+// lock de render: um render por vez na máquina (pouca RAM; vt/ não se atropela). Outro render vivo → espera em loop até liberar
+function travaRender(){const L=path.join(__dirname,'vt','_render.lock');fs.mkdirSync(path.dirname(L),{recursive:true});
+ const vivo=pid=>{try{process.kill(pid,0);return true}catch(e){return e.code==='EPERM'}};let avisou=false;
+ for(;;){try{const fd=fs.openSync(L,'wx');fs.writeSync(fd,String(process.pid));fs.closeSync(fd);break;}catch(e){if(e.code!=='EEXIST')throw e;}
+  let pid=0,idade=0;try{pid=parseInt(fs.readFileSync(L,'utf8'))||0;idade=Date.now()-fs.statSync(L).mtimeMs}catch(e){continue}
+  if(pid?!vivo(pid):idade>10000){try{fs.unlinkSync(L)}catch(e){}continue;} // dono morreu (ou lock vazio antigo): libera
+  if(!avisou){console.log(`aguardando outro render terminar (pid ${pid||'?'})...`);avisou=true;}
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,3000);}
+ const solta=()=>{try{if(parseInt(fs.readFileSync(L,'utf8'))===process.pid)fs.unlinkSync(L)}catch(e){}};
+ process.on('exit',solta);for(const sg of ['SIGINT','SIGTERM'])process.on(sg,()=>process.exit(130));}
+if(!FLAGS.has('--plano'))travaRender();
 const which=POS[2]||'all';const res=[];
 for(const R of V)if(which==='all'||which.split(',').includes(R.id))res.push(build(R));
 if(FLAGS.has('--plano')){console.log(JSON.stringify(res,null,1));process.exit(res.some(r=>r.erros.length)?2:0);}
