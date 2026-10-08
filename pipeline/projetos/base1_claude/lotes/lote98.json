@@ -1,0 +1,43 @@
+{
+ "lote": 98,
+ "projeto": "base1_claude",
+ "estilo": null,
+ "criadoEm": "2026-10-08T22:54:56.591Z",
+ "obs": "teste dos efeitos R.fx (Faísca)",
+ "variacoes": [
+  {
+   "id": "v981",
+   "order": "ABCDEFGHIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 981,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5,
+   "fx": {
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "abertura": true,
+    "legendaSite": false,
+    "gancho": true,
+    "nitidez": true,
+    "punch": true,
+    "legenda": "grande"
+   }
+  }
+ ]
+}

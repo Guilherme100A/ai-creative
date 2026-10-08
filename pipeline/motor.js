@@ -87,6 +87,23 @@ const HL_RE=new RegExp('^('+(PROJ.destaques||[]).map(w=>w.toUpperCase().replace(
 
 function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
 
+// ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
+// musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  progresso:true  nitidez:true  punch:true
+const MUS=ROOT+'/assets/musica';
+// abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
+const ABRE_F=MO+'/_abertura.json';
+function aberturaDe(clip){const f=`${MO}/${clip}.mp4`,mt=fs.statSync(f).mtimeMs;let C={};try{C=JSON.parse(fs.readFileSync(ABRE_F,'utf8'))}catch(e){}
+ if(C[clip]&&C[clip].mt===mt)return C[clip].off;
+ const out=execFileSync(ff,['-v','error','-i',f,'-frames:v','45','-vf','signalstats,metadata=print:key=lavfi.signalstats.YAVG:file=-','-f','null','-']).toString();
+ const y=[...out.matchAll(/YAVG=([\d.]+)/g)].map(m=>+m[1]);const alvo=0.9*Math.max(...y);const k=Math.max(0,y.findIndex(v=>v>=alvo));
+ C[clip]={mt,yavg:y.map(Math.round),off:+(k/FPS).toFixed(3)};fs.writeFileSync(ABRE_F,JSON.stringify(C,null,1));return C[clip].off;}
+// gancho: *trecho* fica amarelo; quebra em até 2 linhas que caibam em 1000px (Archivo Black ≈0,62 em por letra maiúscula)
+function ganchoASS(txt){const pal=txt.toUpperCase().split(/\s+/).filter(Boolean);const larg=ws=>ws.join(' ').replace(/\*/g,'').length*0.62;
+ let best=[pal],bw=larg(pal);for(let i=1;i<pal.length;i++){const w=Math.max(larg(pal.slice(0,i)),larg(pal.slice(i)));if(w<bw){bw=w;best=[pal.slice(0,i),pal.slice(i)];}}
+ const size=Math.min(120,Math.floor(1000/bw));let amarelo=false;
+ const pinta=w=>w.split(/(\*)/).map(p=>{if(p==='*'){amarelo=!amarelo;return amarelo?`{\\c${YEL}}`:'{\\c&HFFFFFF&}'}return p}).join('');
+ return {size,txt:best.map(l=>l.map(pinta).join(' ')).join('\\N')};}
+
 function build(R){
  const rand=rng(R.seed);const pick=a=>a[Math.floor(rand()*a.length)];const jump=R.gap!=null;
  const TMP=path.join(__dirname,'vt',R.id);fs.rmSync(TMP,{recursive:true,force:true});fs.mkdirSync(TMP,{recursive:true});
@@ -126,9 +143,16 @@ function build(R){
  for(const v of vis)if(v.k==='box'||v.k==='meme'){v.pose=bi%2?1:-1;v.entry=ENTRIES[(bi+Math.floor(rand()*2))%4];bi++;}
  const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
  if(cur<DUR-0.02)full.push({k:'th',oS:cur,oE:DUR});
- const cuts=pieces.map(p=>p.o).slice(1);const shots=[];
+ const cuts=pieces.map(p=>p.o).slice(1);let shots=[];
  for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS});a=c;}}
+ const FX=R.fx||{};const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
+ // abertura: cena logo no início começa no 0 (some o fiapo dela antes) e pula o fade escuro da cena
+ if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
+  if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
  let zi=0;for(const s of shots)if(s.k==='th'){s.z=R.zoom[zi%R.zoom.length];zi++;}
+ // punch: degrau de zoom (×1,10, segurando até o corte) em até 4 palavras de destaque, espaçadas ≥5s
+ if(FX.punch){let ult=-9,n=0;for(const p of pieces)for(const w of W){if(n>=4||w.s<p.s||w.s>=p.e)continue;const u=w.t.toUpperCase().replace(/[.,!?]$/,'');if(!HL_RE.test(u))continue;const o=p.o+(w.s-p.s)-0.03;
+   const k=shots.findIndex(x=>x.k==='th'&&o-x.oS>=0.15&&x.oE-o>=0.35);if(k<0||o-ult<5)continue;const a=shots[k];shots.splice(k,1,{...a,oE:o},{...a,oS:o,off:a.off+(o-a.oS),first:false,z:+(a.z*1.1).toFixed(3),punch:true});ult=o;n++;}}
  const shotAt=o=>shots.find(s=>o>=s.oS&&o<s.oE);
  // checagem de qualidade (regras aprendidas com o feedback) — antes de gastar tempo renderizando
  const q=valida({R,shots,DUR,SENT,MEME_CUES,MV});
@@ -141,8 +165,11 @@ function build(R){
  const thCrop=z=>{const w=Math.round(1080/z/2)*2,h=Math.round(1920/z/2)*2;return `crop=${w}:${h}:${(1080-w)/2}:${Math.round((1920-h)*0.3)},scale=1080:1920:flags=lanczos`};
  const list=[],gameAudio=[];
  shots.forEach((s,i)=>{const n=fr(s.oE)-fr(s.oS);if(n<=0)return;const o=path.join(TMP,`s${String(i).padStart(3,'0')}.mp4`);const src=o2s(s.oS);let args;
-  if(s.k==='th')args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z)},${G},fps=30,setsar=1`];
-  else if(s.k==='mo')args=['-ss',s.off.toFixed(3),'-i',`${MO}/${s.clip}.mp4`,'-vf','fps=30,tpad=stop_mode=clone:stop_duration=10,setsar=1'];
+  if(s.k==='th'){let fxv='';
+   // nitidez: unsharp leve + vinheta suave
+   if(FX.nitidez)fxv+=',unsharp=5:5:0.45:5:5:0,vignette=angle=PI/7';
+   args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z)},${G},fps=30${fxv},setsar=1`];}
+  else if(s.k==='mo')args=['-ss',s.off.toFixed(3),'-i',`${MO}/${s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&i===0?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
    const inArgs=s.meme.tipo==='video'?['-stream_loop','-1','-ss',(0.1+s.off).toFixed(3),'-i',file]:['-loop','1','-i',file];
@@ -177,20 +204,27 @@ function build(R){
 
  // 5) legendas
  const inBox=o=>shots.some(s=>(s.k==='box'||s.k==='meme')&&o>=s.oS-0.03&&o<s.oE);
+ // zona da legenda: box (sem legenda), site (sem legenda com legendaSite:false), brand (legenda mais baixa), n (normal)
+ const zona=o=>{if(inBox(o))return 'box';if(FX.legendaSite===false){const s=shotAt(o);if(s&&s.k==='mo')return /^site_/.test(s.clip)?'site':/^brand_/.test(s.clip)?'brand':'n';}return 'n';};
  const ws=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e)ws.push({...w,o:p.o+(w.s-p.s),oe:p.o+(Math.min(w.e,p.e)-p.s)});
  const groups=[];let g=[];
  ws.forEach((w,i)=>{g.push(w);const txt=g.map(x=>x.t).join(' ');const nx=ws[i+1];
-  if(/[.,?!]$/.test(w.t)||!nx||txt.length>=12||g.length>=3||nx.o-w.oe>0.25||inBox(nx.o)!==inBox(w.o)){groups.push(g);g=[];}});
+  if(/[.,?!]$/.test(w.t)||!nx||(FX.legenda==='grande'?(txt+' '+nx.t).length>9:txt.length>=12)||g.length>=(FX.legenda==='grande'?2:3)||nx.o-w.oe>0.25||zona(nx.o)!==zona(w.o)){groups.push(g);g=[];}});
  const HL=HL_RE;
  const ts=t=>{const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=(t%60).toFixed(2).padStart(5,'0');return `${h}:${String(m).padStart(2,'0')}:${s}`};
  const style=R.cap==='faixa'
   ?`Style: C,Sniglet,92,&H00FFFFFF,&H00FFFFFF,&H28111111,&H00000000,-1,0,0,0,100,100,0,0,3,18,0,5,70,70,0,1`
+  :FX.legenda==='grande'?`Style: C,Sniglet,130,&H00FFFFFF,&H00FFFFFF,&H00000000,&H50000000,-1,0,0,0,100,100,0,0,1,0,7,5,70,70,0,1` // grande: sombra mais firme (ainda sem contorno)
   :`Style: C,Sniglet,100,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,0,5,5,70,70,0,1`;
  let ass=`[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n${style}\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n`;
- let hi=0;
- groups.forEach((g,i)=>{if(inBox(g[0].o))return;const s=g[0].o,nx=groups[i+1];const e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
+ // gancho: título grande no topo nos primeiros ~2,2s (branco com sombra, sem contorno; *trecho* em amarelo)
+ if(ganchoTxt){const G2=ganchoASS(ganchoTxt);
+  ass=ass.replace(/\n\n\[Events\]/,`\nStyle: G,Archivo Black,${G2.size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H8C000000,0,0,0,0,100,100,0,0,1,0,7,8,40,40,0,1\n\n[Events]`);
+  ass+=`Dialogue: 2,${ts(0)},${ts(Math.min(2.2,DUR))},G,,0,0,0,,{\\an8\\pos(540,470)\\fad(0,220)\\fscx60\\fscy60\\t(0,140,\\fscx108\\fscy108)\\t(140,240,\\fscx100\\fscy100)}${G2.txt}\n`;}
+ let hi=0;const lim=t=>t.replace(/\{[^}]*\}/g,''); // legenda grande: sobe para a parede (y=1300) e palavra comprida encolhe para caber em ~85% da largura
+ groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;const s=g[0].o,nx=groups[i+1];const e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
   const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))){const c=R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
-  ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,1470)\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
+  ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='brand'?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
  fs.writeFileSync(path.join(TMP,'legenda.ass'),ass);
 
  // 6) sons
@@ -214,16 +248,27 @@ function build(R){
  const esc=p=>p.split(path.sep).join('/').replace(':','\\:');
  let fc='',vl='[0:v]';
  reac.forEach((r,j)=>{fc+=`[${nA+j}:v]scale=${Math.round(480*r.sc)}:-1[k${j}];${vl}[k${j}]overlay=${r.x}:${r.y}:eof_action=pass[v${j}];`;vl=`[v${j}]`;});
- fc+=`${vl}subtitles=filename='${esc(path.join(TMP,'legenda.ass'))}':fontsdir='${esc(FONTS)}'[v];`;
+ // música de fundo: entra depois de tudo (não muda os índices das outras entradas); faixa escolhida por seed dentro do mood
+ let mus=null;
+ if(FX.musica){const MC=JSON.parse(fs.readFileSync(MUS+'/catalogo.json','utf8'));const fx=MC.faixas.filter(f=>f.mood===(FX.musica.mood||'energia'));
+  if(fx.length){const f=fx[Math.floor(rng(R.seed+77)()*fx.length)];mus={...f,idx:nA+reac.length};ins.push('-stream_loop','-1','-ss',String(f.inicioSom||0),'-i',`${MUS}/${f.arquivo}`);}}
+ // progresso: barra amarela fina no topo, enchendo do início ao fim
+ const vsub=FX.progresso?'[vs]':'[v]';
+ fc+=`${vl}subtitles=filename='${esc(path.join(TMP,'legenda.ass'))}':fontsdir='${esc(FONTS)}'${vsub};`;
+ if(FX.progresso)fc+=`color=c=0xFFE100:s=1080x9:r=30:d=${DUR.toFixed(3)}[pb];[vs][pb]overlay=x='-w+w*t/${DUR.toFixed(3)}':y=0:eof_action=pass[v];`;
  pieces.forEach((p,i)=>{fc+=`[1:a]atrim=${p.s.toFixed(3)}:${p.e.toFixed(3)},asetpts=PTS-STARTPTS,aresample=48000,afade=t=in:d=0.015,afade=t=out:st=${(p.e-p.s-0.02).toFixed(3)}:d=0.02[p${i}];`;});
  fc+=`${pieces.map((_,i)=>`[p${i}]`).join('')}concat=n=${pieces.length}:v=0:a=1,apad=pad_dur=${TAIL+0.2},loudnorm=I=-15:TP=-1.5,aresample=48000[voz];`;
  const labs=[];
  ev.forEach((e,i)=>{const ms=Math.max(0,Math.round(e.t*1000));fc+=`[${i+2}:a]aresample=48000,atrim=0:${e.len.toFixed(3)},afade=t=out:st=${Math.max(0,e.len-0.2).toFixed(3)}:d=0.2,volume=${e.gain},adelay=${ms}|${ms}[e${i}];`;labs.push(`[e${i}]`);});
  gameAudio.forEach(([,at],j)=>{const ms=Math.round(at*1000);fc+=`[${ev.length+2+j}:a]volume=0.45,adelay=${ms}|${ms}[g${j}];`;labs.push(`[g${j}]`);});
- fc+=`[voz]${labs.join('')}amix=inputs=${labs.length+1}:normalize=0:duration=first,alimiter=limit=0.95[a]`;
+ // música ~db abaixo da voz (voz = -15 LUFS), ducking com a voz como chave, fades, +3 dB no card final
+ if(mus){const ganho=(-15+(FX.musica.db??-16))-mus.lufs;const cta=shots.find(x=>x.k==='mo'&&x.clip==='brand_cta3'&&x.first);
+  fc+=`[voz]asplit=2[vz][vk];[${mus.idx}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:${DUR.toFixed(3)},volume=${ganho.toFixed(1)}dB,afade=t=in:d=0.3,afade=t=out:st=${Math.max(0,DUR-1.2).toFixed(3)}:d=1.2${cta?`,volume=3dB:enable='gte(t,${cta.oS.toFixed(3)})'`:''}[mu];`;
+  fc+=`[mu][vk]sidechaincompress=threshold=0.06:ratio=3:attack=20:release=350:knee=4[mus];`;labs.push('[mus]');}
+ fc+=`${mus?'[vz]':'[voz]'}${labs.join('')}amix=inputs=${labs.length+1}:normalize=0:duration=first,${R.fx?"aresample=192000,alimiter=limit=0.7:level=0,aresample=48000":"alimiter=limit=0.95"}[a]`;
  const OUT=`${OUTDIR}/criativo_${R.id}.mp4`;
  run([...ins,'-filter_complex',fc,'-map','[v]','-map','[a]','-t',DUR.toFixed(3),'-c:v','libx264','-crf','19','-preset','medium','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',OUT]);
- const desc={id:R.id,lote:LOTE,projeto:PROJ.nome,memes:shots.filter(s=>s.k==='meme'&&s.first).map(s=>s.meme.id),duracao:+DUR.toFixed(2),ordem:R.order,reacoes:reac.map(r=>r.emoji),sons:ev.length,takes:[...used]};
+ const desc={id:R.id,lote:LOTE,projeto:PROJ.nome,memes:shots.filter(s=>s.k==='meme'&&s.first).map(s=>s.meme.id),duracao:+DUR.toFixed(2),ordem:R.order,reacoes:reac.map(r=>r.emoji),sons:ev.length,takes:[...used],...(R.fx?{fx:R.fx,...(mus?{musica:mus.arquivo}:{})}:{})};
  console.log(JSON.stringify(desc));return desc;
 }
 if(FLAGS.has('--receitas')){fs.writeFileSync(path.join(OUTDIR,`_receitas_lote${LOTE}.json`),JSON.stringify(V.map(R=>({...R,lote:LOTE,jump:R.gap!=null,packName:PACK_NAMES[R.pack],projeto:PROJ.nome})),null,1));process.exit(0);}
