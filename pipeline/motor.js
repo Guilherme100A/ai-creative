@@ -88,7 +88,8 @@ const HL_RE=new RegExp('^('+(PROJ.destaques||[]).map(w=>w.toUpperCase().replace(
 function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
-// musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  progresso:true  nitidez:true  punch:true
+// musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true
 const MUS=ROOT+'/assets/musica';
 // abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
 const ABRE_F=MO+'/_abertura.json';
@@ -97,6 +98,12 @@ function aberturaDe(clip){const f=`${MO}/${clip}.mp4`,mt=fs.statSync(f).mtimeMs;
  const out=execFileSync(ff,['-v','error','-i',f,'-frames:v','45','-vf','signalstats,metadata=print:key=lavfi.signalstats.YAVG:file=-','-f','null','-']).toString();
  const y=[...out.matchAll(/YAVG=([\d.]+)/g)].map(m=>+m[1]);const alvo=0.9*Math.max(...y);const k=Math.max(0,y.findIndex(v=>v>=alvo));
  C[clip]={mt,yavg:y.map(Math.round),off:+(k/FPS).toFixed(3)};fs.writeFileSync(ABRE_F,JSON.stringify(C,null,1));return C[clip].off;}
+// speed: linhas brancas radiais (PNG transparente gerado uma vez em assets/motion/speedlines.png)
+function speedLines(){const f=MO+'/speedlines.png';if(!fs.existsSync(f)){const a="'255*gt(sin(atan2(Y-960,X-540)*140)*sin(atan2(Y-960,X-540)*53+1),0.72)*clip((hypot(X-540,Y-960)-430)/420,0,1)'";
+ run(['-f','lavfi','-i','color=c=white:s=1080x1920','-frames:v','1','-vf',`format=rgba,geq=r=255:g=255:b=255:a=${a}`,f]);}return f;}
+// corTema: cor da palavra-chave pelo tema — preço verde, marca lilás, itens (e o resto dos destaques) amarelo
+const VERDE='&H5AE63C&',LILAS='&HFF8CC8&',PRECO_RE=/^(R\$|\d+,\d\d|REAIS|DEZESSETE)$/;
+const temaCor=u=>PRECO_RE.test(u)?VERDE:/BASIC/.test(u)?LILAS:YEL;
 // gancho: *trecho* fica amarelo; quebra em até 2 linhas que caibam em 1000px (Archivo Black ≈0,62 em por letra maiúscula)
 function ganchoASS(txt){const pal=txt.toUpperCase().split(/\s+/).filter(Boolean);const larg=ws=>ws.join(' ').replace(/\*/g,'').length*0.62;
  let best=[pal],bw=larg(pal);for(let i=1;i<pal.length;i++){const w=Math.max(larg(pal.slice(0,i)),larg(pal.slice(i)));if(w<bw){bw=w;best=[pal.slice(0,i),pal.slice(i)];}}
@@ -127,17 +134,18 @@ function build(R){
  for(const name of R.dirs){const d=DIR[name];const parts=pieces.filter(p=>p.e>d.s&&p.s<d.e);if(!parts.length)continue;
   let oS=Infinity,oE=-Infinity;for(const p of parts){oS=Math.min(oS,p.o+Math.max(0,d.s-p.s));oE=Math.max(oE,p.o+(Math.min(d.e,p.e)-p.s));}
   if(d.e>=99)oE=DUR;
-  if(d.v==='mo'){oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,oS,oE});}
+  if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
+   oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,oS,oE});}
   else if(d.v==='box'){let take;if(d.pool){const pl=POOLS[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:POOLS[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
    for(let i=0;i<n;i++)vis.push({k:'box',take:takeFor(ws[(k+i)%3]),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
  // memes: só entram onde não tem animação nem gameplay
- const usedM=new Set();
+ const usedM=new Set();const CUR=!!(R.fx&&R.fx.memeCurado); // memeCurado: começa em m.ini e usa o som curado do meme (m.som)
  for(const [ms,me,cat,prio] of MEME_CUES){if(prio>MDENS[R.memes])continue;const near=(x,dir)=>{let v=s2o(x);if(v!=null)return v;for(const p of pieces){if(dir<0&&p.s<=x&&x>p.e)v=p.oe;if(dir>0&&p.s>x&&v==null)v=p.o;}return v;};const a=near(ms,1),b=near(me,-1);if(a==null||b==null||b-a<0.6)continue;
-  if(vis.some(v=>v.oS<b+0.1&&v.oE>a-0.1))continue;const C=CATALOG.categorias[cat];
+  if(vis.some(v=>v.oS<b+0.1&&v.oE>a-0.1))continue;if(CUR&&vis.some(v=>v.k==='meme'&&a<v.oE+6&&b>v.oS-6))continue;const C=CATALOG.categorias[cat];
   let cand=C.memes.filter(m=>!usedM.has(m.id));if(!cand.length)cand=C.memes;const m=pick(cand);usedM.add(m.id);
-  let b2=b;if(m.tipo==='video'){b2=a+Math.min(2.4,b-a+0.8,Math.max(b-a,m.dur-0.15));const nx=vis.filter(v=>v.oS>=a).sort((x,y)=>x.oS-y.oS)[0];if(nx)b2=Math.min(b2,nx.oS-0.05);b2=Math.min(b2,DUR-0.5);if(b2<b)b2=b;}
-  vis.push({k:'meme',cat,meme:m,audio:pick(C.audios),som:rand()<(R.memeSom??0.5),oS:a,oE:b2});}
+  let b2=b;if(m.tipo==='video'){b2=a+Math.min(2.4,b-a+0.8,Math.max(b-a,m.dur-(CUR?m.ini||0:0)-0.15));const nx=vis.filter(v=>v.oS>=a).sort((x,y)=>x.oS-y.oS)[0];if(nx)b2=Math.min(b2,nx.oS-0.05);b2=Math.min(b2,DUR-0.5);if(b2<b)b2=b;}
+  vis.push({k:'meme',cat,meme:m,audio:CUR&&'som' in m?(pick(C.audios),m.som):pick(C.audios),som:rand()<(R.memeSom??0.5),oS:a,oE:b2});}
  vis.sort((a,b)=>a.oS-b.oS);
  const ENTRIES=['flip','rise','pop','swing'];let bi=Math.floor(rand()*4);
  for(const v of vis)if(v.k==='box'||v.k==='meme'){v.pose=bi%2?1:-1;v.entry=ENTRIES[(bi+Math.floor(rand()*2))%4];bi++;}
@@ -164,6 +172,9 @@ function build(R){
  const G=GRADE[R.grade];
  const thCrop=z=>{const w=Math.round(1080/z/2)*2,h=Math.round(1920/z/2)*2;return `crop=${w}:${h}:${(1080-w)/2}:${Math.round((1920-h)*0.3)},scale=1080:1920:flags=lanczos`};
  const list=[],gameAudio=[];
+ // speed lines nos primeiros 0,3s do gameplay, mesmo se um corte da fala dividir o shot (cheias até 0,08s, somem até 0,28s)
+ const slIn=s=>['-loop','1','-t',(0.3-s.off).toFixed(3),'-i',speedLines()];
+ const slFade=s=>{const a0=Math.min(1,Math.max(0.05,1-(s.off-0.08)/0.2)),st=Math.max(0,0.08-s.off);return `format=rgba,colorchannelmixer=aa=${a0.toFixed(3)},fade=t=out:st=${st.toFixed(3)}:d=${Math.max(0.03,0.28-Math.max(s.off,0.08)).toFixed(3)}:alpha=1`;};
  shots.forEach((s,i)=>{const n=fr(s.oE)-fr(s.oS);if(n<=0)return;const o=path.join(TMP,`s${String(i).padStart(3,'0')}.mp4`);const src=o2s(s.oS);let args;
   if(s.k==='th'){let fxv='';
    // nitidez: unsharp leve + vinheta suave
@@ -172,11 +183,18 @@ function build(R){
   else if(s.k==='mo')args=['-ss',s.off.toFixed(3),'-i',`${MO}/${s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&i===0?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
-   const inArgs=s.meme.tipo==='video'?['-stream_loop','-1','-ss',(0.1+s.off).toFixed(3),'-i',file]:['-loop','1','-i',file];
+   const inArgs=s.meme.tipo==='video'?['-stream_loop','-1','-ss',((CUR&&s.meme.ini!=null?s.meme.ini:0.1)+s.off).toFixed(3),'-i',file]:['-loop','1','-i',file];
    run([...inArgs,'-frames:v',String(n),'-vf',"fps=30,crop='min(iw,ih)':'min(iw,ih)',scale=860:860:flags=lanczos,setsar=1",'-q:v','2',path.join(fd,'f%04d.jpg')]);
-   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,flat:true})],{stdio:'inherit'});
+   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,flat:true,...(FX.memeSeco?{seco:true}:{})})],{stdio:'inherit'});
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];}
+  else if(FX.telaCheia&&!s.pool){ // telaCheia: gameplay de arma em tela cheia (9:16 do clipe, leve zoom); speed: linhas + punch 1,08→1,0 na entrada
+   const isYT=path.basename(s.take).startsWith('yt_');const gss=(isYT?0.15:0.9)+s.off;const ent=FX.speed&&s.off<0.28;
+   const crop=isYT?"crop='ih*9/16/1.04':'ih/1.04':(iw-ow)/2:(ih-oh)/2":'crop=780:1386:1320:27';
+   const g=`[0:v]fps=30,${crop},scale=1080:1920:flags=lanczos,eq=saturation=1.2:contrast=1.04${ent?`,zoompan=z='1+0.08*pow(1-min(1,(on+${fr(s.off)})/6),2)':d=1:x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':s=1080x1920:fps=30`:''},setsar=1`;
+   args=['-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,...(ent?slIn(s):[]),'-filter_complex',ent?`${g}[g];[1:v]${slFade(s)}[sl];[g][sl]overlay=0:0:eof_action=pass[out]`:`${g}[out]`,'-map','[out]'];
+   if(!isYT){const wav=path.join(TMP,`g${i}.wav`);execFileSync(ff,['-v','error','-y','-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-t',(s.oE-s.oS).toFixed(3),'-vn','-ac','2','-ar','48000','-af',`afade=t=in:d=0.03,afade=t=out:st=${Math.max(0,s.oE-s.oS-0.05).toFixed(3)}:d=0.05`,wav]);
+   gameAudio.push([wav,s.oS]);}}
   else{const isYT=path.basename(s.take).startsWith('yt_');const gss=(isYT?0.15:0.9)+s.off;
    const vf=!isYT?'crop=980:980:1220:330,scale=860:860:flags=lanczos':s.pool==='inv'?'scale=860:-2:flags=lanczos,pad=860:860:0:(oh-ih)/2:color=0x16171a':"crop='ih*0.72':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6,scale=860:860:flags=lanczos";
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);
@@ -184,6 +202,8 @@ function build(R){
    execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off})],{stdio:'inherit'});
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];
+   if(FX.speed&&s.off<0.28&&!s.pool){args.splice(args.indexOf('-filter_complex'),0,...slIn(s)); // speed também no quadrado 3D
+    const k=args.indexOf('-filter_complex')+1;args[k]=args[k].replace('setsar=1[out]',`setsar=1[o0];[2:v]${slFade(s)}[sl];[o0][sl]overlay=0:0:eof_action=pass[out]`);}
    if(!isYT){const wav=path.join(TMP,`g${i}.wav`);execFileSync(ff,['-v','error','-y','-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-t',(s.oE-s.oS).toFixed(3),'-vn','-ac','2','-ar','48000','-af',`afade=t=in:d=0.03,afade=t=out:st=${Math.max(0,s.oE-s.oS-0.05).toFixed(3)}:d=0.05`,wav]);
    gameAudio.push([wav,s.oS]);}}
   run([...args,'-frames:v',String(n),'-an','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p',o]);
@@ -203,7 +223,7 @@ function build(R){
  const stkDir=r=>path.join(__dirname,'stk',`${r.emoji}_${r.style}_${Math.round(r.dur*30)}_${r.tilt}`);
 
  // 5) legendas
- const inBox=o=>shots.some(s=>(s.k==='box'||s.k==='meme')&&o>=s.oS-0.03&&o<s.oE);
+ const inBox=o=>shots.some(s=>((s.k==='box'&&!(FX.telaCheia&&!s.pool))||s.k==='meme')&&o>=s.oS-0.03&&o<s.oE); // gameplay em tela cheia leva legenda
  // zona da legenda: box (sem legenda), site (sem legenda com legendaSite:false), brand (legenda mais baixa), n (normal)
  const zona=o=>{if(inBox(o))return 'box';if(FX.legendaSite===false){const s=shotAt(o);if(s&&s.k==='mo')return /^site_/.test(s.clip)?'site':/^brand_/.test(s.clip)?'brand':'n';}return 'n';};
  const ws=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e)ws.push({...w,o:p.o+(w.s-p.s),oe:p.o+(Math.min(w.e,p.e)-p.s)});
@@ -222,9 +242,14 @@ function build(R){
   ass=ass.replace(/\n\n\[Events\]/,`\nStyle: G,Archivo Black,${G2.size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H8C000000,0,0,0,0,100,100,0,0,1,0,7,8,40,40,0,1\n\n[Events]`);
   ass+=`Dialogue: 2,${ts(0)},${ts(Math.min(2.2,DUR))},G,,0,0,0,,{\\an8\\pos(540,470)\\fad(0,220)\\fscx60\\fscy60\\t(0,140,\\fscx108\\fscy108)\\t(140,240,\\fscx100\\fscy100)}${G2.txt}\n`;}
  let hi=0;const lim=t=>t.replace(/\{[^}]*\}/g,''); // legenda grande: sobe para a parede (y=1300) e palavra comprida encolhe para caber em ~85% da largura
- groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;const s=g[0].o,nx=groups[i+1];const e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
-  const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))){const c=R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
+ groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;let s=g[0].o;const nx=groups[i+1];const e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
+  if(FX.speed&&FX.telaCheia){const sh=shots.find(x=>x.k==='box'&&!x.pool&&x.first&&s>=x.oS-0.03&&s<x.oS+0.3);if(sh){s=sh.oS+0.3;if(s>e-0.15)return;}} // speed: legenda só depois das linhas (~0,3s)
+  const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||(FX.corTema&&PRECO_RE.test(u))){const c=FX.corTema?temaCor(u):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
   ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='brand'?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
+ // precoGigante: "R$ 17,90" verde gigante no alto (na parede, acima da cabeça) por ~1,2s quando ela fala o preço (sem moedaEm: logo depois do gancho, antes dos 3s)
+ if(FX.precoGigante){const o=PROJ.moedaEm!=null?s2o(PROJ.moedaEm):ganchoTxt?2.25:1.0;
+  if(o!=null&&o+1.2<DUR){ass=ass.replace(/\n\n\[Events\]/,`\nStyle: P,Archivo Black,250,&H00${VERDE.slice(2,8)},&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,1,0,9,5,40,40,0,1\n\n[Events]`);
+   ass+=`Dialogue: 3,${ts(o)},${ts(o+1.2)},P,,0,0,0,,{\\an5\\pos(540,480)\\fad(0,150)\\fscx40\\fscy40\\t(0,120,\\fscx112\\fscy112)\\t(120,200,\\fscx100\\fscy100)}{\\fs120}R$ {\\fs250}17,90\n`;}}
  fs.writeFileSync(path.join(TMP,'legenda.ass'),ass);
 
  // 6) sons
@@ -239,7 +264,10 @@ function build(R){
  {const c=shots.find(x=>x.k==='mo'&&x.clip==='brand_cta3'&&x.first);if(c)add(P.coin,c.oS+0.35,'coin');}
  {const g=shots.find(x=>x.k==='box'&&x.first&&x.oS>DUR*0.4);if(P.boom&&g)add(P.boom,g.oS,'boom');}
  reac.forEach(r=>add(r.snd,r.o+0.12,'meme'));
- shots.filter(s=>s.k==='meme'&&s.first).forEach(s=>{const all=shots.filter(x=>x.k==='meme'&&x.meme===s.meme);if(s.som)add(s.audio.includes(':')?s.audio:CATALOG.pasta+'/'+s.audio,s.oS,'memepack',Math.min(1.6,all[all.length-1].oE-s.oS+0.1));});
+ shots.filter(s=>s.k==='meme'&&s.first).forEach(s=>{const all=shots.filter(x=>x.k==='meme'&&x.meme===s.meme);const len=Math.min(1.6,all[all.length-1].oE-s.oS+0.1);if(!s.som||!s.audio)return;let f=s.audio;
+  if(CUR&&f==='proprio'){f=path.join(TMP,`ms_${s.meme.id}.wav`);execFileSync(ff,['-v','error','-y','-ss',String(s.meme.ini??0.1),'-i',CATALOG.pasta+'/'+s.meme.arquivo,'-t','2.5','-vn','-ac','2','-ar','48000',f]);} // som do próprio vídeo do meme, a partir de ini
+  else if(CUR&&/^assets\//.test(f))f=ROOT+'/'+f;
+  add(f.includes(':')?f:CATALOG.pasta+'/'+f,s.oS,'memepack',len);});
  {const q2=checaSons(ev);if(q2.length){for(const e of q2)console.error(`[${R.id}] ERRO: ${e}`);if(!FLAGS.has('--forcar'))throw new Error(R.id+': som proibido');}}
  const ins=['-i',path.join(TMP,'video.mp4'),'-i',BASE];
  ev.forEach(e=>ins.push('-i',e.f.includes(':')?e.f:`${SFX}/${e.f}`));gameAudio.forEach(([w])=>ins.push('-i',w));
@@ -265,6 +293,7 @@ function build(R){
  if(mus){const ganho=(-15+(FX.musica.db??-16))-mus.lufs;const cta=shots.find(x=>x.k==='mo'&&x.clip==='brand_cta3'&&x.first);
   fc+=`[voz]asplit=2[vz][vk];[${mus.idx}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:${DUR.toFixed(3)},volume=${ganho.toFixed(1)}dB,afade=t=in:d=0.3,afade=t=out:st=${Math.max(0,DUR-1.2).toFixed(3)}:d=1.2${cta?`,volume=3dB:enable='gte(t,${cta.oS.toFixed(3)})'`:''}[mu];`;
   fc+=`[mu][vk]sidechaincompress=threshold=0.06:ratio=3:attack=20:release=350:knee=4[mus];`;labs.push('[mus]');}
+ // master: com qualquer fx (fx:{masterOk:true} basta) o limiter tem oversampling 4x, teto -3 dBFS e sem auto-level (true peak < -1 dBTP depois do AAC)
  fc+=`${mus?'[vz]':'[voz]'}${labs.join('')}amix=inputs=${labs.length+1}:normalize=0:duration=first,${R.fx?"aresample=192000,alimiter=limit=0.7:level=0,aresample=48000":"alimiter=limit=0.95"}[a]`;
  const OUT=`${OUTDIR}/criativo_${R.id}.mp4`;
  run([...ins,'-filter_complex',fc,'-map','[v]','-map','[a]','-t',DUR.toFixed(3),'-c:v','libx264','-crf','19','-preset','medium','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',OUT]);

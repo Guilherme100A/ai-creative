@@ -34,6 +34,7 @@ window.render=function(t){
   }
   if(P.flat){ // quadrado normal (sem 3D): só um pop de entrada
     const u=t/0.28;rx=0;ry=0;rz=0;tx=0;ty=0;sc=lerp(.6,1,back(u));op=clamp(u*3);
+    if(P.seco){sc=lerp(.82,1,eout(t/0.1));op=1;} // seco: corte seco, sem fade de opacidade, pop de 0,1s
     document.querySelectorAll('.slab').forEach(e=>e.style.display='none');}
   card.style.transform=`translate(${tx}px,${ty}px) scale(${sc}) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
   card.style.opacity=op;
