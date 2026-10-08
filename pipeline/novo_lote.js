@@ -44,8 +44,10 @@ const DIM={
 // lei do dono: legenda branca sem contorno e sem caixa — sempre "sombra"
 const CAP='sombra';
 // sempre ligados nos lotes novos: 1º frame claro, sem legenda brigando com o site, nitidez nela
-// (aprovado pelo crítico: v981 fase 1 + v982/v983 fase 2 — cor por tema, gameplay em tela cheia, speed lines, preço gigante, meme seco/curado, CTA curto, master corrigido)
-const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true,memeCurado:true,memeSeco:true,corTema:true,telaCheia:true,speed:true,precoGigante:true,ctaCurto:true,masterOk:true};
+// (aprovado pelo crítico: v981 fase 1 + v982/v983 fase 2 — cor por tema, gameplay em tela cheia, speed lines, meme seco/curado, CTA curto, master corrigido)
+// telaCheia fica DESLIGADO: só 1 de 42 clipes do estoque fica limpo em tela cheia (HUD, dano, flash) — volta quando houver gameplay própria sem HUD
+// precoGigante foi REPROVADO pelo dono ("17,90 gigante ficou muito ruim") — não religar sem ele pedir
+const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true,memeCurado:true,memeSeco:true,corTema:true,speed:true,ctaCurto:true,masterOk:true};
 const temMusica=fs.existsSync(path.join(ROOT,'assets','musica','catalogo.json'));
 const rng=(seed=>()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296})(LOTE*7919+N);
 // peso = nota aprendida ao cubo (puxa forte para o que você aprovou), com piso para ainda explorar um pouco

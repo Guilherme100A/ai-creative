@@ -256,6 +256,12 @@ Histórico condensado do feedback, de onde cada regra veio:
 - **Gameplay** no quadrado **3D** com entradas animadas. Poucos takes. Raça V4 e inventário quando ela falar disso.
 - Cards de marca sérios. Site de feedbacks quando ela falar de feedback. Card final com **SÓ R$ 17,90**.
 - **Nunca:** whoosh, trombeta, emoji, contorno preto na legenda, preço 18,90, reordenar frases, memes aleatórios, clipe com texto de outro youtuber.
+- **Out/2026 (feedback do dono):**
+  - **Legenda:** sempre branca sem contorno e sem caixa ("faixa" é barrada pela checagem).
+  - **"R$ 17,90" gigante solto na tela (`fx.precoGigante`):** REPROVADO ("ficou muito ruim").
+  - **Gameplay:** tem que mostrar o AUGE do golpe/aura, não um momento aleatório (`fx.pico` + `moveset/_picos.json`).
+  - **Gameplay em tela cheia (`fx.telaCheia`):** desligada, porque só 1 de 42 clipes do estoque fica limpo em tela cheia. Volta com gameplay própria gravada sem HUD.
+  - **Som do meme:** tem que combinar com a imagem (curado por meme no catálogo).
 
 ---
 
