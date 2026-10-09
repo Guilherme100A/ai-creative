@@ -91,12 +91,17 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
-// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
 // aura: clipes de avatar parado brilhando em moveset/aura/<godhuman|cdk|soul guitar|racas/<Raça>|geral> (começam em {aura:seg} do _picos.json)
 const auraPool=g=>fs.existsSync(path.join(MV,'aura',g))?listAll('aura/'+g):[];
+// vocab: estoque por ETIQUETA (moveset/_tags.json {arquivo:[tags]}, ver vocabulario.json), não por pasta; sem clipe com a tag certa = não mostra nada
+const GOLPE={godhuman:'golpe_godhuman',cdk:'golpe_cdk','soul guitar':'golpe_soul_guitar'};
+let TAGPOOL=null;const tagPool=tag=>{if(!TAGPOOL){TAGPOOL={};let T={};try{T=JSON.parse(fs.readFileSync(MV+'/_tags.json','utf8'))}catch(e){}
+ const todos=[];const walk=p=>{for(const f of fs.readdirSync(path.join(MV,p))){const q=p?p+'/'+f:f;if(fs.statSync(path.join(MV,q)).isDirectory())walk(q);else if(f.endsWith('.mp4'))todos.push(q);}};walk('');
+ for(const q of todos.sort()){const b=path.basename(q);if(b.startsWith('yt_')&&!ytOk(q))continue;for(const t of (T[b]||T[q]||[]))(TAGPOOL[t]=TAGPOOL[t]||[]).push(q);}}return TAGPOOL[tag]||[];};
 const lerTela=()=>fs.existsSync(MV+'/_tela_cheia.txt')?new Set(fs.readFileSync(MV+'/_tela_cheia.txt','utf8').split(/\r?\n/).map(x=>path.basename(x.trim())).filter(Boolean)):null;
 // abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
 const ABRE_F=MO+'/_abertura.json';
@@ -137,7 +142,7 @@ function build(R){
  // 2) direções -> saída
  const used=new Set();const takeFor=wpn=>{const ALL3=[...TAKES.godhuman,...TAKES.cdk,...TAKES['soul guitar']],own=ALL3.filter(t=>!path.basename(t).startsWith('yt_'));const pool=wpn==='any'?(own.length?own:ALL3):TAKES[wpn];
   let cand=pool.filter(x=>!used.has(x));if(!cand.length)cand=pool;const x=pick(cand);used.add(x);return x};
- const PL=R.fx?POOLS_OK:POOLS;const AURA=!!(R.fx&&R.fx.aura);const pegaAura=pl=>{let c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;};
+ const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{for(const t of ts){const pl=tagPool(t);if(pl.length)return {pl,t};}return null;};const AURA=!!(R.fx&&R.fx.aura);const pegaAura=pl=>{let c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;};
  const qualquer=()=>[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar'),...auraPool('racas')];
  const auraDe=g=>!AURA?[]:g==='any'?qualquer():g==='racas'?auraPool('racas'):(auraPool(g).length?auraPool(g):qualquer()); // aura: montage (arma, senão qualquer aura), 'any' e raça
  let vis=[];
@@ -146,9 +151,15 @@ function build(R){
   if(d.e>=99)oE=DUR;
   if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
    oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,oS,oE});}
+  // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
+  else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
+   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool,oS,oE});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
   else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
+  else if(VOC){const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3); // vocab na montage: aura, senão golpe da arma do quadro
+   for(let i=0;i<n;i++){const r=vocPool(['aura',GOLPE[ws[(k+i)%3]]]);if(!r){avV.push(`sem clipe para aura/${GOLPE[ws[(k+i)%3]]} (montage ${name}): fica o rosto dela`);continue;}
+    vis.push({k:'box',take:pegaAura(r.pl),...(r.t==='aura'?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
    for(let i=0;i<n;i++){const ap=auraDe(ws[(k+i)%3]);vis.push({k:'box',take:ap.length?pegaAura(ap):takeFor(ws[(k+i)%3]),...(ap.length?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}}
  // memes: só entram onde não tem animação nem gameplay
@@ -189,7 +200,7 @@ function build(R){
    const k=shots.findIndex(x=>x.k==='th'&&o-x.oS>=0.15&&x.oE-o>=0.35);if(k<0||o-ult<5)continue;const a=shots[k];shots.splice(k,1,{...a,oE:o},{...a,oS:o,off:a.off+(o-a.oS),first:false,z:+(a.z*1.1).toFixed(3),punch:true});ult=o;n++;}}
  const shotAt=o=>shots.find(s=>o>=s.oS&&o<s.oE);
  // checagem de qualidade (regras aprendidas com o feedback) — antes de gastar tempo renderizando
- const q=valida({R,shots,DUR,SENT,MEME_CUES,MV});
+ const q=valida({R,shots,DUR,SENT,MEME_CUES,MV});q.avisos.push(...avV);
  for(const w of q.avisos)console.warn(`[${R.id}] aviso: ${w}`);
  if(q.erros.length){for(const e of q.erros)console.error(`[${R.id}] ERRO: ${e}`);if(!FLAGS.has('--forcar')&&!FLAGS.has('--plano'))throw new Error(`${R.id}: reprovado na checagem de qualidade (use --forcar para ignorar)`);}
  if(FLAGS.has('--plano'))return {id:R.id,duracao:+DUR.toFixed(2),erros:q.erros,avisos:q.avisos,shots:shots.map(s=>({k:s.k,de:+s.oS.toFixed(2),ate:+s.oE.toFixed(2),...(s.clip?{clip:s.clip}:{}),...(s.take?{take:s.take}:{}),...(s.meme?{meme:s.meme.id,cat:s.cat}:{}),...(s.z?{zoom:s.z}:{})}))};
