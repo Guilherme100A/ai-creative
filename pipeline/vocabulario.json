@@ -6,15 +6,14 @@
     "godhuman",
     "god human"
    ],
-   "visual": "avatar GRANDE dando golpe do Godhuman (estilo de luta, sem arma): rajada de socos com imagens repetidas do avatar, onda de choque de vento com destroços, ou soco carregado com anel e explosão; rastro prismático/preto nos socos",
+   "visual": "avatar GRANDE dando golpe do Godhuman (estilo de luta; espada de acessório não invalida): rajada de socos com imagens repetidas do avatar, onda de choque de vento com destroços, ou soco carregado com anel e explosão; rastro prismático/preto nos socos",
    "tag": "golpe_godhuman",
    "nao_serve": [
     "outra arma",
     "só clarão branco",
     "avatar parado sem golpe",
     "texto 'Safe Zone'/HUD dominando",
-    "espinhos/raios ciano soltos sem o avatar socando",
-    "avatar com espada ou arma na mão"
+    "espinhos/raios ciano soltos sem o avatar socando"
    ]
   },
   "cdk": {

@@ -143,8 +143,13 @@ function triagemSB(src,dir){const sb=src.sb;if(!sb)return null;
  Y.length=N;S.length=N;const hud=hudDe(Y);
  const fr=Y.map((y,i)=>{let e=0,b=0,s=0;for(let p=0;p<W*H;p++){if(i)e+=Math.abs(y[p]-Y[i-1][p]);b+=y[p];s+=S[i][p];}return {t:i/sb.fps,e:e/(W*H),b:b/(W*H),s:s/(W*H)};});
  const ord=fr.filter(x=>x.t>=3&&x.t<=dur-4).map(x=>({...x,sc:x.s*1.5+x.e*4-(x.b<0.12?1:0)-(x.b>0.82?1.5:0)})).sort((a,b)=>b.sc-a.sc),picos=[];
- for(const x of ord){if(picos.every(p=>Math.abs(p.t-x.t)>=8))picos.push({t:+x.t.toFixed(2),sc:x.sc});if(picos.length>=NPICOS)break;}
+ if(ESPALHA)picos.push(...espalha(ord,dur).map(x=>({t:+x.t.toFixed(2),sc:x.sc})));else for(const x of ord){if(picos.every(p=>Math.abs(p.t-x.t)>=8))picos.push({t:+x.t.toFixed(2),sc:x.sc});if(picos.length>=NPICOS)break;}
  return {hud,picos,dur,sb:true,passo:1/sb.fps};}
+// --espalha (padrão no golpe_godhuman): o vídeo é dividido em NPICOS faixas e vai ao juiz o melhor momento de CADA faixa.
+// O pico 'mais chamativo' favorece explosão de fruta; soco de Godhuman é menos chamativo e ficava de fora antes de ser julgado.
+const ESPALHA=!!arg('espalha')||ALVO==='golpe_godhuman';
+function espalha(ord,dur){const ini=3,fim=Math.max(ini+1,dur-4),w=(fim-ini)/NPICOS,out=[];
+ for(let k=0;k<NPICOS;k++){const a=ini+k*w,b=a+w,x=ord.filter(o=>o.t>=a&&o.t<b).sort((p,q)=>q.sc-p.sc)[0];if(x)out.push(x);}return out;}
 function triagem(id,dir,local){
  const f=local||baixa(id,FMT_360,path.join(dir,'p360.mp4'));if(!f)return {erro:'sem 360p'};
  // descarte cedo: HUD/texto fixo já nos primeiros 30s → nem lê o resto
@@ -157,7 +162,7 @@ function triagem(id,dir,local){
   const e=m('e'),b=m('b'),s=m('s'),branco=w.filter(x=>x.b>0.82).length/w.length;
   let sc=e*8+s*1.5;if(b<0.12)sc-=1;if(branco>0.5)sc-=1.5;if(e<0.01)sc-=0.6;seg.push({t:i/FPS,sc,e,b,s,branco});}
  const dur=N/FPS,ord=[...seg].filter(x=>x.t>=3&&x.t<=dur-4).sort((a,b)=>b.sc-a.sc),picos=[];
- for(const x of ord){if(picos.every(p=>Math.abs(p.t-x.t)>=4))picos.push(x);if(picos.length>=NPICOS)break;}
+ if(ESPALHA)picos.push(...espalha(ord,dur));else for(const x of ord){if(picos.every(p=>Math.abs(p.t-x.t)>=4))picos.push(x);if(picos.length>=NPICOS)break;}
  // dentro do segundo, o frame de maior energia+cor é o pico
  for(const p of picos){let best=-1,bt=p.t;for(let i=Math.round(p.t*FPS);i<Math.min(N,Math.round(p.t*FPS)+FPS);i++){const v=fr[i].e*8+fr[i].s*1.5-(fr[i].b>0.82?2:0);if(v>best){best=v;bt=i/FPS;}}p.t=+bt.toFixed(2);}
  if(!local)try{fs.rmSync(f,{force:true})}catch{}
@@ -211,7 +216,7 @@ Para CADA número dê notas inteiras 0–10:
 - nota: nota geral para usar num anúncio (seja duro: 8+ só se for realmente hype e limpo)
 - o_que_mostra: em palavras do JOGO o que está na tela (ex. "Skull Guitar na mão, notas verdes", "duas katanas do CDK, corte vermelho", "inventário com Kitsune, Dragon, Leopard legíveis", "esferas azuis pequenas, avatar longe")
 - arma: o que aparece (ex. "Soul Guitar - esfera verde", "CDK - duas katanas", "Godhuman", "Angel V4", "nada claro")
-- tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = estilo de LUTA (socos, sem arma na mão): rajada de socos com imagens repetidas do próprio avatar em volta do alvo, onda de choque de vento com destroços do chão, ou soco carregado com anel que se fecha e explosão; rastro prismático (preto com aura) nos socos — espinhos/raios ciano soltos NÃO provam Godhuman; aura_v4 = raça V4 desperta com aura; inventario_cheio = janela de Itens/inventário do PRÓPRIO jogo com MUITAS frutas míticas grandes e legíveis ocupando o recorte (NÃO loja/Fruit Dealer, nem lista pequena; o dono reprovou inventário chapado e pequeno). Para Godhuman, o dono reprovou esferas azuis pequenas em volta de avatar longe: só nota alta com avatar GRANDE e impacto.
+- tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = estilo de LUTA (o golpe sai do soco; espada/acessório no avatar NÃO invalida): rajada de socos com imagens repetidas do próprio avatar em volta do alvo, onda de choque de vento com destroços do chão, ou soco carregado com anel que se fecha e explosão (o Sixth Realm Gun segurado aparece como uma CÚPULA/ESFERA de energia branca-azulada brilhando em volta do avatar — isso é Godhuman, não aura de raça); rastro prismático (preto com aura) nos socos — espinhos/raios ciano soltos NÃO provam Godhuman; aura_v4 = raça V4 desperta com aura; inventario_cheio = janela de Itens/inventário do PRÓPRIO jogo com MUITAS frutas míticas grandes e legíveis ocupando o recorte (NÃO loja/Fruit Dealer, nem lista pequena; o dono reprovou inventário chapado e pequeno). Para Godhuman, o dono reprovou esferas azuis pequenas em volta de avatar longe: só nota alta com avatar GRANDE e impacto.
 - quadro: posição do melhor quadro (-2..2) — o auge com o avatar e a arma visíveis, nunca o clarão branco
 - limpo_de / limpo_ate: a maior janela CONTÍNUA de quadros limpos (sem nenhum overlay/HUD/texto/clarão total) que contém o quadro escolhido: limpo_de em -2..0 e limpo_ate em 0..2 (ex.: overlay só no último quadro → limpo_ate=1). Se o quadro escolhido tem overlay, use 0 e 0.
 Responda só o JSON.`;

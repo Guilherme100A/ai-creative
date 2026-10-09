@@ -89,8 +89,8 @@
  "itens_da_conta": {
   "Godhuman": {
    "tipo": "estilo de luta (Fighting Style) de fim de jogo, exige muita maestria",
-   "prova_visual": "avatar GRANDE dando um golpe do Godhuman no auge: rajada de socos com imagens repetidas do avatar (Z), onda de choque de vento com destroços (X) ou soco carregado com anel e explosão (C); socos com rastro prismático/preto. O avatar tem que aparecer — é estilo de LUTA (soco), sem arma na mão",
-   "nao_vale": "esferas/raios pequenos com o avatar longe; só clarão; HUD dominando; espinhos ou raios ciano soltos (isso NÃO identifica Godhuman — Electric Claw e Dragon Talon também soltam efeitos parecidos); avatar com espada/arma na mão",
+   "prova_visual": "avatar GRANDE dando um golpe do Godhuman no auge: rajada de socos com imagens repetidas do avatar (Z), onda de choque de vento com destroços (X) ou soco carregado com anel e explosão (C); socos com rastro prismático/preto. O avatar tem que aparecer. É estilo de LUTA (o golpe sai do soco), mas o avatar pode estar com espada ou acessório nas costas ou na mão — isso não invalida. Sixth Realm Gun segurado = CÚPULA/ESFERA de energia branca-azulada brilhando em volta do avatar e depois o anel que se fecha (NÃO é aura de raça)",
+   "nao_vale": "esferas/raios pequenos com o avatar longe; só clarão; HUD dominando; espinhos ou raios ciano soltos (isso NÃO identifica Godhuman — Electric Claw e Dragon Talon também soltam efeitos parecidos)",
    "golpes": {
     "M1 Super Punches": "4 socos fortes com rastro colorido (arco-íris/prismático); com aura ligada o rastro fica PRETO",
     "Z Soaring Beast": "avatar avança no alvo e solta uma rajada de socos de todas as direções com IMAGENS REPETIDAS (afterimages) do próprio avatar em volta do alvo; o soco final escurece a tela por um instante",

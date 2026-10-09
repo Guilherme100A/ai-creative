@@ -12,3 +12,4 @@ pipeline/youtube_cookies.txt
 pipeline/.chrome_cacador/
 pipeline/.invidious_passe.txt
 pipeline/mcp_youtube_estado.json
+pipeline/farm_estado.json
