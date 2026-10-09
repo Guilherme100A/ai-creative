@@ -15,12 +15,17 @@ function lotesComId(id){const P=require('path').join(__dirname,'projetos');const
   for(const f of fs.readdirSync(ld))try{if(JSON.parse(fs.readFileSync(require('path').join(ld,f),'utf8')).variacoes.some(v=>v.id===id))achou.push(p+'/'+f);}catch{}}
  return achou;}
 
+const _dur={};
+function durClipe(f){if(f in _dur)return _dur[f];try{const fp=require('ffprobe-static').path;_dur[f]=+require('child_process').execFileSync(fp,['-v','error','-show_entries','format=duration','-of','csv=p=0',f]).toString().trim()||null;}catch{_dur[f]=null;}return _dur[f];}
+
 function valida({R,shots,DUR,SENT,MV}){
  const erros=[],avisos=[];
  const dup=lotesComId(R.id);if(dup.length>1)erros.push(`id ${R.id} existe em mais de um lote (${dup.join(', ')}) — os renders se atropelam; renomeie um deles`);
  const ordem=Object.keys(SENT);const idx=[...R.order].map(c=>ordem.indexOf(c));
  if(idx.some(i=>i<0))erros.push(`ordem "${R.order}" tem frase que não existe no projeto`);
  else if(idx.some((v,i)=>i&&v<=idx[i-1]))erros.push(`frases fora da ordem original ("${R.order}") — reordenar foi reprovado como "bugado"`);
+ // paleta do site: destaque só verde-limão (&H6BF3C6&); amarelo/rosa reprovados pelo dono
+ if(R.fx&&(R.hl||[]).some(c=>!/6BF3C6/i.test(c)))erros.push('cor de destaque fora da paleta do site (só o verde-limão #C6F36B) — o dono reprovou o amarelo');
  if(R.cap==='faixa')erros.push('legenda com faixa/caixa escura — lei do dono: legenda branca sem contorno e sem caixa (cap:"sombra")');
  if(R.reac&&R.reac!=='nenhuma')erros.push(`reações com emoji ("${R.reac}") — descontinuadas, use reac:"nenhuma"`);
  for(const s of shots){
@@ -28,6 +33,9 @@ function valida({R,shots,DUR,SENT,MV}){
   if(s.k==='box'&&!s.take)erros.push(`quadrado de gameplay em ${s.oS.toFixed(2)}s sem clipe (estoque vazio para essa arma?)`);
   else if(s.k==='box'&&s.first&&!fs.existsSync(`${MV}/${s.take}`))erros.push(`clipe não existe: ${s.take}`);
  }
+ // congelamento: gameplay mais longa que o clipe vira quadro parado ("o vídeo bugou" — v999, aura de 1,4s num trecho de 2,6s)
+ if(R.fx){const uso=new Map();for(const s of shots)if(s.k==='box'&&s.take)uso.set(s.take,(uso.get(s.take)||0)+(s.oE-s.oS));
+  for(const [t,seg] of uso){const d=durClipe(`${MV}/${t}`);if(d!=null&&seg>d-0.15)erros.push(`clipe curto demais: ${t.split('/').pop()} tem ${d.toFixed(1)}s e o vídeo pede ${seg.toFixed(1)}s — ia congelar o último quadro`);}}
  const memes=new Map();for(const s of shots)if(s.k==='meme'){const m=memes.get(s.meme)||{a:s.oS,b:s.oE};m.a=Math.min(m.a,s.oS);m.b=Math.max(m.b,s.oE);memes.set(s.meme,m);}
  for(const [m,{a,b}] of memes)if(b-a>MEME_MAX+0.05)erros.push(`meme ${m.id} dura ${(b-a).toFixed(2)}s (máx ${MEME_MAX}s)`);
  // ritmo: os vídeos que o dono deu nota 4 têm 3–4,4 cortes a cada 10s (plano médio 2,2–3,3s); o v990 reprovado ("muito corte
