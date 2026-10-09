@@ -21,6 +21,7 @@
   "progresso": false,
   "memeMax": 0,
   "siteLegivel": true,
-  "legendaSite": false
+  "legendaSite": false,
+  "paletaSite": true
  }
 }

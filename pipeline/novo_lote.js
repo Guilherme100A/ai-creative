@@ -44,11 +44,12 @@ const DIM={
 // lei do dono: legenda branca sem contorno e sem caixa — sempre "sombra"
 const CAP='sombra';
 // sempre ligados nos lotes novos: 1º frame claro, sem legenda brigando com o site, nitidez nela
+// PALETA DO SITE (dono: "me incomoda o amarelo na legenda, usa só a paleta do site"): destaque só verde-limão #C6F36B, branco e grafite.
 // ARROZ E FEIJÃO COM QUALIDADE (dono, out/2026: v990 reprovado por "muito corte feio, cortes aleatórios"): só o que é limpo e tem motivo.
 // Desligados de propósito: zoomFrase, punch, speed, popEntrada, siteCurto, telaCheia, precoGigante, progresso.
 // telaCheia fica DESLIGADO: só 1 de 42 clipes do estoque fica limpo em tela cheia (HUD, dano, flash) — volta quando houver gameplay própria sem HUD
 // precoGigante foi REPROVADO pelo dono ("17,90 gigante ficou muito ruim") — não religar sem ele pedir
-const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',memeCurado:true,memeSeco:true,corTema:true,ctaCurto:true,ctaVivo:true,masterOk:true,pico:true,boxSeco:true,boxGrande:true,aura:true,zoomCalmo:true,listaUnica:true};
+const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',memeCurado:true,memeSeco:true,paletaSite:true,ctaCurto:true,ctaVivo:true,masterOk:true,pico:true,boxSeco:true,boxGrande:true,aura:true,zoomCalmo:true,listaUnica:true};
 // vocab (clipe escolhido pela etiqueta do que ele mostra) só liga quando o Garimpo entregou moveset/_tags.json — sem ele, toda a gameplay seria pulada
 if(fs.existsSync(path.join(require('./paths').DADOS,'moveset','_tags.json')))FX_FIXO.vocab=true;
 const temMusica=fs.existsSync(path.join(ROOT,'assets','musica','catalogo.json'));
@@ -77,7 +78,7 @@ for(let tent=0;V.length<N&&tent<500;tent++){
  const id='v'+nextId++;
  const fx={...FX_FIXO,...(ESTILO&&ESTILO.fx?Object.fromEntries(Object.entries(ESTILO.fx).filter(([k])=>!['musica','gancho','progresso'].includes(k))):{})};
  if(r.musica)fx.musica={mood:r.musica,db:-16};if(r.gancho)fx.gancho=true;if(r.progresso)fx.progresso=true;
- const v={id,order,gap:r.gap,dirs:'padrao',zoom:r.zoom,pack:r.pack,seed:+id.slice(1),hl:['amarelo'],reac:'nenhuma',memes:r.memes,memeSom:r.memeSom,grade:r.grade,cap:CAP,raceInv:temRaca,fx};
+ const v={id,order,gap:r.gap,dirs:'padrao',zoom:r.zoom,pack:r.pack,seed:+id.slice(1),hl:['limao'],reac:'nenhuma',memes:r.memes,memeSom:r.memeSom,grade:r.grade,cap:CAP,raceInv:temRaca,fx};
  if(r.boxLen)v.boxLen=r.boxLen;
  V.push(v);}
 const out={lote:LOTE,projeto:PROJ_NOME,estilo:ESTILO?ESTILO.nome:null,criadoEm:new Date().toISOString(),variacoes:V};
