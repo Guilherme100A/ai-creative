@@ -61,7 +61,7 @@ function buscar(cache){
 const hoje=()=>new Date().toISOString().slice(0,10);
 // formato real ≥1080p (paisagem); devolve a URL direta do melhor vídeo 1080–1440p
 function fonte1080(id){
- const r=yt(['-J',`https://www.youtube.com/watch?v=${id}`]);let j;try{j=JSON.parse(r.stdout)}catch{return null;}
+ const r=yt(['-J',`https://www.youtube.com/watch?v=${id}`]);let j;try{j=JSON.parse(r.stdout)}catch{return null;}if(!j||typeof j!=="object")return null;
  const v=(j.formats||[]).filter(f=>f.vcodec&&f.vcodec!=='none'&&f.height>=1080&&f.height<=1440&&f.width>f.height&&f.url&&/^https?/.test(f.protocol||'https'))
   .sort((a,b)=>(b.height-a.height)||((/avc1/.test(b.vcodec)?1:0)-(/avc1/.test(a.vcodec)?1:0))||((b.tbr||0)-(a.tbr||0)));
  const lo=(j.formats||[]).filter(f=>f.vcodec&&f.vcodec!=='none'&&f.height>=240&&f.height<=480&&f.url&&/^https?/.test(f.protocol||'https')).sort((a,b)=>a.height-b.height)[0];
