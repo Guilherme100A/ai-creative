@@ -93,6 +93,7 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
 // fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true  siteCurto:true  ctaVivo:true  popEntrada:true  aberturaRosto:true (A/B)  zoomCalmo:true  listaUnica:true
 // formato REF: empurrao:true  chips:true (PROJ.chips)  telaDividida:true (direção v:"split")  ctaRosto:true  memeMax:n  siteLegivel:true
+// semCongelar:true (gameplay nunca congela: shot maior que o clipe emenda outro clipe da tag ou encurta)  paletaSite:true (destaques só em verde-limão #C6F36B; pílula grafite; sem amarelo/lilás)
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
@@ -103,6 +104,8 @@ const GOLPE={godhuman:'golpe_godhuman',cdk:'golpe_cdk','soul guitar':'golpe_soul
 // telaDividida: gatilhos da fala (vocabulario.json) → tag do clipe da metade de baixo
 const normW=t=>t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,'').trim();
 const GATS=(()=>{let C={};try{C=JSON.parse(fs.readFileSync(path.join(__dirname,'vocabulario.json'),'utf8')).conceitos}catch(e){}const g=[];for(const c of Object.values(C))if(c.tag)for(const x of c.gatilhos||[])g.push({g:normW(x),n:normW(x).split(' ').length,tag:c.tag});return g.sort((a,b)=>b.n-a.n);})();
+// régua do dono (regua_takes.json): takes do estoque aprovados ('bom') e reprovados ('ruim')
+const REGUA=(()=>{const r={bom:new Set(),ruim:new Set()};try{for(const e of JSON.parse(fs.readFileSync(path.join(__dirname,'regua_takes.json'),'utf8')).exemplos||[])if(String(e.arquivo).startsWith('moveset/')&&r[e.tipo])r[e.tipo].add(path.basename(e.arquivo));}catch(e){}return r;})();
 let TAGPOOL=null;const tagPool=tag=>{if(!TAGPOOL){TAGPOOL={};let T={};try{T=JSON.parse(fs.readFileSync(MV+'/_tags.json','utf8'))}catch(e){}
  const todos=[];const walk=p=>{for(const f of fs.readdirSync(path.join(MV,p))){if(f.startsWith('_'))continue; /* _descartados etc. nunca entram */const q=p?p+'/'+f:f;if(fs.statSync(path.join(MV,q)).isDirectory())walk(q);else if(f.endsWith('.mp4'))todos.push(q);}};walk('');
  for(const q of todos.sort()){const b=path.basename(q);if(b.startsWith('yt_')&&!ytOk(q))continue;TAGDE[q]=T[b]||T[q]||[];for(const t of TAGDE[q])(TAGPOOL[t]=TAGPOOL[t]||[]).push(q);}}return TAGPOOL[tag]||[];};const TAGDE={};
@@ -121,10 +124,10 @@ function speedLines(){const f=MO+'/speedlines.png';if(!fs.existsSync(f)){const a
 const VERDE='&H5AE63C&',LILAS='&HFF8CC8&',PRECO_RE=/^(R\$|\d+,\d\d|REAIS|DEZESSETE)$/;
 const temaCor=u=>PRECO_RE.test(u)?VERDE:/BASIC/.test(u)?LILAS:YEL;
 // gancho: *trecho* fica amarelo; quebra em até 2 linhas que caibam em 1000px (Archivo Black ≈0,62 em por letra maiúscula)
-function ganchoASS(txt){const pal=txt.toUpperCase().split(/\s+/).filter(Boolean);const larg=ws=>ws.join(' ').replace(/\*/g,'').length*0.62;
+function ganchoASS(txt,cor=YEL){const pal=txt.toUpperCase().split(/\s+/).filter(Boolean);const larg=ws=>ws.join(' ').replace(/\*/g,'').length*0.62;
  let best=[pal],bw=larg(pal);for(let i=1;i<pal.length;i++){const w=Math.max(larg(pal.slice(0,i)),larg(pal.slice(i)));if(w<bw){bw=w;best=[pal.slice(0,i),pal.slice(i)];}}
  const size=Math.min(120,Math.floor(1000/bw));let amarelo=false;
- const pinta=w=>w.split(/(\*)/).map(p=>{if(p==='*'){amarelo=!amarelo;return amarelo?`{\\c${YEL}}`:'{\\c&HFFFFFF&}'}return p}).join('');
+ const pinta=w=>w.split(/(\*)/).map(p=>{if(p==='*'){amarelo=!amarelo;return amarelo?`{\\c${cor}}`:'{\\c&HFFFFFF&}'}return p}).join('');
  return {size,txt:best.map(l=>l.map(pinta).join(' ')).join('\\N')};}
 
 function build(R){
@@ -146,8 +149,8 @@ function build(R){
  // 2) direções -> saída
  const used=new Set();const takeFor=wpn=>{const ALL3=[...TAKES.godhuman,...TAKES.cdk,...TAKES['soul guitar']],own=ALL3.filter(t=>!path.basename(t).startsWith('yt_'));const pool=wpn==='any'?(own.length?own:ALL3):TAKES[wpn];
   let cand=pool.filter(x=>!used.has(x));if(!cand.length)cand=pool;const x=pick(cand);used.add(x);return x};
- const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{const lim=new Set(tagPool('limpo_tela_cheia'));for(const t of ts){const pl=tagPool(t);if(pl.length){const pri=x=>TAGDE[x][0]===t,cac=x=>path.basename(x).includes(`_${t}_`);
-   const nv=[pl.filter(x=>pri(x)&&cac(x)),pl.filter(x=>pri(x)&&lim.has(x)),pl.filter(pri),pl.filter(x=>lim.has(x)),pl].filter(a=>a.length);return {pl:nv[0],nv,t};}}return null;}; /* dentro da tag, em níveis: caçado para a tag (nome yt_…_<tag>_n) > tag principal do clipe (a 1ª) e limpo > tag principal > limpo (limpo_tela_cheia) > o resto */const AURA=!!(R.fx&&R.fx.aura);const fam=x=>path.dirname(x); /* família = mesma pasta (ex. aura/racas/Angel) */
+ const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{const lim=new Set(tagPool('limpo_tela_cheia'));for(const t of ts){const pl=tagPool(t).filter(x=>!REGUA.ruim.has(path.basename(x)));if(pl.length){const bom=x=>REGUA.bom.has(path.basename(x));const pri=x=>TAGDE[x][0]===t,cac=x=>path.basename(x).includes(`_${t}_`);
+   const nv=[pl.filter(x=>pri(x)&&bom(x)),pl.filter(x=>pri(x)&&cac(x)),pl.filter(x=>pri(x)&&lim.has(x)),pl.filter(pri),pl.filter(x=>lim.has(x)),pl].filter(a=>a.length);return {pl:nv[0],nv,t};}}return null;}; /* dentro da tag, em níveis: aprovado na régua do dono (regua_takes.json, tipo bom; os 'ruim' saem) > caçado para a tag (nome yt_…_<tag>_n) > tag principal do clipe (a 1ª) e limpo > tag principal > limpo (limpo_tela_cheia) > o resto */const AURA=!!(R.fx&&R.fx.aura);const fam=x=>path.dirname(x); /* família = mesma pasta (ex. aura/racas/Angel) */
  const pegaAura=pl=>{const uf=new Set([...used].map(fam));let c=pl.filter(x=>!used.has(x)&&!uf.has(fam(x)));if(!c.length)c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;}; /* evita repetir a mesma família (ex. duas Angel) */
  const pegaVoc=r=>{const uf=new Set([...used].map(fam));const n=r.nv.find(a=>a.some(x=>!used.has(x)&&!uf.has(fam(x))));return pegaAura(n||r.pl);}; /* vocab: o melhor nível que ainda tem clipe novo (montage com várias auras não repete o caçado) */
  const qualquer=()=>[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar'),...auraPool('racas')];
@@ -167,23 +170,25 @@ function build(R){
    oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,...(R.fx&&R.fx.ctaVivo&&fs.existsSync(`${MO}/${d.clip}_vivo.mp4`)?{arq:d.clip+'_vivo'}:{}),...(skipR?{skip:skipR}:{}),oS,oE});} // ctaVivo: card final com SAIBA MAIS, cursor tocando, seta e logo com bounce
   // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
   else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
-   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaVoc(r),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
+   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaVoc(r),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
   else if(d.v==='split'){ // telaDividida: rosto em cima, gameplay embaixo trocando na palavra que cita cada item (tag do vocabulário); armas em lista ≥0,4s, o resto ≥1,2s
    if(!(R.fx&&R.fx.telaDividida))continue;const wo=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e){const o=p.o+(w.s-p.s);if(o>=oS-0.01&&o<oE)wo.push({o,t:normW(w.t)});}
    const it=[];for(let i=0;i<wo.length;i++)for(const G of GATS){if(wo.slice(i,i+G.n).map(x=>x.t).join(' ')===G.g){if(!it.length||it[it.length-1].tag!==G.tag)it.push({o:wo[i].o,tag:G.tag});break;}}
-   const arma=t=>/^golpe_/.test(t);const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;let x2=x;const p=ok[ok.length-1];
+   const arma=t=>/^golpe_/.test(t);const ok=[];let semIni=false;for(const x of it){const p=ok[ok.length-1];
+    if(!vocPool([x.tag])){if(!ok.length)semIni=true;else if(!p.buraco)ok.push({o:x.o,tag:x.tag,buraco:true});continue;} /* item citado sem clipe: rosto cheio na palavra dele até o próximo item com clipe (nunca outro visual no lugar) */
+    let x2=x;if(p&&p.buraco){ok.push(x2);continue;}
     if(p&&!(arma(x.tag)&&arma(p.tag))&&x.o-p.o<1.2){if(p.tag==='aura'&&x.tag!=='aura'&&!arma(x.tag)){p.tag=x.tag;continue;} /* "da conta, raça V4": a aura genérica vira a coisa citada logo depois */
      const w=wo.find(y=>y.o>=p.o+1.2);if(w&&w.o-x.o<=0.6&&w.o<oE-1.2)x2={...x,o:w.o};else continue;} /* colado demais: anda até a palavra seguinte (≤0,6s), senão sai */
     if(p&&x2.o-p.o<0.4)continue;ok.push(x2);} // lista de armas: cada arma na sua palavra (≥0,4s); raça/inventário/aura ≥1,2s
-   if(!ok.length&&vocPool(['aura']))ok.push({o:oS,tag:'aura'});if(!ok.length){avV.push(`sem clipe para a tela dividida (${name})`);continue;}
-   ok[0].o=oS;if(ok.length>1&&oE-ok[ok.length-1].o<(arma(ok[ok.length-1].tag)?0.4:1.2))ok.pop();
-   ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaVoc(r),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
+   if(!it.length&&vocPool(['aura']))ok.push({o:oS,tag:'aura'});if(!ok.some(x=>!x.buraco)){avV.push(`sem clipe para a tela dividida (${name})`);continue;}
+   if(!semIni)ok[0].o=oS;if(ok.length>1&&!ok[ok.length-1].buraco&&oE-ok[ok.length-1].o<(arma(ok[ok.length-1].tag)?0.4:1.2))ok.pop();
+   ok.forEach((x,j)=>{if(x.buraco)return;const r=vocPool([x.tag]);vis.push({k:'split',take:pegaVoc(r),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
   else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,...(R.fx?{wpn:d.wpn}:{}),oS,oE});}
   else if(VOC){const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3); // vocab na montage: aura, senão golpe da arma do quadro
    for(let i=0;i<n;i++){const r=vocPool(['aura',GOLPE[ws[(k+i)%3]]]);if(!r){avV.push(`sem clipe para aura/${GOLPE[ws[(k+i)%3]]} (montage ${name}): fica o rosto dela`);continue;}
-    vis.push({k:'box',take:pegaVoc(r),...(r.t==='aura'?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
+    vis.push({k:'box',take:pegaVoc(r),tag:r.t,...(r.t==='aura'?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
    for(let i=0;i<n;i++){const ap=auraDe(ws[(k+i)%3]);vis.push({k:'box',take:ap.length?pegaAura(ap):takeFor(ws[(k+i)%3]),...(ap.length?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}}
  // listaUnica: armas citadas em sequência (gh/cdk/sg colados) viram UM quadrado só, com a 1ª arma cobrindo a lista inteira
@@ -202,17 +207,31 @@ function build(R){
  if(R.fx&&R.fx.aura)for(let i=0;i+1<vis.length;i++){const v=vis[i],n=vis[i+1];if(!v.aura||v.oE-v.oS>=1.2||n.k!=='box'||Math.abs(n.oS-v.oE)>0.05)continue;const d=Math.min(1.2-(v.oE-v.oS),n.oE-n.oS-0.8);if(d>0){v.oE+=d;n.oS+=d;}}
  const ENTRIES=['flip','rise','pop','swing'];let bi=Math.floor(rand()*4);
  for(const v of vis)if(v.k==='box'||v.k==='meme'){v.pose=bi%2?1:-1;v.entry=ENTRIES[(bi+Math.floor(rand()*2))%4];bi++;}
- const CALMO=!!(R.fx&&R.fx.zoomCalmo); // zoomCalmo: fiapo dela (<0,35s) entre dois inserts some — o insert anterior segue até o próximo
- const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(CALMO&&v.oS>cur+0.02&&v.oS-cur<0.35&&full.length&&full[full.length-1].k!=='th'){full[full.length-1].oE=v.oS;cur=v.oS;}if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
- if(cur<DUR-0.02)full.push({k:'th',oS:cur,oE:DUR});
- const cuts=pieces.map(p=>p.o).slice(1);let shots=[];
- for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS,vd:v.oE-v.oS});a=c;}}
  const FX=R.fx||{};
  const PICOS=FX.pico||FX.aura?lerPicos():null,TELA=FX.telaCheia?lerTela():null;
  const cheia=s=>!!FX.telaCheia&&(TELA?s.pool!=='inv'&&TELA.has(path.basename(s.take)):!s.pool); // gameplay em tela cheia (só clipe limpo da lista)
  // início do clipe: padrão 0,15 (YouTube) / 0,9 (gravação); com pico, o auge cai a ~40% do shot (nunca antes do padrão)
- const iniClipe=(s,isYT)=>{const p=PICOS&&(PICOS[s.take]??PICOS[path.basename(s.take)]);const b=isYT?0.15:0.9;if(s.aura&&p&&p.aura!=null)return Math.max(b,p.aura); // aura: começa no melhor trecho
+ const iniClipe=(s,isYT)=>{if(s.ini0!=null)return s.ini0; /* semCongelar: clipe curto começa mais cedo */const p=PICOS&&(PICOS[s.take]??PICOS[path.basename(s.take)]);const b=isYT?0.15:0.9;if(s.aura&&p&&p.aura!=null)return Math.max(b,p.aura); // aura: começa no melhor trecho
   const v=p==null||!FX.pico?null:typeof p==='object'?p.pico:p;return v==null?b:Math.max(b,s.k==='split'?v-0.25:v-0.4*s.vd);}; /* no split o golpe já entra no auge (a troca acompanha a palavra) */const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
+ // semCongelar: gameplay nunca congela (o tpad clonava o último quadro) — shot mais longo que o clipe emenda o próximo clipe da mesma tag (corte seco); sem outro clipe, encurta e o resto volta para o rosto
+ const DURC={};const durClipe=t=>{if(DURC[t]==null){DURC[t]=0;try{DURC[t]=+execFileSync(require('ffprobe-static').path,['-v','error','-show_entries','format=duration','-of','csv=p=0',`${MV}/${t}`]).toString().trim()}catch(e){}}return DURC[t];};
+ const cabe=v=>{const isYT=path.basename(v.take).startsWith('yt_'),D=durClipe(v.take)-0.05,T=v.oE-v.oS;let vd=T;for(let k=0;k<4;k++)vd=Math.min(T,D-iniClipe({...v,vd},isYT));return Math.max(0,vd);}; /* quanto do shot o clipe cobre sem acabar */
+ if(FX.semCongelar){const out=[];for(let i=0;i<vis.length;i++){let v=vis[i];const fim0=v.oE;
+   if(v.k==='meme'){if(v.meme.tipo==='video'&&v.meme.dur){const L=v.meme.dur-(FX.memeCurado&&v.meme.ini!=null?v.meme.ini:0.1)-0.05;if(v.oE-v.oS>L)v.oE=v.oS+Math.max(0,L);}if(v.oE-v.oS>=0.4)out.push(v);continue;} // meme de vídeo: sem loop
+   if(!v.take||(v.k!=='box'&&v.k!=='split')){out.push(v);continue;}
+   if(v.oE-v.oS-cabe(v)>0.05){const isYT=path.basename(v.take).startsWith('yt_');v={...v,ini0:Math.max(isYT?0.15:0.9,Math.min(iniClipe({...v,vd:v.oE-v.oS},isYT),durClipe(v.take)-0.05-(v.oE-v.oS)))};} // antes de cortar, começa o clipe mais cedo (até o início padrão)
+   for(let c=cabe(v);v.oE-v.oS-c>0.05;c=cabe(v)){const r=v.tag?vocPool([v.tag]):null;const cand=r&&v.oE-v.oS-c>=0.5?r.nv.map(a=>a.filter(x=>!used.has(x)&&![...used].some(u=>fam(u)===fam(x)))).find(a=>a.length):null; /* emenda nunca repete família já mostrada (ex. outra Angel) */
+    if(!cand){v={...v,oE:v.oS+c};const n=vis[i+1];if(n&&n.k==='split'&&v.k==='split'&&Math.abs(n.oS-fim0)<0.05&&fim0-v.oE<0.5)n.oS=v.oE;break;} /* sobra <0,5s na tela dividida: o próximo item entra um pouco antes (sem fiapo de rosto) */const nx=cand[0];used.add(nx); // próximo clipe da mesma tag, no melhor nível ainda não usado
+    if(c>=0.4){out.push({...v,oE:v.oS+c});v={...v,take:nx,ini0:undefined,oS:v.oS+c,boxOff:(v.boxOff||0)+c};}else v={...v,take:nx,ini0:undefined};} // no quadrado a emenda não refaz a entrada 3D
+   if(v.oE-v.oS>=0.4)out.push(v);}
+  vis=out;}
+ // com semCongelar, o fiapo dela só é absorvido se o insert anterior tiver clipe para isso (e nunca na tela dividida: lá o buraco é de propósito)
+ const estica=(p,ate)=>p.k==='mo'||(p.k==='meme'&&p.meme.tipo!=='video')||(p.k==='box'&&p.take&&cabe({...p,oE:ate})>=ate-p.oS-0.05);
+ const CALMO=!!(R.fx&&R.fx.zoomCalmo); // zoomCalmo: fiapo dela (<0,35s) entre dois inserts some — o insert anterior segue até o próximo
+ const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(CALMO&&v.oS>cur+0.02&&v.oS-cur<0.35&&full.length&&full[full.length-1].k!=='th'&&(!FX.semCongelar||estica(full[full.length-1],v.oS))){full[full.length-1].oE=v.oS;cur=v.oS;}if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
+ if(cur<DUR-0.02)full.push({k:'th',oS:cur,oE:DUR});
+ const cuts=pieces.map(p=>p.o).slice(1);let shots=[];
+ for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS,vd:v.oE-v.oS});a=c;}}
  // abertura: cena logo no início começa no 0 (some o fiapo dela antes) e pula o fade escuro da cena
  if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
   if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
@@ -266,7 +285,7 @@ function build(R){
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];}
   else if(cheia(s)){ // telaCheia: gameplay de arma em tela cheia (9:16 do clipe, leve zoom); speed: linhas + punch 1,08→1,0 na entrada
-   const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;const ent=FX.speed&&s.off<0.28;
+   const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;const ent=FX.speed&&s.off<0.28&&!s.boxOff;
    const crop=isYT?"crop='ih*9/16/1.04':'ih/1.04':(iw-ow)/2:(ih-oh)/2":'crop=780:1386:1320:27';
    const g=`[0:v]fps=30,${crop},scale=1080:1920:flags=lanczos,eq=saturation=1.2:contrast=1.04${ent?`,zoompan=z='1+0.08*pow(1-min(1,(on+${fr(s.off)})/6),2)':d=1:x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':s=1080x1920:fps=30`:''},setsar=1`;
    args=['-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,...(ent?slIn(s):[]),'-filter_complex',ent?`${g}[g];[1:v]${slFade(s)}[sl];[g][sl]overlay=0:0:eof_action=pass[out]`:`${g}[out]`,'-map','[out]'];
@@ -277,10 +296,10 @@ function build(R){
    const vf=!isYT?`crop=980:980:1220:330,scale=${BX}:${BX}:flags=lanczos`:s.pool==='inv'?`scale=${BX}:-2:flags=lanczos,pad=${BX}:${BX}:0:(oh-ih)/2:color=0x16171a`:`crop='ih*0.72':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6,scale=${BX}:${BX}:flags=lanczos`;
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);
    run(['-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-frames:v',String(n),'-vf',`fps=30,${vf},eq=saturation=1.2:contrast=1.04`,'-q:v','2',path.join(fd,'f%04d.jpg')]);
-   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,...(FX.boxSeco?{seco:true}:{}),...(FX.boxGrande?{tam:980}:{})})],{stdio:'inherit'});
+   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off+(s.boxOff||0),...(FX.boxSeco?{seco:true}:{}),...(FX.boxGrande?{tam:980}:{})})],{stdio:'inherit'});
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];
-   if(FX.speed&&s.off<0.28&&!s.pool){args.splice(args.indexOf('-filter_complex'),0,...slIn(s)); // speed também no quadrado 3D
+   if(FX.speed&&s.off<0.28&&!s.pool&&!s.boxOff){args.splice(args.indexOf('-filter_complex'),0,...slIn(s)); // speed também no quadrado 3D
     const k=args.indexOf('-filter_complex')+1;args[k]=args[k].replace('setsar=1[out]',`setsar=1[o0];[2:v]${slFade(s)}[sl];[o0][sl]overlay=0:0:eof_action=pass[out]`);}
    if(!isYT){const wav=path.join(TMP,`g${i}.wav`);execFileSync(ff,['-v','error','-y','-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-t',(s.oE-s.oS).toFixed(3),'-vn','-ac','2','-ar','48000','-af',`afade=t=in:d=0.03,afade=t=out:st=${Math.max(0,s.oE-s.oS-0.05).toFixed(3)}:d=0.05`,wav]);
    gameAudio.push([wav,s.oS]);}}
@@ -316,7 +335,7 @@ function build(R){
   :`Style: C,Sniglet,100,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,0,5,5,70,70,0,1`;
  let ass=`[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n${style}\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n`;
  // gancho: título grande no topo nos primeiros ~2,2s (branco com sombra, sem contorno; *trecho* em amarelo)
- if(ganchoTxt){const G2=ganchoASS(ganchoTxt);
+ if(ganchoTxt){const G2=ganchoASS(ganchoTxt,FX.paletaSite?LIME:YEL); /* paletaSite: só a paleta do site (verde-limão, branco, grafite) */
   ass=ass.replace(/\n\n\[Events\]/,`\nStyle: G,Archivo Black,${G2.size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H8C000000,0,0,0,0,100,100,0,0,1,0,7,8,40,40,0,1\n\n[Events]`);
   ass+=`Dialogue: 2,${ts(0)},${ts(Math.min(2.2,DUR))},G,,0,0,0,,{\\an8\\pos(540,470)\\fad(0,220)\\fscx60\\fscy60\\t(0,140,\\fscx108\\fscy108)\\t(140,240,\\fscx100\\fscy100)}${G2.txt}\n`;}
  let hi=0;const lim=t=>t.replace(/\{[^}]*\}/g,''); // legenda grande: sobe para a parede (y=1300) e palavra comprida encolhe para caber em ~85% da largura
@@ -324,12 +343,14 @@ function build(R){
   if(FX.speed&&FX.telaCheia){const sh=shots.find(x=>x.k==='box'&&cheia(x)&&x.first&&s>=x.oS-0.03&&s<x.oS+0.3);if(sh){s=sh.oS+0.3;if(s>e-0.15)return;}} // speed: legenda só depois das linhas (~0,3s)
   // telaCheia: legenda acaba no corte para quadrado/meme; no gameplay em tela cheia o destaque é branco (só o preço segue verde)
   if(FX.legendaSite===false){const ns=shots.find(x=>x.k==='mo'&&/^site_/.test(x.clip)&&x.oS>s+0.02);if(ns&&e>ns.oS)e=ns.oS;if(s>e-0.15)return;} // legendaSite: legenda acaba no corte para o site
+  if(FX.paletaSite&&FX.aberturaRosto&&ganchoTxt){if(e<=2.35)return;s=Math.max(s,2.2);} /* o gancho é a legenda da abertura: nada de dois textos brigando */
+  if(FX.paletaSite&&FX.ctaRosto){const cd=shots.find(x=>x.k==='mo'&&/^brand_cta/.test(x.clip)&&x.first&&x.oS>0.3);if(cd){if(s>=cd.oS-0.15)return;e=Math.min(e,cd.oS);}} /* card final limpo: sem legenda solta sobre ele */
   let emCheia=false;if(FX.telaCheia){const nb=shots.find(x=>((x.k==='box'&&(!cheia(x)||x.first))||x.k==='meme')&&x.oS>s+0.05);if(nb&&e>nb.oS)e=nb.oS;if(s>e-0.15)return;const sh=shotAt(s);emCheia=!!(sh&&sh.k==='box'&&cheia(sh));}
-  const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||(FX.corTema&&PRECO_RE.test(u))){const c=FX.corTema?(emCheia&&!PRECO_RE.test(u)?'&HFFFFFF&':temaCor(u)):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
+  const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||((FX.corTema||FX.paletaSite)&&PRECO_RE.test(u))){const c=FX.paletaSite?LIME:FX.corTema?(emCheia&&!PRECO_RE.test(u)?'&HFFFFFF&':temaCor(u)):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
   ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='split'?960:z==='brand'||emCheia?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
  // precoGigante: "R$ 17,90" verde gigante no alto (na parede, acima da cabeça) por ~1,2s quando ela fala o preço (sem moedaEm: logo depois do gancho, antes dos 3s)
  if(FX.precoGigante){const o=PROJ.moedaEm!=null?s2o(PROJ.moedaEm):ganchoTxt?2.25:1.0;
-  if(o!=null&&o+1.2<DUR){ass=ass.replace(/\n\n\[Events\]/,`\nStyle: P,Archivo Black,250,&H00${VERDE.slice(2,8)},&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,1,0,9,5,40,40,0,1\n\n[Events]`);
+  if(o!=null&&o+1.2<DUR){ass=ass.replace(/\n\n\[Events\]/,`\nStyle: P,Archivo Black,250,&H00${(FX.paletaSite?LIME:VERDE).slice(2,8)},&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,1,0,9,5,40,40,0,1\n\n[Events]`);
    ass+=`Dialogue: 3,${ts(o)},${ts(o+1.2)},P,,0,0,0,,{\\an5\\pos(540,480)\\fad(0,150)\\fscx40\\fscy40\\t(0,120,\\fscx112\\fscy112)\\t(120,200,\\fscx100\\fscy100)}{\\fs120}R$ {\\fs250}17,90\n`;}}
  // chips: selos por cima do rosto (PROJ.chips = [[início, fim, 'TEXTO']] em tempo da fala), pílula escura + ponto verde-limão, no terço de cima; nunca preço gigante
  // ctaRosto: nos últimos ~4s de rosto antes do card, chip 'CLICA EM SAIBA MAIS' + seta verde pulando para baixo
@@ -340,7 +361,7 @@ function build(R){
   const rr=`m ${r} 0 l ${w-r} 0 b ${w-r+kr} 0 ${w} ${r-kr} ${w} ${r} l ${w} ${h-r} b ${w} ${h-r+kr} ${w-r+kr} ${h} ${w-r} ${h} l ${r} ${h} b ${r-kr} ${h} 0 ${h-r+kr} 0 ${h-r} l 0 ${r} b 0 ${r-kr} ${r-kr} 0 ${r} 0`;
   const q=d/2,k=+(q*0.552).toFixed(1),c=`m ${q} 0 b ${q+k} 0 ${d} ${q-k} ${d} ${q} b ${d} ${q+k} ${q+k} ${d} ${q} ${d} b ${q-k} ${d} 0 ${q+k} 0 ${q} b 0 ${q-k} ${q-k} 0 ${q} 0`;
   const mv=(x,yy)=>`\\move(${x},${yy+14},${x},${yy},0,140)\\fad(120,160)`;
-  return `Dialogue: 4,${ts(a)},${ts(b)},K,,0,0,0,,{\\an7${mv(x0,y0)}\\p1\\1c&H1A1A1A&\\1a&H28&\\bord0\\shad0}${rr}{\\p0}\n`+
+  return `Dialogue: 4,${ts(a)},${ts(b)},K,,0,0,0,,{\\an7${mv(x0,y0)}\\p1\\1c${FX.paletaSite?'&H1A1716&':'&H1A1A1A&'}\\1a&H28&\\bord0\\shad0}${rr}{\\p0}\n`+
    `Dialogue: 5,${ts(a)},${ts(b)},K,,0,0,0,,{\\an7${mv(x0+pd,y0+Math.round((h-d)/2))}\\p1\\1c${LIME}\\bord0\\shad0}${c}{\\p0}\n`+
    `Dialogue: 5,${ts(a)},${ts(b)},K,,0,0,0,,{\\an5${mv(x0+pd+d+gap+Math.round(tw/2),y0+Math.round(h/2))}\\fs${fz}}${ls.join('\\N')}\n`;};
  if((FX.chips&&PROJ.chips)||FX.ctaRosto)ass=ass.replace(/\n\n\[Events\]/,`\nStyle: K,Archivo Black,46,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,10,10,0,1\n\n[Events]`);
@@ -386,7 +407,7 @@ function build(R){
  // progresso: barra amarela fina no topo, enchendo do início ao fim
  const vsub=FX.progresso?'[vs]':'[v]';
  fc+=`${vl}subtitles=filename='${esc(path.join(TMP,'legenda.ass'))}':fontsdir='${esc(FONTS)}'${vsub};`;
- if(FX.progresso)fc+=`color=c=0xFFE100:s=1080x9:r=30:d=${DUR.toFixed(3)}[pb];[vs][pb]overlay=x='-w+w*t/${DUR.toFixed(3)}':y=0:eof_action=pass[v];`;
+ if(FX.progresso)fc+=`color=c=0x${FX.paletaSite?'C6F36B':'FFE100'}:s=1080x9:r=30:d=${DUR.toFixed(3)}[pb];[vs][pb]overlay=x='-w+w*t/${DUR.toFixed(3)}':y=0:eof_action=pass[v];`;
  pieces.forEach((p,i)=>{fc+=`[1:a]atrim=${p.s.toFixed(3)}:${p.e.toFixed(3)},asetpts=PTS-STARTPTS,aresample=48000,afade=t=in:d=0.015,afade=t=out:st=${(p.e-p.s-0.02).toFixed(3)}:d=0.02[p${i}];`;});
  fc+=`${pieces.map((_,i)=>`[p${i}]`).join('')}concat=n=${pieces.length}:v=0:a=1,apad=pad_dur=${TAIL+0.2},loudnorm=I=-15:TP=-1.5,aresample=48000[voz];`;
  const labs=[];

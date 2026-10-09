@@ -289,7 +289,8 @@
     "icon": "cart",
     "text": "SÓ R$ 17,90",
     "lime": true,
-    "at": 0.35
+    "at": 0.35,
+    "big": true
    },
    {
     "icon": "bolt",

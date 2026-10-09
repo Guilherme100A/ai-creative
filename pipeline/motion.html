@@ -19,6 +19,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#141518
   text-shadow:0 6px 24px rgba(0,0,0,.6)}
 .item svg{width:84px;height:84px;flex:none}
 .item.lime{color:#c6f36b}
+.item.big{font-size:78px;text-shadow:0 6px 20px rgba(0,0,0,.45)}.item.big svg{width:112px;height:112px} /* preço no card: 1,5x e verde-limão cheio */
 .tag{position:absolute;left:50%;top:560px;font:700 34px SM;letter-spacing:6px;color:#c6f36b;white-space:nowrap}
 /* cta vivo */
 #saiba{position:absolute;left:50%;top:330px;background:#c6f36b;color:#111;font:64px AB;letter-spacing:1px;padding:24px 60px;border-radius:70px;white-space:nowrap;box-shadow:0 20px 70px rgba(198,243,107,.35)}
@@ -56,7 +57,7 @@ if(P.type==='brand'){
   const B=document.getElementById('brand');B.style.display='block';
   let h='';if(P.tag)h+=`<div class="tag" id="tag">${P.tag}</div>`;
   h+='<div class="logo" id="logo">BASIC-BUILD</div>';
-  (P.items||[]).forEach((it,i)=>h+=`<div class="item ${it.lime?'lime':''}" id="it${i}" style="top:${930+i*150}px">${ICONS[it.icon]||''}<span>${it.text}</span></div>`);
+  (P.items||[]).forEach((it,i)=>h+=`<div class="item ${it.lime?'lime':''} ${it.big?'big':''}" id="it${i}" style="top:${930+i*150}px">${ICONS[it.icon]||''}<span>${it.text}</span></div>`);
   B.innerHTML=h;
   if(P.cta)B.insertAdjacentHTML('beforeend','<div id="saiba">SAIBA MAIS</div>'+
    '<div id="seta"><svg viewBox="0 0 24 24"><path fill="none" stroke="#c6f36b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M5 9l7 7 7-7"/></svg></div>'+
