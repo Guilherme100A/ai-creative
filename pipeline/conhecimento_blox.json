@@ -1,27 +1,129 @@
 {
  "obs": "BASE DE CONHECIMENTO DO JOGO (Blox Fruits / Roblox). Fonte de verdade para TODO o sistema: juiz do caçador, projeto automático (Claude), crítico (Coruja), garimpeiro, motor/vocabulário. Pedido do dono: 'quero que isso seja entendido em qualquer contexto, não quero ficar tendo que dizer'. Regra geral: um visual só vale como prova de uma palavra se um jogador de Blox Fruits reconheceria, na hora, que é AQUILO — sem 'quase', sem coisa genérica, sem tela de outra coisa. Na dúvida, não mostra (fica o rosto). Pesquisado em out/2026 (wiki oficial do jogo e guias); o jogo muda com updates — revisar quando houver update grande.",
  "raridades": {
-  "ordem": ["Common", "Uncommon", "Rare", "Legendary", "Mythical"],
+  "ordem": [
+   "Common",
+   "Uncommon",
+   "Rare",
+   "Legendary",
+   "Mythical"
+  ],
   "mythical_e_o_topo": "Mythical (mítica) é a raridade mais alta: as frutas mais raras e caras. Em português os vendedores falam 'frutas míticas' (às vezes 'místicas', que é o mesmo pedido: frutas de raridade Mythical)."
  },
  "frutas_miticas": {
-  "lista": ["Kitsune", "Dragon", "Leopard", "Dough", "Venom", "T-Rex", "Spirit", "Control", "Shadow", "Mammoth", "Gravity", "Yeti", "Gas"],
-  "mais_desejadas": ["Kitsune", "Dragon", "Leopard", "Yeti", "Dough", "Venom"],
-  "nao_sao_miticas_exemplos": ["Quake", "Spider", "Light", "Diamond", "Flame", "Magma", "Ice", "Sand", "Dark", "Rubber", "Love", "Ghost", "Creation", "Lightning", "Buddha", "Phoenix", "Portal", "Rumble", "Pain", "Blizzard", "Sound", "Spike", "Bomb", "Smoke", "Spring", "Rocket", "Spin", "Chop", "Kilo", "Falcon"],
+  "lista": [
+   "Kitsune",
+   "Dragon",
+   "Leopard",
+   "Dough",
+   "Venom",
+   "T-Rex",
+   "Spirit",
+   "Control",
+   "Shadow",
+   "Mammoth",
+   "Gravity",
+   "Yeti",
+   "Gas"
+  ],
+  "mais_desejadas": [
+   "Kitsune",
+   "Dragon",
+   "Leopard",
+   "Yeti",
+   "Dough",
+   "Venom"
+  ],
+  "nao_sao_miticas_exemplos": [
+   "Quake",
+   "Spider",
+   "Light",
+   "Diamond",
+   "Flame",
+   "Magma",
+   "Ice",
+   "Sand",
+   "Dark",
+   "Rubber",
+   "Love",
+   "Ghost",
+   "Creation",
+   "Lightning",
+   "Buddha",
+   "Phoenix",
+   "Portal",
+   "Rumble",
+   "Pain",
+   "Blizzard",
+   "Sound",
+   "Spike",
+   "Bomb",
+   "Smoke",
+   "Spring",
+   "Rocket",
+   "Spin",
+   "Chop",
+   "Kilo",
+   "Falcon"
+  ],
   "aviso": "A lista de míticas muda com updates (há fontes com 13 e com 18). Use a lista acima e trate fruta desconhecida como NÃO mítica."
  },
  "inventario": {
   "o_que_e": "Menu de itens do jogador ('Items'; a GUI foi refeita no Update 27). As frutas aparecem como cartões com o nome e a raridade. Cada fruta guardada só 1 vez (salvo +1 Fruit Storage). Existe também a Fruit Storage/Treasure Storage.",
   "prova_valida_para_frutas_miticas": "Inventário/armazenamento do próprio jogador onde a MAIORIA das frutas visíveis é Mythical (pelo menos 3 nomes da lista de míticas legíveis, ex. Kitsune, Dragon, Leopard) — ou a ficha de uma fruta com o rótulo 'Mythical' bem legível. Grande, nítido, legível no celular.",
-  "nao_vale": ["a LOJA (Blox Fruit Dealer / 'Visit the Blox Fruit Dealer to see stock' / preços em Robux) — é a loja, não o inventário do jogador", "inventário com 1–2 míticas no meio de várias frutas comuns (parece conta comum/'bugado')", "inventário pequeno, chapado, ilegível ou com o resto da interface por cima", "fruta solta no chão"]
+  "nao_vale": [
+   "a LOJA (Blox Fruit Dealer / 'Visit the Blox Fruit Dealer to see stock' / preços em Robux) — é a loja, não o inventário do jogador",
+   "inventário com 1–2 míticas no meio de várias frutas comuns (parece conta comum/'bugado')",
+   "inventário pequeno, chapado, ilegível ou com o resto da interface por cima",
+   "fruta solta no chão"
+  ]
  },
  "itens_da_conta": {
-  "Godhuman": {"tipo": "estilo de luta (Fighting Style) de fim de jogo, exige muita maestria", "prova_visual": "avatar usando um golpe do Godhuman no auge (socos/impactos com efeito forte), avatar visível e perto", "nao_vale": "esferas pequenas com o avatar longe, só clarão, HUD dominando"},
-  "CDK": {"nome": "Cursed Dual Katana", "tipo": "espada lendária (2 katanas), conseguida por uma longa missão", "prova_visual": "avatar com as DUAS katanas visíveis, de preferência num golpe (cortes vermelho/roxo)", "nao_vale": "outro personagem sem espadas, corte genérico de longe"},
-  "Soul Guitar": {"nome_no_jogo": "Skull Guitar (o painel mostra 'Skull Guitar')", "tipo": "arma de fogo (gun) mítica, em forma de guitarra", "prova_visual": "avatar segurando a GUITARRA, ou o golpe característico (notas/esfera verde com redemoinho, mãos verdes)", "nao_vale": "feixe fino em campo vazio, orbe genérico"},
-  "Raça V4": {"tipo": "raça despertada (Awakening V4, com 'gears'/tiers; 'Full V4' = todos os gears)", "racas": ["Human", "Shark (Fishman)", "Mink (Rabbit)", "Angel (Sky)", "Cyborg", "Ghoul"], "prova_visual": "avatar TRANSFORMADO com a aura da raça V4 (asas douradas e anéis na Angel, aura vermelha/fumaça na Human, sombra e asas negras na Ghoul…)", "nao_vale": "avatar normal sem transformação, golpe de arma"},
-  "Level máximo": {"valor": "2800 (MAX) é o nível máximo usado pelos vendedores", "prova_visual": "'Lv. 2800 (MAX)' legível e grande, ou avatar forte com aura", "nao_vale": "nível baixo, número ilegível"},
-  "Aura / conta forte": {"o_que_e": "avatar parado ou em pose com aura ligada (V4, haki colorido, brilho) — transmite 'conta forte/completa'", "nao_vale": "golpe aleatório, menu"}
+  "Godhuman": {
+   "tipo": "estilo de luta (Fighting Style) de fim de jogo, exige muita maestria",
+   "prova_visual": "avatar GRANDE dando um golpe do Godhuman no auge: rajada de socos com imagens repetidas do avatar (Z), onda de choque de vento com destroços (X) ou soco carregado com anel e explosão (C); socos com rastro prismático/preto. O avatar tem que aparecer — é estilo de LUTA (soco), sem arma na mão",
+   "nao_vale": "esferas/raios pequenos com o avatar longe; só clarão; HUD dominando; espinhos ou raios ciano soltos (isso NÃO identifica Godhuman — Electric Claw e Dragon Talon também soltam efeitos parecidos); avatar com espada/arma na mão",
+   "golpes": {
+    "M1 Super Punches": "4 socos fortes com rastro colorido (arco-íris/prismático); com aura ligada o rastro fica PRETO",
+    "Z Soaring Beast": "avatar avança no alvo e solta uma rajada de socos de todas as direções com IMAGENS REPETIDAS (afterimages) do próprio avatar em volta do alvo; o soco final escurece a tela por um instante",
+    "X Heaven and Earth": "rajada de VENTO que explode no impacto e joga o alvo para cima; segurando: redemoinho de vento em volta do avatar, ele bate palmas e solta uma ONDA DE CHOQUE no ar, com destroços do chão levantando",
+    "C Sixth Realm Gun": "avatar avança como se teletransportasse e dá um soco com empurrão; segurando: agarra o inimigo, carrega um soco com o punho ESQUERDO, um ANEL se fecha e sai uma explosão em área"
+   }
+  },
+  "CDK": {
+   "nome": "Cursed Dual Katana",
+   "tipo": "espada lendária (2 katanas), conseguida por uma longa missão",
+   "prova_visual": "avatar com as DUAS katanas visíveis, de preferência num golpe (cortes vermelho/roxo)",
+   "nao_vale": "outro personagem sem espadas, corte genérico de longe"
+  },
+  "Soul Guitar": {
+   "nome_no_jogo": "Skull Guitar (o painel mostra 'Skull Guitar')",
+   "tipo": "arma de fogo (gun) mítica, em forma de guitarra",
+   "prova_visual": "avatar segurando a GUITARRA, ou o golpe característico (notas/esfera verde com redemoinho, mãos verdes)",
+   "nao_vale": "feixe fino em campo vazio, orbe genérico"
+  },
+  "Raça V4": {
+   "tipo": "raça despertada (Awakening V4, com 'gears'/tiers; 'Full V4' = todos os gears)",
+   "racas": [
+    "Human",
+    "Shark (Fishman)",
+    "Mink (Rabbit)",
+    "Angel (Sky)",
+    "Cyborg",
+    "Ghoul"
+   ],
+   "prova_visual": "avatar TRANSFORMADO com a aura da raça V4 (asas douradas e anéis na Angel, aura vermelha/fumaça na Human, sombra e asas negras na Ghoul…)",
+   "nao_vale": "avatar normal sem transformação, golpe de arma"
+  },
+  "Level máximo": {
+   "valor": "2800 (MAX) é o nível máximo usado pelos vendedores",
+   "prova_visual": "'Lv. 2800 (MAX)' legível e grande, ou avatar forte com aura",
+   "nao_vale": "nível baixo, número ilegível"
+  },
+  "Aura / conta forte": {
+   "o_que_e": "avatar parado ou em pose com aura ligada (V4, haki colorido, brilho) — transmite 'conta forte/completa'",
+   "nao_vale": "golpe aleatório, menu"
+  }
  },
  "regras_de_prova_visual": [
   "Cada palavra da fala só ganha visual se o visual provar AQUILO para um jogador (ver itens acima). Senão, rosto dela.",
@@ -30,5 +132,13 @@
   "Sem HUD/texto de outros youtubers/números de dano dominando; nítido; avatar grande e no clímax (régua do caçador).",
   "Cores do vídeo: só a paleta do site (verde-limão #C6F36B, branco, grafite)."
  ],
- "fontes": ["https://blox-fruits.fandom.com/wiki/Inventory", "https://blox-fruits.fandom.com/wiki/Mythical", "https://www.esports.net/news/gaming/all-fruits-in-blox-fruits", "https://rblxguide.com/games/blox-fruits/values/mythical", "https://www.playerauctions.com/blox-fruits-account/"]
+ "fontes": [
+  "https://blox-fruits.fandom.com/wiki/Inventory",
+  "https://blox-fruits.fandom.com/wiki/Mythical",
+  "https://www.esports.net/news/gaming/all-fruits-in-blox-fruits",
+  "https://rblxguide.com/games/blox-fruits/values/mythical",
+  "https://www.playerauctions.com/blox-fruits-account/",
+  "https://bloxfruits.noob.wiki/fighting-styles/godhuman/",
+  "https://gobloxy.com/wiki/blox-fruits/a/godhuman"
+ ]
 }

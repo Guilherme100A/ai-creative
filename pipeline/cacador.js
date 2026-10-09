@@ -2,6 +2,7 @@
 // busca em massa (só vídeos com 1080p real) → pré-triagem por energia/picos e anti-HUD → juiz visual do Claude (ia.js)
 // → corte em alta só do clímax → régua de nitidez → estoque (tag + pico).
 // uso: node cacador.js --alvo golpe_soul_guitar [--videos 40] [--queries 'a|b|c'] [--estoque] [--picos 8] [--teto 3]
+//      node cacador.js --alvo golpe_godhuman --ids id1,id2   (vídeos achados pelo MCP mcp-media: pula a busca)
 //      node cacador.js --alvo golpe_cdk --arquivo C:/gravacao.mp4   (gravação própria: pula busca/download)
 //  --teto: para o alvo se o gasto com o Claude passar de US$ teto sem nenhum take aprovado (padrão 3).
 //  sem --estoque os takes aprovados vão para DADOS/_cacador_saida/<alvo>/ (para conferir) e nada do moveset muda.
@@ -61,6 +62,8 @@ const rel=[];
 
 // 1. busca ---------------------------------------------------------------------------------------
 function buscar(cache){
+ // --ids a,b,c: candidatos já achados pelo MCP mcp-media (títulos já filtrados por quem chamou); pula a busca do yt-dlp
+ if(arg('ids'))return String(arg('ids')).split(',').map(x=>x.trim()).filter(id=>/^[\w-]{11}$/.test(id)&&!cache[id]&&naFatia(id)).map(id=>({id,dur:0,titulo:'(mcp-media) '+id,query:'ids',pref:0}));
  const qs=arg('queries')?String(arg('queries')).split('|'):QUERIES[ALVO]||[`blox fruits ${ALVO.replace(/_/g,' ')} showcase 4k`];
  const vistos=new Map(),novos={};
  for(const q of qs){
@@ -208,7 +211,7 @@ Para CADA número dê notas inteiras 0–10:
 - nota: nota geral para usar num anúncio (seja duro: 8+ só se for realmente hype e limpo)
 - o_que_mostra: em palavras do JOGO o que está na tela (ex. "Skull Guitar na mão, notas verdes", "duas katanas do CDK, corte vermelho", "inventário com Kitsune, Dragon, Leopard legíveis", "esferas azuis pequenas, avatar longe")
 - arma: o que aparece (ex. "Soul Guitar - esfera verde", "CDK - duas katanas", "Godhuman", "Angel V4", "nada claro")
-- tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = golpes com espinhos/socos de energia azul-ciano/branca; aura_v4 = raça V4 desperta com aura; inventario_cheio = janela de Itens/inventário do PRÓPRIO jogo com MUITAS frutas míticas grandes e legíveis ocupando o recorte (NÃO loja/Fruit Dealer, nem lista pequena; o dono reprovou inventário chapado e pequeno). Para Godhuman, o dono reprovou esferas azuis pequenas em volta de avatar longe: só nota alta com avatar GRANDE e impacto.
+- tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = estilo de LUTA (socos, sem arma na mão): rajada de socos com imagens repetidas do próprio avatar em volta do alvo, onda de choque de vento com destroços do chão, ou soco carregado com anel que se fecha e explosão; rastro prismático (preto com aura) nos socos — espinhos/raios ciano soltos NÃO provam Godhuman; aura_v4 = raça V4 desperta com aura; inventario_cheio = janela de Itens/inventário do PRÓPRIO jogo com MUITAS frutas míticas grandes e legíveis ocupando o recorte (NÃO loja/Fruit Dealer, nem lista pequena; o dono reprovou inventário chapado e pequeno). Para Godhuman, o dono reprovou esferas azuis pequenas em volta de avatar longe: só nota alta com avatar GRANDE e impacto.
 - quadro: posição do melhor quadro (-2..2) — o auge com o avatar e a arma visíveis, nunca o clarão branco
 - limpo_de / limpo_ate: a maior janela CONTÍNUA de quadros limpos (sem nenhum overlay/HUD/texto/clarão total) que contém o quadro escolhido: limpo_de em -2..0 e limpo_ate em 0..2 (ex.: overlay só no último quadro → limpo_ate=1). Se o quadro escolhido tem overlay, use 0 e 0.
 Responda só o JSON.`;
