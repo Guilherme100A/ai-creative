@@ -107,6 +107,10 @@ const SCHEMA={type:'object',additionalProperties:false,required:['frases','direc
  observacoes:{type:'string'}}};
 const transcr=W=>W.map(w=>`${w.s.toFixed(2)} ${w.t}`).join('\n');
 
+// vocabulário visual (pipeline/vocabulario.json): o que tem que aparecer para cada palavra
+function vocabTexto(){try{const V=JSON.parse(fs.readFileSync(path.join(__dirname,'vocabulario.json'),'utf8')).conceitos;
+ return Object.entries(V).map(([k,c])=>`- ${k} (${c.gatilhos.slice(0,4).join(', ')}): ${c.visual}${c.nao_serve?' — NÃO serve: '+c.nao_serve.join('; '):''}`).join('\n');}catch{return '';}}
+
 function promptIA(){
  const G=JSON.parse(fs.readFileSync(path.join(__dirname,'projetos','base2','projeto.json'),'utf8'));
  const GW=aplicaFix(JSON.parse(fs.readFileSync(path.join(__dirname,'projetos','base2','palavras.json'),'utf8')).chunks.map(c=>({t:c.text.trim(),s:c.timestamp[0],e:Math.max(c.timestamp[1]??0,c.timestamp[0]+0.12)})),G.fix);
@@ -127,6 +131,10 @@ O vídeo é uma pessoa falando para a câmera; a edição coloca por cima anima�
 - Direções não podem se sobrepor. Tempos em segundos da fala original. Duração de uma animação (mo) = a duração da cena (abaixo); quadros de gameplay de arma ~0,6–0,9s; raça ~1,3s; montage = vários quadros seguidos de armas diferentes (2–3s) quando a fala continua sobre a conta.
 - Destaques (amarelo): nomes de itens, marca, preço, palavras de dor (HORAS, DIAS, ZERO) e de ação (JOGAR). Em MAIÚSCULAS, exatamente como a palavra aparece (com acento).
 - Correções: o Whisper erra nomes (ex.: "Base Key Build" → "Basic-Build", "God Human" → "Godhuman", "Blocks" → "Blox"). Já aplicamos estas correções globais: ${GLOBAL.fix.map(([s,r])=>`${s.map(x=>x.replace(/[\^$]/g,'')).join(' ')}→${r}`).join('; ')}. Se ainda sobrar erro de transcrição na fala nova, devolva em "correcoes" com as palavras EXATAMENTE como aparecem na transcrição abaixo.
+
+## Vocabulário visual (o que TEM que aparecer para cada palavra; sem clipe certo, não ponha nada)
+${vocabTexto()}
+Mapeamento nas direções: godhuman/cdk/soul_guitar → box com wpn; raca_v4 → box pool race; inventario_frutas → box pool inv; conta_forte → montage; entrega/feedbacks/marca → a cena (mo) indicada.
 
 ## Cenas disponíveis (tipo mo)
 ${cenas}
