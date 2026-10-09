@@ -25,9 +25,10 @@ const LIM={borrado:5.3,blocos:1.6,nota:7,semHud:8}; // nota >=7 liberada pelo do
 const QUERIES={
  golpe_soul_guitar:['blox fruits soul guitar edit 4k','soul guitar cinematic edit','blox fruits soul guitar showcase no ui','blox fruits soul guitar close up','blox fruits soul guitar 1440p','blox fruits update 17.3 trailer','blox fruits skull guitar edit'],
  golpe_cdk:['blox fruits cdk edit 4k','cursed dual katana cinematic edit','blox fruits cdk showcase no ui','blox fruits cdk close up','blox fruits cursed dual katana 1440p','blox fruits update trailer'],
- golpe_godhuman:['blox fruits godhuman edit 4k','godhuman cinematic edit','blox fruits godhuman showcase no ui','blox fruits godhuman close up','blox fruits godhuman 1440p','blox fruits update trailer'],
+ golpe_godhuman:['blox fruits godhuman close up 4k','godhuman combo edit','blox fruits godhuman edit 4k','godhuman cinematic edit','blox fruits godhuman showcase no ui','blox fruits godhuman close up','blox fruits godhuman 1440p','blox fruits update trailer'],
  aura_v4:['blox fruits race v4 awakening 4k','blox fruits v4 transformation cinematic','blox fruits all race v4 showcase'],
  aura:['blox fruits haki aura showcase 4k','blox fruits aura cinematic'],
+ inventario_cheio:['blox fruits inventory showcase all mythical fruits','blox fruits my fruit storage full','blox fruits inventory kitsune dragon leopard','blox fruits max account inventory showcase'],
 };
 // tag → pasta no moveset
 const PASTA={golpe_soul_guitar:'soul guitar/cacador',golpe_cdk:'cdk/cacador',golpe_godhuman:'godhuman/cacador',aura_v4:'aura/racas/cacador',aura:'aura/geral',inventario_cheio:'inventario frutas miticas',level_max:'conta e itens'};
@@ -77,7 +78,7 @@ function buscar(cache){
 // filtro de título ANTES de baixar (segurança do dono: script/exploit é conteúdo típico de malware; fora do tema = lixo)
 const PROIBIDO=/\b(scripts?|hacks?|hacked|exploits?|executor|hub|auto\s*-?\s*farm|no\s*key|keyless|delta|fluxus|krnl|codes?|giveaway|free\s*robux|robux\s*gr[aá]tis|macros?|controls?)\b/i;
 const PREFERE=/\b(showcase|edit|cinematic|4k|1440p|2160p|combo|pvp|trailer)\b/i;
-const TERMO={golpe_soul_guitar:/soul\s*guitar|skull\s*guitar/i,golpe_cdk:/\bcdk\b|cursed\s*dual\s*katana/i,golpe_godhuman:/god\s*human/i,aura_v4:/\bv4\b|race|awaken/i,aura:/aura|haki/i};
+const TERMO={golpe_soul_guitar:/soul\s*guitar|skull\s*guitar/i,golpe_cdk:/\bcdk\b|cursed\s*dual\s*katana/i,golpe_godhuman:/god\s*human/i,aura_v4:/\bv4\b|race|awaken/i,aura:/aura|haki/i,inventario_cheio:/invent[aá]ri|inventory|storage|fruits?/i};
 function filtroTitulo(t){const m=t.match(PROIBIDO);if(m)return `proibido "${m[0]}"`;
  if(!/blox\s*fruits?|roblox/i.test(t)&&!(TERMO[ALVO]&&TERMO[ALVO].test(t)))return 'não cita Blox Fruits/Roblox nem o alvo';return null;}
 const hoje=()=>new Date().toISOString().slice(0,10);
@@ -197,7 +198,7 @@ Para CADA número dê notas inteiras 0–10:
 - bonito: composição e cor bonitas, nítido, nada estourado de branco nem escuro
 - nota: nota geral para usar num anúncio (seja duro: 8+ só se for realmente hype e limpo)
 - arma: o que aparece (ex. "Soul Guitar - esfera verde", "CDK - duas katanas", "Godhuman", "Angel V4", "nada claro")
-- tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = golpes com espinhos/socos de energia azul-ciano/branca; aura_v4 = raça V4 desperta com aura.
+- tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = golpes com espinhos/socos de energia azul-ciano/branca; aura_v4 = raça V4 desperta com aura; inventario_cheio = janela de Itens/inventário do PRÓPRIO jogo com MUITAS frutas míticas grandes e legíveis ocupando o recorte (NÃO loja/Fruit Dealer, nem lista pequena; o dono reprovou inventário chapado e pequeno). Para Godhuman, o dono reprovou esferas azuis pequenas em volta de avatar longe: só nota alta com avatar GRANDE e impacto.
 - quadro: posição do melhor quadro (-2..2) — o auge com o avatar e a arma visíveis, nunca o clarão branco
 - limpo_de / limpo_ate: a maior janela CONTÍNUA de quadros limpos (sem nenhum overlay/HUD/texto/clarão total) que contém o quadro escolhido: limpo_de em -2..0 e limpo_ate em 0..2 (ex.: overlay só no último quadro → limpo_ate=1). Se o quadro escolhido tem overlay, use 0 e 0.
 Responda só o JSON.`;

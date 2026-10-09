@@ -152,6 +152,36 @@
    "porque": "números de dano grandes e clarão"
   },
   {
+   "id": "R7",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 2,
+   "arquivo": "moveset/_descartados/godhuman/X - Heaven and Earth/yt_-LTjZd-SATc_x_4.mp4",
+   "t": 0.6,
+   "recorte": "quadrado",
+   "porque": "REPROVADO PELO DONO (v999): Godhuman com avatar pequeno e longe, esferas sem impacto"
+  },
+  {
+   "id": "R8",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 3,
+   "arquivo": "moveset/_descartados/godhuman/C - Sixth Realm Gun/yt_-LTjZd-SATc_c_3.mp4",
+   "t": 0.6,
+   "recorte": "quadrado",
+   "porque": "mesmo padrão reprovado pelo dono: esferas azuis em volta de avatar médio, hotbar e número de dano"
+  },
+  {
+   "id": "R9",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 2,
+   "arquivo": "moveset/_descartados/inventario frutas miticas/yt_mFtr_Zbeb0M_invcheio_2.mp4",
+   "t": 1.8,
+   "recorte": "quadrado",
+   "porque": "REPROVADO PELO DONO (v999): inventário chapado e pequeno, sem graça"
+  },
+  {
    "id": "V1",
    "uso": "validacao",
    "tipo": "bom",
@@ -170,10 +200,11 @@
   {
    "id": "V3",
    "uso": "validacao",
-   "tipo": "bom",
-   "arquivo": "moveset/godhuman/X - Heaven and Earth/yt_-LTjZd-SATc_x_2.mp4",
+   "tipo": "ruim",
+   "arquivo": "moveset/_descartados/godhuman/X - Heaven and Earth/yt_-LTjZd-SATc_x_2.mp4",
    "t": 0.6,
-   "recorte": "quadrado"
+   "recorte": "quadrado",
+   "obs": "virou ruim pelo dono (v999)"
   },
   {
    "id": "V4",
