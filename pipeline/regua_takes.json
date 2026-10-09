@@ -79,7 +79,7 @@
    "arquivo": "moveset/soul guitar/cacador/yt_K7YE6-2GwYI_golpe_soul_guitar_1.mp4",
    "t": 0.4,
    "recorte": "quadrado",
-   "porque": "APROVADO PELO DONO: guitarra na mão, notas verdes, avatar grande"
+   "porque": "APROVADO PELO DONO (2x): Skull Guitar na mão, notas verdes, avatar grande"
   },
   {
    "id": "B9",
@@ -159,7 +159,7 @@
    "arquivo": "moveset/_descartados/godhuman/X - Heaven and Earth/yt_-LTjZd-SATc_x_4.mp4",
    "t": 0.6,
    "recorte": "quadrado",
-   "porque": "REPROVADO PELO DONO (v999): Godhuman com avatar pequeno e longe, esferas sem impacto"
+   "porque": "dono: horrível (v999): Godhuman com avatar pequeno e longe, esferas sem impacto"
   },
   {
    "id": "R8",
@@ -179,7 +179,37 @@
    "arquivo": "moveset/_descartados/inventario frutas miticas/yt_mFtr_Zbeb0M_invcheio_2.mp4",
    "t": 1.8,
    "recorte": "quadrado",
-   "porque": "REPROVADO PELO DONO (v999): inventário chapado e pequeno, sem graça"
+   "porque": "dono: horrível (v999): inventário chapado e pequeno, sem graça"
+  },
+  {
+   "id": "B10",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "moveset/cdk/showcase/yt_4xce-YThibY_s_1.mp4",
+   "t": 2.25,
+   "recorte": "quadrado",
+   "porque": "APROVADO PELO DONO: duas katanas do CDK visíveis, corte, avatar médio-perto"
+  },
+  {
+   "id": "R10",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 1,
+   "arquivo": "moveset/_descartados/godhuman/showcase/yt_-LTjZd-SATc_s_1.mp4",
+   "t": 1.4,
+   "recorte": "quadrado",
+   "porque": "dono: horrível — Godhuman com esferas azuis pequenas, avatar longe, sem impacto"
+  },
+  {
+   "id": "R11",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 1,
+   "arquivo": "moveset/_descartados/inventario frutas miticas/yt_mFtr_Zbeb0M_invcheio_1.mp4",
+   "t": 1.2,
+   "recorte": "quadrado",
+   "porque": "dono: horrível — inventário chapado/pequeno, só 2 míticas (Venom, T-Rex) no meio de comuns"
   },
   {
    "id": "V1",
