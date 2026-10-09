@@ -22,6 +22,8 @@ if(process.argv[2]==='--captura'){ // processo filho: instrumenta e roda o gerad
 }
 
 const [A,B,ids='all']=process.argv.slice(2);
+// estoque real incompleto (clipes em moveset/_descartados): compara sobre o estoque original montado por tests/dados_teste.js
+if(!process.env.CRIATIVO_DADOS){const D=require('./dados_teste');if(D.incompleto()){process.env.CRIATIVO_DADOS=D.monta();console.log(`(estoque real incompleto: usando o estoque original em ${process.env.CRIATIVO_DADOS})`);}}
 const cap=(cmdline,tag)=>{const [script,...rest0]=cmdline.split(' ');
  // o motor barra receitas antigas que quebram leis novas (ex.: legenda "faixa"); aqui só importa comparar o render
  const rest=script==='motor.js'?[...rest0,'--forcar']:rest0;const out=path.join(require('os').tmpdir(),`equiv_${tag}.json`);

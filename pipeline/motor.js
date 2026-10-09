@@ -166,12 +166,12 @@ function build(R){
   // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
   else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
    if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
-  else if(d.v==='split'){ // telaDividida: rosto em cima, gameplay embaixo trocando na palavra que cita cada item (tag do vocabulário), cada um ≥1,2s
+  else if(d.v==='split'){ // telaDividida: rosto em cima, gameplay embaixo trocando na palavra que cita cada item (tag do vocabulário); armas em lista ≥0,4s, o resto ≥1,2s
    if(!(R.fx&&R.fx.telaDividida))continue;const wo=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e){const o=p.o+(w.s-p.s);if(o>=oS-0.01&&o<oE)wo.push({o,t:normW(w.t)});}
    const it=[];for(let i=0;i<wo.length;i++)for(const G of GATS){if(wo.slice(i,i+G.n).map(x=>x.t).join(' ')===G.g){if(!it.length||it[it.length-1].tag!==G.tag)it.push({o:wo[i].o,tag:G.tag});break;}}
-   const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;if(ok.length&&x.o-ok[ok.length-1].o<1.2)continue;ok.push(x);}
+   const arma=t=>/^golpe_/.test(t);const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;const p=ok[ok.length-1];if(p&&x.o-p.o<(arma(x.tag)&&arma(p.tag)?0.4:1.2))continue;ok.push(x);} // lista de armas: cada arma na sua palavra (≥0,4s); raça/inventário/aura ≥1,2s
    if(!ok.length&&vocPool(['aura']))ok.push({o:oS,tag:'aura'});if(!ok.length){avV.push(`sem clipe para a tela dividida (${name})`);continue;}
-   ok[0].o=oS;if(ok.length>1&&oE-ok[ok.length-1].o<1.2)ok.pop();
+   ok[0].o=oS;if(ok.length>1&&oE-ok[ok.length-1].o<(arma(ok[ok.length-1].tag)?0.4:1.2))ok.pop();
    ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaAura(r.pl),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
@@ -207,7 +207,7 @@ function build(R){
  const cheia=s=>!!FX.telaCheia&&(TELA?s.pool!=='inv'&&TELA.has(path.basename(s.take)):!s.pool); // gameplay em tela cheia (só clipe limpo da lista)
  // início do clipe: padrão 0,15 (YouTube) / 0,9 (gravação); com pico, o auge cai a ~40% do shot (nunca antes do padrão)
  const iniClipe=(s,isYT)=>{const p=PICOS&&(PICOS[s.take]??PICOS[path.basename(s.take)]);const b=isYT?0.15:0.9;if(s.aura&&p&&p.aura!=null)return Math.max(b,p.aura); // aura: começa no melhor trecho
-  const v=p==null||!FX.pico?null:typeof p==='object'?p.pico:p;return v==null?b:Math.max(b,v-0.4*s.vd);};const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
+  const v=p==null||!FX.pico?null:typeof p==='object'?p.pico:p;return v==null?b:Math.max(b,s.k==='split'?v-0.25:v-0.4*s.vd);}; /* no split o golpe já entra no auge (a troca acompanha a palavra) */const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
  // abertura: cena logo no início começa no 0 (some o fiapo dela antes) e pula o fade escuro da cena
  if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
   if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
