@@ -191,7 +191,7 @@ function textoConhecimento(){let k;try{k=JSON.parse(fs.readFileSync(path.join(__
  return ['CONHECIMENTO DO JOGO (fonte de verdade; um visual só vale se um jogador de Blox Fruits reconheceria NA HORA que é aquilo; na dúvida, nota baixa):',
   `- Frutas MÍTICAS (raridade mais alta): ${(fm.lista||[]).join(', ')}. NÃO são míticas, ex.: ${(fm.nao_sao_miticas_exemplos||[]).slice(0,14).join(', ')}. Fruta desconhecida = não mítica.`,
   `- Inventário: ${inv.prova_valida_para_frutas_miticas||''} NÃO vale: ${(inv.nao_vale||[]).join('; ')}.`,
-  ...Object.entries(it).map(([n,v])=>`- ${n}${v.nome_no_jogo?` (no jogo: ${v.nome_no_jogo})`:v.nome?` (${v.nome})`:''}: prova = ${v.prova_visual||v.o_que_e||''}; NÃO vale = ${v.nao_vale||''}.`),
+  ...Object.entries(it).map(([n,v])=>`- ${n}${v.nome_no_jogo?` (no jogo: ${v.nome_no_jogo})`:v.nome?` (${v.nome})`:''}: prova = ${v.prova_visual||v.o_que_e||''}${v.pesquisa_wiki?'; WIKI: '+v.pesquisa_wiki.resumo:''}; NÃO vale = ${v.nao_vale||''}.`),
   ...(k.regras_de_prova_visual||[]).slice(0,4).map(r=>'- '+r)].join('\n');}
 function julgar(folhas){folhas=[].concat(folhas);if(!fs.existsSync(REGUA.JPG))REGUA.montar();
  const prompt=`Você é o juiz de takes de gameplay de Blox Fruits (Roblox) para anúncios no celular.
@@ -346,7 +346,14 @@ function pegaAlvo(){const d=SAIDA+'/alvos';fs.mkdirSync(d,{recursive:true});cons
  const toca=setInterval(()=>{try{const t=new Date();fs.utimesSync(L,t,t)}catch{}},600000);toca.unref();
  process.on('exit',c=>{try{fs.rmSync(L,{force:true})}catch{}});return Fe;}
 const INICIO=Date.now();
+// regra do dono: nada de caçar na internet sem saber o que a coisa É — o alvo precisa de pesquisa_wiki (data + fontes, até 120 dias) em conhecimento_blox.json
+const ITEM_DO_ALVO={golpe_godhuman:k=>k.itens_da_conta.Godhuman,golpe_cdk:k=>k.itens_da_conta.CDK,golpe_soul_guitar:k=>k.itens_da_conta['Soul Guitar'],aura_v4:k=>k.itens_da_conta['Raça V4'],
+ aura:k=>k.itens_da_conta['Aura / conta forte'],level_max:k=>k.itens_da_conta['Level máximo'],inventario_cheio:k=>k.inventario};
+function exigePesquisaWiki(){let k;try{k=JSON.parse(fs.readFileSync(path.join(__dirname,'conhecimento_blox.json'),'utf8'))}catch{k=null}
+ const p=k&&ITEM_DO_ALVO[ALVO]&&(ITEM_DO_ALVO[ALVO](k)||{}).pesquisa_wiki;const dias=p&&p.data?(Date.now()-Date.parse(p.data))/864e5:Infinity;
+ if(!p||!(p.fontes||[]).length||!(dias<=120)){console.error(`[caçador] ${ALVO}: sem pesquisa na wiki${p?` (vencida: ${p.data})`:''} em conhecimento_blox.json — pesquise o que a coisa é de verdade (golpes e visual), grave pesquisa_wiki {data, fontes, resumo} e rode de novo.`);process.exit(2);}}
 function main(){
+ exigePesquisaWiki();
  const FEITO=ARQ?null:pegaAlvo();
  fs.mkdirSync(TMP,{recursive:true});const cache=rj(CACHE,{});const g0=rj(GASTO,{chamadas:0,usd:0});
  const tag=FN>1?` fatia ${FK+1}/${FN}`:'';

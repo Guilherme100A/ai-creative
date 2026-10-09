@@ -1,5 +1,5 @@
 {
- "obs": "BASE DE CONHECIMENTO DO JOGO (Blox Fruits / Roblox). Fonte de verdade para TODO o sistema: juiz do caçador, projeto automático (Claude), crítico (Coruja), garimpeiro, motor/vocabulário. Pedido do dono: 'quero que isso seja entendido em qualquer contexto, não quero ficar tendo que dizer'. Regra geral: um visual só vale como prova de uma palavra se um jogador de Blox Fruits reconheceria, na hora, que é AQUILO — sem 'quase', sem coisa genérica, sem tela de outra coisa. Na dúvida, não mostra (fica o rosto). Pesquisado em out/2026 (wiki oficial do jogo e guias); o jogo muda com updates — revisar quando houver update grande.",
+ "obs": "BASE DE CONHECIMENTO DO JOGO (Blox Fruits / Roblox). Fonte de verdade para TODO o sistema: juiz do caçador, projeto automático (Claude), crítico (Coruja), garimpeiro, motor/vocabulário. Pedido do dono: 'quero que isso seja entendido em qualquer contexto, não quero ficar tendo que dizer'. Regra geral: um visual só vale como prova de uma palavra se um jogador de Blox Fruits reconheceria, na hora, que é AQUILO — sem 'quase', sem coisa genérica, sem tela de outra coisa. Na dúvida, não mostra (fica o rosto). Pesquisado em out/2026 (wiki oficial do jogo e guias); o jogo muda com updates — revisar quando houver update grande. REGRA DO DONO (09/10/2026): nenhum alvo é caçado na internet sem antes ter pesquisa_wiki (data + fontes) aqui; o cacador.js se recusa a rodar sem ela. Pesquisa vale 120 dias (updates do jogo).",
  "raridades": {
   "ordem": [
    "Common",
@@ -76,7 +76,15 @@
    "inventário com 1–2 míticas no meio de várias frutas comuns (parece conta comum/'bugado')",
    "inventário pequeno, chapado, ilegível ou com o resto da interface por cima",
    "fruta solta no chão"
-  ]
+  ],
+  "pesquisa_wiki": {
+   "data": "2026-10-09",
+   "fontes": [
+    "https://blox-fruits.fandom.com/wiki/Inventory",
+    "https://blox-fruits.fandom.com/wiki/Mythical"
+   ],
+   "resumo": "Menu de itens do jogador ('Items'; a GUI foi refeita no Update 27). As frutas aparecem como cartões com o nome e a raridade. Cada fruta guardada só 1 vez (salvo +1 Fruit Storage). Existe também a Fruit Storage/Treasure Storage."
+  }
  },
  "itens_da_conta": {
   "Godhuman": {
@@ -88,19 +96,43 @@
     "Z Soaring Beast": "avatar avança no alvo e solta uma rajada de socos de todas as direções com IMAGENS REPETIDAS (afterimages) do próprio avatar em volta do alvo; o soco final escurece a tela por um instante",
     "X Heaven and Earth": "rajada de VENTO que explode no impacto e joga o alvo para cima; segurando: redemoinho de vento em volta do avatar, ele bate palmas e solta uma ONDA DE CHOQUE no ar, com destroços do chão levantando",
     "C Sixth Realm Gun": "avatar avança como se teletransportasse e dá um soco com empurrão; segurando: agarra o inimigo, carrega um soco com o punho ESQUERDO, um ANEL se fecha e sai uma explosão em área"
+   },
+   "pesquisa_wiki": {
+    "data": "2026-10-09",
+    "fontes": [
+     "https://bloxfruits.noob.wiki/fighting-styles/godhuman/",
+     "https://gobloxy.com/wiki/blox-fruits/a/godhuman"
+    ],
+    "resumo": "estilo de luta (socos). Z Soaring Beast: rajada de socos com imagens repetidas do avatar, tela escurece no soco final. X Heaven and Earth: rajada/onda de choque de vento com destroços. C Sixth Realm Gun: avanço tipo teletransporte, soco carregado do punho esquerdo com anel e explosão. M1 com rastro prismático (preto com aura)."
    }
   },
   "CDK": {
    "nome": "Cursed Dual Katana",
    "tipo": "espada lendária (2 katanas), conseguida por uma longa missão",
-   "prova_visual": "avatar com as DUAS katanas visíveis, de preferência num golpe (cortes vermelho/roxo)",
-   "nao_vale": "outro personagem sem espadas, corte genérico de longe"
+   "prova_visual": "avatar com as DUAS katanas visíveis, de preferência no Z (tornado que puxa e explode) ou no X (avanço com as espadas cruzadas e explosão)",
+   "nao_vale": "outro personagem sem espadas, corte genérico de longe",
+   "pesquisa_wiki": {
+    "data": "2026-10-09",
+    "fontes": [
+     "https://bloxfruits.noob.wiki/swords/cursed-dual-katana/",
+     "https://blox-fruits.fandom.com/wiki/Cursed_Dual_Katana"
+    ],
+    "resumo": "espada de 2 katanas (feita de Yama + Tushita). Z Revolving Ravager: TORNADO giratório que puxa e prende os inimigos e explode. X Slayer of Goliath: avanço em alta velocidade com as espadas CRUZADAS, terminando numa explosão. Cores dos cortes NÃO confirmadas pela wiki (vermelho/roxo vem dos vídeos aprovados pelo dono)."
+   }
   },
   "Soul Guitar": {
    "nome_no_jogo": "Skull Guitar (o painel mostra 'Skull Guitar')",
    "tipo": "arma de fogo (gun) mítica, em forma de guitarra",
-   "prova_visual": "avatar segurando a GUITARRA, ou o golpe característico (notas/esfera verde com redemoinho, mãos verdes)",
-   "nao_vale": "feixe fino em campo vazio, orbe genérico"
+   "prova_visual": "avatar segurando a guitarra, ou golpe característico: redemoinho de notas verdes (M1), caveira + raio de alma com tela de cores invertidas (Z) ou caveira que explode em laser aéreo (X)",
+   "nao_vale": "feixe fino em campo vazio, orbe genérico",
+   "pesquisa_wiki": {
+    "data": "2026-10-09",
+    "fontes": [
+     "https://bloxfruits.noob.wiki/guns/skull-guitar/",
+     "https://blox-fruits.fandom.com/wiki/Skull_Guitar"
+    ],
+    "resumo": "única arma de fogo mítica, nome no jogo Skull Guitar. M1 Undead Notes: riff que explode em redemoinho de NOTAS VERDES brilhantes. Z Soul Shaker: invoca uma CAVEIRA que dispara um raio de alma através das paredes, com INVERSÃO DE CORES da tela. X El Diablo: ergue uma caveira com estática de alma que explode e cria um laser aéreo. Efeitos enormes (podem tapar o alvo e o avatar)."
+   }
   },
   "Raça V4": {
    "tipo": "raça despertada (Awakening V4, com 'gears'/tiers; 'Full V4' = todos os gears)",
@@ -113,7 +145,28 @@
     "Ghoul"
    ],
    "prova_visual": "avatar TRANSFORMADO com a aura da raça V4 (asas douradas e anéis na Angel, aura vermelha/fumaça na Human, sombra e asas negras na Ghoul…)",
-   "nao_vale": "avatar normal sem transformação, golpe de arma"
+   "nao_vale": "avatar normal sem transformação, golpe de arma",
+   "pesquisa_wiki": {
+    "data": "2026-10-09",
+    "fontes": [
+     "https://blox-fruits.fandom.com/wiki/Race_Awakening",
+     "https://blox-fruits.fandom.com/wiki/Ghoul",
+     "https://blox-fruits.fandom.com/wiki/Rabbit",
+     "https://www.ginx.tv/en/blox-fruits-human-v4"
+    ],
+    "resumo": "títulos V4: Human=Berserker, Shark=Leviathan, Ghoul=Nightwalker, Cyborg=Genesis. Confirmado: Ghoul V4 = auréola vermelha espinhosa brilhante + SEIS ASAS PRETAS nas costas; Human V4 = aura VERMELHA e movimentos erráticos; Rabbit (Mink) V4 = cabelo BRANCO bagunçado e cauda maior (de lobo). NÃO confirmado pela wiki: visual da Angel, Shark e Cyborg V4 (só vale se o take mostrar transformação óbvia e o dono aprovar).",
+    "confirmados": [
+     "Ghoul",
+     "Human",
+     "Rabbit"
+    ],
+    "nao_confirmados": [
+     "Angel",
+     "Shark",
+     "Cyborg",
+     "Draco"
+    ]
+   }
   },
   "Level máximo": {
    "valor": "2800 (MAX) é o nível máximo usado pelos vendedores",
