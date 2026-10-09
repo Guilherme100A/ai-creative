@@ -91,7 +91,7 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
-// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true  siteCurto:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true  siteCurto:true  ctaVivo:true  popEntrada:true
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
@@ -142,7 +142,8 @@ function build(R){
  // 2) direções -> saída
  const used=new Set();const takeFor=wpn=>{const ALL3=[...TAKES.godhuman,...TAKES.cdk,...TAKES['soul guitar']],own=ALL3.filter(t=>!path.basename(t).startsWith('yt_'));const pool=wpn==='any'?(own.length?own:ALL3):TAKES[wpn];
   let cand=pool.filter(x=>!used.has(x));if(!cand.length)cand=pool;const x=pick(cand);used.add(x);return x};
- const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{for(const t of ts){const pl=tagPool(t);if(pl.length)return {pl,t};}return null;};const AURA=!!(R.fx&&R.fx.aura);const pegaAura=pl=>{let c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;};
+ const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{const lim=new Set(tagPool('limpo_tela_cheia'));for(const t of ts){const pl=tagPool(t);if(pl.length){const top=pl.filter(x=>lim.has(x));return {pl:top.length?top:pl,t};}}return null;}; /* dentro da tag, prefere os clipes limpos (limpo_tela_cheia) */const AURA=!!(R.fx&&R.fx.aura);const fam=x=>path.dirname(x); /* família = mesma pasta (ex. aura/racas/Angel) */
+ const pegaAura=pl=>{const uf=new Set([...used].map(fam));let c=pl.filter(x=>!used.has(x)&&!uf.has(fam(x)));if(!c.length)c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;}; /* evita repetir a mesma família (ex. duas Angel) */
  const qualquer=()=>[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar'),...auraPool('racas')];
  const auraDe=g=>!AURA?[]:g==='any'?qualquer():g==='racas'?auraPool('racas'):(auraPool(g).length?auraPool(g):qualquer()); // aura: montage (arma, senão qualquer aura), 'any' e raça
  let vis=[];
@@ -152,10 +153,10 @@ function build(R){
   if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
    // siteCurto: cena de site no meio do vídeo vira a versão _curto (1,5s num bloco legível), sem o fade escuro do começo
    if(R.fx&&R.fx.siteCurto&&/^site_/.test(d.clip)&&oS>0.3&&fs.existsSync(`${MO}/${d.clip}_curto.mp4`)){const clip=d.clip+'_curto';vis.push({k:'mo',clip,skip:Math.min(0.2,aberturaDe(clip)),oS,oE:Math.min(oE,oS+1.5)});continue;}
-   oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,oS,oE});}
+   oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,...(R.fx&&R.fx.ctaVivo&&fs.existsSync(`${MO}/${d.clip}_vivo.mp4`)?{arq:d.clip+'_vivo'}:{}),oS,oE});} // ctaVivo: card final com SAIBA MAIS, cursor tocando, seta e logo com bounce
   // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
   else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
-   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool,oS,oE});}
+   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
   else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
@@ -219,7 +220,7 @@ function build(R){
    // nitidez: unsharp leve + vinheta suave
    if(FX.nitidez)fxv+=',unsharp=5:5:0.45:5:5:0,vignette=angle=PI/7';
    args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z,s.dx)},${G},fps=30${fxv},setsar=1`];}
-  else if(s.k==='mo')args=['-ss',(s.off+(s.skip||0)).toFixed(3),'-i',`${MO}/${s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&i===0?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
+  else if(s.k==='mo')args=['-ss',(s.off+(s.skip||0)).toFixed(3),'-i',`${MO}/${s.arq||s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&i===0?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
    const inArgs=s.meme.tipo==='video'?['-stream_loop','-1','-ss',((CUR&&s.meme.ini!=null?s.meme.ini:0.1)+s.off).toFixed(3),'-i',file]:['-loop','1','-i',file];
@@ -305,6 +306,10 @@ function build(R){
  {const o=PROJ.moedaEm==null?null:s2o(PROJ.moedaEm);if(o!=null)add(P.coin,o,'coin');}
  {const c=shots.find(x=>x.k==='mo'&&x.clip==='brand_cta3'&&x.first);if(c)add(P.coin,c.oS+0.35,'coin');}
  {const g=shots.find(x=>x.k==='box'&&x.first&&x.oS>DUR*0.4);if(P.boom&&g)add(P.boom,g.oS,'boom');}
+ // popEntrada: pop curto e baixo (~−20 dB, sem whoosh) na entrada de cada quadrado/meme/gameplay (se não houver outro som ali); ctaVivo: clique nos toques do cursor
+ if(FX.popEntrada){LEVEL.entrada=0.05;const perto=t=>ev.some(e=>Math.abs(e.t-t)<0.25);
+  shots.forEach(s=>{if(s.first&&(s.k==='box'||s.k==='meme')&&!perto(s.oS)&&!(s.k==='meme'&&s.som&&s.audio))add(YT+'ui/pop.mp3',s.oS,'entrada');});
+  const c=shots.find(x=>x.k==='mo'&&x.arq==='brand_cta3_vivo'&&x.first);if(c)[1.98,2.9].forEach(d=>{if(c.oS+d<DUR-0.2)add(YT+'ui/click.mp3',c.oS+d,'entrada');});}
  reac.forEach(r=>add(r.snd,r.o+0.12,'meme'));
  shots.filter(s=>s.k==='meme'&&s.first).forEach(s=>{const all=shots.filter(x=>x.k==='meme'&&x.meme===s.meme);const len=Math.min(1.6,all[all.length-1].oE-s.oS+0.1);if(!s.som||!s.audio)return;let f=s.audio;
   if(CUR&&f==='proprio'){f=path.join(TMP,`ms_${s.meme.id}.wav`);execFileSync(ff,['-v','error','-y','-ss',String(s.meme.ini??0.1),'-i',CATALOG.pasta+'/'+s.meme.arquivo,'-t','2.5','-vn','-ac','2','-ar','48000',f]);} // som do próprio vídeo do meme, a partir de ini
