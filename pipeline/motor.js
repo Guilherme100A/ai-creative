@@ -104,7 +104,7 @@ const GOLPE={godhuman:'golpe_godhuman',cdk:'golpe_cdk','soul guitar':'golpe_soul
 const normW=t=>t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,'').trim();
 const GATS=(()=>{let C={};try{C=JSON.parse(fs.readFileSync(path.join(__dirname,'vocabulario.json'),'utf8')).conceitos}catch(e){}const g=[];for(const c of Object.values(C))if(c.tag)for(const x of c.gatilhos||[])g.push({g:normW(x),n:normW(x).split(' ').length,tag:c.tag});return g.sort((a,b)=>b.n-a.n);})();
 let TAGPOOL=null;const tagPool=tag=>{if(!TAGPOOL){TAGPOOL={};let T={};try{T=JSON.parse(fs.readFileSync(MV+'/_tags.json','utf8'))}catch(e){}
- const todos=[];const walk=p=>{for(const f of fs.readdirSync(path.join(MV,p))){const q=p?p+'/'+f:f;if(fs.statSync(path.join(MV,q)).isDirectory())walk(q);else if(f.endsWith('.mp4'))todos.push(q);}};walk('');
+ const todos=[];const walk=p=>{for(const f of fs.readdirSync(path.join(MV,p))){if(f.startsWith('_'))continue; /* _descartados etc. nunca entram */const q=p?p+'/'+f:f;if(fs.statSync(path.join(MV,q)).isDirectory())walk(q);else if(f.endsWith('.mp4'))todos.push(q);}};walk('');
  for(const q of todos.sort()){const b=path.basename(q);if(b.startsWith('yt_')&&!ytOk(q))continue;for(const t of (T[b]||T[q]||[]))(TAGPOOL[t]=TAGPOOL[t]||[]).push(q);}}return TAGPOOL[tag]||[];};
 const lerTela=()=>fs.existsSync(MV+'/_tela_cheia.txt')?new Set(fs.readFileSync(MV+'/_tela_cheia.txt','utf8').split(/\r?\n/).map(x=>path.basename(x.trim())).filter(Boolean)):null;
 // abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
@@ -172,7 +172,7 @@ function build(R){
    const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;if(ok.length&&x.o-ok[ok.length-1].o<1.2)continue;ok.push(x);}
    if(!ok.length&&vocPool(['aura']))ok.push({o:oS,tag:'aura'});if(!ok.length){avV.push(`sem clipe para a tela dividida (${name})`);continue;}
    ok[0].o=oS;if(ok.length>1&&oE-ok[ok.length-1].o<1.2)ok.pop();
-   ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
+   ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaAura(r.pl),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
   else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,...(R.fx?{wpn:d.wpn}:{}),oS,oE});}
@@ -249,8 +249,8 @@ function build(R){
    // aberturaRosto + gancho: enquanto o título está sobre o rosto, o topo (~35%) escurece em degradê (até −30%) para o branco separar da parede
    if(FX.aberturaRosto&&ganchoTxt&&s.oS<2.2)fxv+=",geq=lum='lum(X,Y)*(1-0.3*max(0,1-Y/672))':cb='cb(X,Y)':cr='cr(X,Y)'";
    args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z,s.dx)},${G},fps=30${fxv},setsar=1`];}
-  else if(s.k==='split'){ // telaDividida: rosto na metade de cima (sempre), gameplay na de baixo, divisória fina verde-limão
-   const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;const bot=s.aura?"crop='ih*0.72*9/8':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6":isYT?"crop='ih*9/8':'ih':(iw-ow)/2:0":'crop=1620:1440:900:0';
+  else if(s.k==='split'){ // telaDividida: rosto na metade de cima (sempre), gameplay na de baixo (inventário: só a grade; aura e golpe: recorte fechado), divisória fina verde-limão
+   const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;const bot=s.tag==='inventario_cheio'?"crop='ih*0.72':'ih*0.64':(iw-ow)/2:(ih-oh)*0.62":s.aura?"crop='ih*0.72*9/8':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6":isYT?"crop='ih*0.87*9/8':'ih*0.87':(iw-ow)/2:(ih-oh)*0.6":'crop=1620:1440:900:0';
    args=['-ss',src.toFixed(3),'-i',BASE,'-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-filter_complex',`[0:v]crop=1080:960:0:330,${G},fps=30[top];[1:v]fps=30,${bot},scale=1080:960:flags=lanczos,eq=saturation=1.2:contrast=1.04[bot];[top][bot]vstack,drawbox=x=0:y=956:w=1080:h=8:color=0xC6F36B@0.9:t=fill,setsar=1[out]`,'-map','[out]'];}
   else if(s.k==='mo')args=['-ss',(s.off+(s.skip||0)).toFixed(3),'-i',`${MO}/${s.arq||s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&(i===0||(FX.aberturaRosto&&s.oS<2.2))?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
