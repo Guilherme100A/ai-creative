@@ -66,11 +66,19 @@ function buscar(cache){
   for(const l of (r.stdout||'').split(/\r?\n/)){const [id,dur,url,...t]=l.split('\t');if(!id||vistos.has(id))continue;
    if(cache[id]||!naFatia(id)){continue;}
    const d=+dur;if(!(d>=60&&d<=1200)||/shorts/i.test(url||'')){cache[id]={data:hoje(),motivo:`duração ${dur}s ou shorts`};novos[id]=cache[id];continue;}
-   vistos.set(id,{id,dur:d,titulo:t.join(' '),query:q});}
+   const titulo=t.join(' '),ft=filtroTitulo(titulo);if(ft){cache[id]={data:hoje(),motivo:'título: '+ft,titulo};novos[id]=cache[id];continue;}
+   vistos.set(id,{id,dur:d,titulo,query:q,pref:PREFERE.test(titulo)?1:0});}
  }
  atualiza(CACHE,c=>Object.assign(c,novos));
- return [...vistos.values()];
+ // títulos com showcase/edit/cinematic/4k/combo/pvp/trailer primeiro
+ return [...vistos.values()].sort((a,b)=>b.pref-a.pref);
 }
+// filtro de título ANTES de baixar (segurança do dono: script/exploit é conteúdo típico de malware; fora do tema = lixo)
+const PROIBIDO=/\b(scripts?|hacks?|hacked|exploits?|executor|hub|auto\s*-?\s*farm|no\s*key|keyless|delta|fluxus|krnl|codes?|giveaway|free\s*robux|robux\s*gr[aá]tis|macros?|controls?)\b/i;
+const PREFERE=/\b(showcase|edit|cinematic|4k|1440p|2160p|combo|pvp|trailer)\b/i;
+const TERMO={golpe_soul_guitar:/soul\s*guitar|skull\s*guitar/i,golpe_cdk:/\bcdk\b|cursed\s*dual\s*katana/i,golpe_godhuman:/god\s*human/i,aura_v4:/\bv4\b|race|awaken/i,aura:/aura|haki/i};
+function filtroTitulo(t){const m=t.match(PROIBIDO);if(m)return `proibido "${m[0]}"`;
+ if(!/blox\s*fruits?|roblox/i.test(t)&&!(TERMO[ALVO]&&TERMO[ALVO].test(t)))return 'não cita Blox Fruits/Roblox nem o alvo';return null;}
 const hoje=()=>new Date().toISOString().slice(0,10);
 // formato real ≥1080p (paisagem); devolve a URL direta do melhor vídeo 1080–1440p
 // segurança (dono): só VÍDEO mp4/webm e só pelo yt-dlp; nada de URL crua no ffmpeg (dá 403 sem os cabeçalhos do yt-dlp)
