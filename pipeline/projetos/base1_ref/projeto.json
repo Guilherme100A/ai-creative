@@ -1,0 +1,364 @@
+{
+ "nome": "base1_ref",
+ "descricao": "Vídeo base 1 no FORMATO REF (UGC real: rosto >=75%, info por cima do rosto, tela dividida na lista, 1–2 inserts legíveis)",
+ "video": "copy_7C70940D-340D-4468-8D9F-35E228D90892.mov",
+ "palavras": "palavras.json",
+ "fix": [
+  [
+   [
+    "^Base$",
+    "^Key$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^BaseK$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^base$",
+    "^que$",
+    "^bill$",
+    "^e$"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^Besky$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^Base$",
+    "^Ki$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^God$",
+    "^of$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^God$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Blocks$"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^BASIC$"
+   ],
+   "básico"
+  ],
+  [
+   [
+    "^Leve$",
+    "^ao$"
+   ],
+   "Level"
+  ],
+  [
+   [
+    "^Rasa$"
+   ],
+   "Raça"
+  ],
+  [
+   [
+    "^serve$",
+    "^a$",
+    "^mais"
+   ],
+   "saiba mais"
+  ],
+  [
+   [
+    "^e$",
+    "^-mail"
+   ],
+   "e-mail"
+  ],
+  [
+   [
+    "^apagacar$",
+    "^o$"
+   ],
+   "pagar caro"
+  ],
+  [
+   [
+    "^17$",
+    "^,90"
+   ],
+   "17,90"
+  ],
+  [
+   [
+    "^blocks"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^fruits"
+   ],
+   "Fruits"
+  ],
+  [
+   [
+    "^God$",
+    "^Eulman"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Basic$",
+    "^Beauty"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^whatsapp"
+   ],
+   "WhatsApp"
+  ]
+ ],
+ "frases": {
+  "A": [
+   0.6,
+   7.52
+  ],
+  "B": [
+   7.66,
+   14.4
+  ],
+  "C": [
+   14.58,
+   20.52
+  ],
+  "D": [
+   20.74,
+   28.58
+  ],
+  "E": [
+   28.76,
+   34.56
+  ],
+  "F": [
+   34.76,
+   38.16
+  ],
+  "G": [
+   38.34,
+   46.74
+  ],
+  "H": [
+   47.14,
+   50.3
+  ],
+  "I": [
+   50.62,
+   56.3
+  ],
+  "J": [
+   56.64,
+   61.1
+  ]
+ },
+ "nomesFrases": {
+  "A": "Eu sei que quando aparece uma conta de Blox Fruits no TikTok… será que eu vou receber mesmo?",
+  "B": "E eu acho normal pensar isso… feedbacks de quem já comprou",
+  "C": "Você consegue ver outras pessoas recebendo… antes de comprar",
+  "D": "E a entrega também é automática… torcendo para responder rápido",
+  "E": "Tudo foi pensado para deixar a compra mais simples… primeira vez",
+  "F": "E aí quando você olha o que pode vir na conta…",
+  "G": "Godhuman, CDK, Soul Guitar… horas tentando conseguir",
+  "H": "Então você não precisa simplesmente acreditar no que eu estou falando",
+  "I": "Você pode ver os feedbacks… antes de decidir",
+  "J": "Se quiser saber mais… clica em saiba mais e vem conhecer a Basic-Build"
+ },
+ "frasesOpcionais": [
+  "E"
+ ],
+ "fimFala": 62.55,
+ "direcoes": {
+  "siteFb": {
+   "s": 14.9,
+   "e": 19.4,
+   "v": "mo",
+   "clip": "site_feedback"
+  },
+  "lista": {
+   "s": 38.2,
+   "e": 46.6,
+   "v": "split"
+  },
+  "siteFb2": {
+   "s": 51.1,
+   "e": 54.5,
+   "v": "mo",
+   "clip": "site_feedback2"
+  },
+  "brandCta": {
+   "s": 59.4,
+   "e": 99,
+   "v": "mo",
+   "clip": "brand_cta3"
+  }
+ },
+ "direcoesPadrao": [
+  "siteFb",
+  "lista",
+  "siteFb2",
+  "brandCta"
+ ],
+ "reacoes": [],
+ "memes": [
+  [
+   5.6,
+   7.5,
+   "duvida",
+   1
+  ],
+  [
+   25.35,
+   26.75,
+   "espera",
+   1
+  ],
+  [
+   45.1,
+   46.9,
+   "espera",
+   1
+  ],
+  [
+   3.8,
+   5.5,
+   "duvida",
+   2
+  ],
+  [
+   23.9,
+   25.3,
+   "frustrado",
+   2
+  ],
+  [
+   48.3,
+   50.2,
+   "duvida",
+   2
+  ],
+  [
+   26.8,
+   28.5,
+   "duvida",
+   3
+  ],
+  [
+   31.4,
+   32.9,
+   "sucesso",
+   3
+  ]
+ ],
+ "destaques": [
+  "BLOX",
+  "FRUITS",
+  "BASIC-BUILD",
+  "FEEDBACKS",
+  "ENTREGA",
+  "AUTOMÁTICA",
+  "WHATSAPP",
+  "GODHUMAN",
+  "CDK",
+  "SOUL",
+  "GUITAR",
+  "RAÇA",
+  "V4",
+  "FRUTAS",
+  "MÍSTICAS",
+  "HORAS",
+  "CLICA"
+ ],
+ "gancho": "SERÁ QUE EU *RECEBO* MESMO?",
+ "moedaEm": null,
+ "origem": "manual (formato ref)",
+ "observacoes": "Formato REF a partir das referências de UGC de Roblox (pipeline/referencias_ugc.md). Abertura no rosto com o gancho por cima; lista G em tela dividida; 2 inserts de site legíveis; CTA no rosto.",
+ "criadoEm": "2026-10-08T22:17:12.728Z",
+ "cortes": [
+  {
+   "nome": "curto",
+   "ordem": "AFGIJ",
+   "duracao": 29.9,
+   "motivo": "(29,86 s) Abre com a dúvida \"será que vou receber?\", mostra o que vem na conta (F+G juntas), responde a dúvida com feedbacks e entrega (I) e fecha no CTA."
+  },
+  {
+   "nome": "medio",
+   "ordem": "ADFGIJ",
+   "duracao": 37.9,
+   "motivo": "(37,90 s) Abre com a mesma dúvida, rebate na hora com a entrega automática sem esperar no WhatsApp (D), mostra os itens (F+G), reforça com os feedbacks (I) e fecha no CTA."
+  },
+  {
+   "nome": "gancho_forte",
+   "ordem": "FGHIJ",
+   "duracao": 26.1,
+   "motivo": "(26,10 s) Abre direto na promessa mais forte, a lista God Human/CDK/Soul Guitar/Raça V4 (F só introduz G e não pode ser separada dela; G sozinha não chega aos 25 s), depois vem a prova com H+I juntas e o CTA."
+  }
+ ],
+ "chips": [
+  [
+   1.6,
+   3,
+   "CONTA BLOX FRUITS"
+  ],
+  [
+   11.2,
+   12.9,
+   "BASIC-BUILD"
+  ],
+  [
+   20.9,
+   23.2,
+   "ENTREGA AUTOMÁTICA"
+  ],
+  [
+   24.6,
+   26.3,
+   "SEM ESPERAR NO WHATSAPP"
+  ],
+  [
+   30,
+   32.6,
+   "COMPRA SIMPLES E SEGURA"
+  ],
+  [
+   35.8,
+   38,
+   "O QUE VEM NA CONTA"
+  ]
+ ]
+}

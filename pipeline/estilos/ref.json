@@ -1,0 +1,23 @@
+{
+ "nome": "ref",
+ "descricao": "Formato REF (UGC real de Roblox): rosto >=75%, gancho sobre o rosto, chips por cima do rosto, tela dividida nas listas, poucos inserts legíveis, CTA no rosto",
+ "origem": "referencias_ugc.md",
+ "fixo": {
+  "memes": "poucos",
+  "gap": 0.28
+ },
+ "opcoes": {},
+ "fx": {
+  "aberturaRosto": true,
+  "gancho": true,
+  "chips": true,
+  "empurrao": true,
+  "telaDividida": true,
+  "ctaRosto": true,
+  "zoomCalmo": true,
+  "musica": {
+   "mood": "leve"
+  },
+  "progresso": false
+ }
+}

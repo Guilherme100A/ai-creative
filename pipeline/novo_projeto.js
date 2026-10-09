@@ -97,13 +97,14 @@ log(`rascunho: ${frases0.length} frases, ${R0.direcoes.length} direções, ${R0.
 const SCENES=JSON.parse(fs.readFileSync(path.join(__dirname,'scenes.json'),'utf8'));
 const CLIPS=Object.keys(SCENES).filter(k=>!CENAS_PRECO_ANTIGO.includes(k));
 const CATS=Object.keys(JSON.parse(fs.readFileSync(path.join(__dirname,'..','assets','memes','catalogo.json'),'utf8')).categorias);
-const SCHEMA={type:'object',additionalProperties:false,required:['frases','direcoes','memes','destaques','gancho','correcoes','observacoes'],properties:{
+const SCHEMA={type:'object',additionalProperties:false,required:['frases','direcoes','memes','destaques','gancho','chips','correcoes','observacoes'],properties:{
  frases:{type:'array',items:{type:'object',additionalProperties:false,required:['id','de','ate','nome','opcional'],properties:{id:{type:'string'},de:{type:'number'},ate:{type:'number'},nome:{type:'string'},opcional:{type:'boolean'}}}},
- direcoes:{type:'array',items:{type:'object',additionalProperties:false,required:['nome','de','ate','tipo','clip','wpn','pool','motivo'],properties:{nome:{type:'string'},de:{type:'number'},ate:{type:'number'},tipo:{type:'string',enum:['mo','box','montage']},clip:{type:'string',enum:['',...CLIPS]},wpn:{type:'string',enum:['','godhuman','cdk','soul guitar','any']},pool:{type:'string',enum:['','race','inv']},motivo:{type:'string'}}}},
+ direcoes:{type:'array',items:{type:'object',additionalProperties:false,required:['nome','de','ate','tipo','clip','wpn','pool','motivo'],properties:{nome:{type:'string'},de:{type:'number'},ate:{type:'number'},tipo:{type:'string',enum:['mo','box','montage','split']},clip:{type:'string',enum:['',...CLIPS]},wpn:{type:'string',enum:['','godhuman','cdk','soul guitar','any']},pool:{type:'string',enum:['','race','inv']},motivo:{type:'string'}}}},
  memes:{type:'array',items:{type:'object',additionalProperties:false,required:['de','ate','categoria','prioridade','motivo'],properties:{de:{type:'number'},ate:{type:'number'},categoria:{type:'string',enum:CATS},prioridade:{type:'integer',enum:[1,2,3]},motivo:{type:'string'}}}},
  destaques:{type:'array',items:{type:'string'}},
  correcoes:{type:'array',items:{type:'object',additionalProperties:false,required:['de','para'],properties:{de:{type:'array',items:{type:'string'}},para:{type:'string'}}}},
  gancho:{type:'string'},
+ chips:{type:'array',items:{type:'object',additionalProperties:false,required:['de','ate','texto'],properties:{de:{type:'number'},ate:{type:'number'},texto:{type:'string'}}}},
  observacoes:{type:'string'}}};
 const transcr=W=>W.map(w=>`${w.s.toFixed(2)} ${w.t}`).join('\n');
 
@@ -120,8 +121,13 @@ function promptIA(){
 O vídeo é uma pessoa falando para a câmera; a edição coloca por cima animações, gameplay num quadrado 3D e memes. Sua tarefa: para um VÍDEO BASE NOVO, decidir as frases, o que aparece na tela em cada trecho, onde entram memes e quais palavras ficam em amarelo. Um motor renderiza a partir disso.
 
 ## Regras aprendidas com o feedback do dono (valem sempre)
-- Abre com o site mobile em 3D no 1º segundo (site_top2) e, logo depois, gameplay da arma que ela citar NO MOMENTO em que fala o nome.
-- Gameplay (tipo box) só quando a fala pede: arma citada (wpn), raça V4 (pool race), frutas/inventário (pool inv). Poucos quadrados, nada de gameplay aleatório. "any" = gameplay genérica para falas tipo "entrar no jogo".
+- FORMATO REF (o padrão, tirado de anúncios UGC reais de Roblox que rodam há meses — pipeline/referencias_ugc.md): "arroz e feijão com qualidade". O dono reprovou vídeos com muitos cortes ("cortes aleatórios").
+  - Metas para cada 30 s: no máx 6 cortes; o ROSTO dela aparece em >=75% do tempo; no máx 2 inserts em tela cheia, cada um de 3 a 6 s e LEGÍVEL (site de feedbacks, inventário rolando, 1 golpe inteiro). Nunca montagem de 0,5 s.
+  - O vídeo ABRE NO ROSTO dela falando (o título do gancho fica por cima do rosto). Não abra com site nem com card.
+  - Informação que só complementa a fala vai como CHIP por cima do rosto (campo "chips": texto curto em MAIÚSCULAS, 2–4 palavras, sincronizado com a palavra; ex. "ENTREGA AUTOMÁTICA", "LEVEL MÁXIMO", "SEM ESPERAR NO WHATSAPP"). Nunca o preço gigante.
+  - Quando ela LISTA várias coisas do jogo seguidas (armas, raça, frutas, itens), use UMA direção tipo "split" cobrindo a lista inteira: tela dividida, ela em cima e o jogo embaixo trocando no ritmo das palavras. Não faça um quadrado por palavra.
+  - Cards e cenas (mo) só quando são o assunto da fala por vários segundos (feedbacks, entrega); a última frase termina no card final brand_cta3 (ate = 99), mas o CTA é feito no rosto dela.
+  - Memes: no máximo 1 no vídeo inteiro, só se a dor da fala pedir muito.
 - AURA: nas falas sobre a conta ser forte/completa/itens raros ("tudo pronto", "itens que muita gente passa horas tentando conseguir") use tipo montage (vira montagem de AURA: avatar brilhando) ou box com wpn "any". Golpe de arma (wpn) só quando ela cita a arma.
 - Card da marca (brand_intro) quando ela fala "Basic-Build" pela primeira vez; site de feedbacks quando fala de feedback; brand_entrega quando fala da entrega automática.
 - A última frase (o CTA) termina com o card final brand_cta3 ("SÓ R$ 17,90"): ate = 99 (vai até o fim).
@@ -185,6 +191,7 @@ for(const d of [...P.direcoes].sort((a,b)=>a.de-b.de)){
  let x;
  if(d.tipo==='mo'){if(!CLIPS.includes(d.clip)){avisos.push(`direção "${d.nome}": cena inválida "${d.clip}"`);continue;}x={s:+d.de.toFixed(2),e:fim,v:'mo',clip:d.clip};}
  else if(d.tipo==='box'){if(d.pool)x={s:+d.de.toFixed(2),e:fim,v:'box',pool:d.pool};else if(d.wpn)x={s:+d.de.toFixed(2),e:fim,v:'box',wpn:d.wpn};else{avisos.push(`direção "${d.nome}": quadrado sem arma/estoque`);continue;}}
+ else if(d.tipo==='split')x={s:+d.de.toFixed(2),e:fim,v:'split'};
  else x={s:+d.de.toFixed(2),e:fim,v:'montage'};
  direcoes[nome]=x;usadas.push([d.de,ate]);}
 const memes=(P.memes||[]).filter(m=>m.ate-m.de>=0.6&&CATS.includes(m.categoria)).map(m=>[+m.de.toFixed(2),+m.ate.toFixed(2),m.categoria,m.prioridade]);
@@ -193,7 +200,8 @@ const Wf=aplicaFix(RAW,FIX);const preco=Wf.find(w=>/^\d+,\d{2}/.test(w.t));
 if(!preco)avisos.push('não achei o preço falado — sem som de moeda na fala (o card final ainda tem)');
 else if(!/^17,90/.test(preco.t))avisos.push(`preço falado é "${preco.t}" — o oficial é R$ 17,90`);
 if(!Object.values(direcoes).some(d=>d.clip==='brand_cta3'))avisos.push('sem card final brand_cta3');
-const proj={nome:NOME,descricao:opt('--descricao')||`Vídeo base ${NOME} (${DUR.toFixed(0)}s)`,video:VIDEO_REF,palavras:'palavras.json',fix:FIX,frases,nomesFrases,frasesOpcionais:opcionais,fimFala:SRC_END,
+const chips=(P.chips||[]).filter(c=>c.ate>c.de&&c.texto).map(c=>[+c.de.toFixed(2),+c.ate.toFixed(2),c.texto.toUpperCase().slice(0,32)]);
+const proj={chips,nome:NOME,descricao:opt('--descricao')||`Vídeo base ${NOME} (${DUR.toFixed(0)}s)`,video:VIDEO_REF,palavras:'palavras.json',fix:FIX,frases,nomesFrases,frasesOpcionais:opcionais,fimFala:SRC_END,
  direcoes,direcoesPadrao:Object.keys(direcoes),reacoes:[],memes,destaques,moedaEm:preco?+preco.s.toFixed(2):null,gancho:(P.gancho||'').trim().toUpperCase().slice(0,40)||null,
  origem:IA?'claude':'regras',observacoes:P.observacoes||'',criadoEm:new Date().toISOString()};
 fs.writeFileSync(path.join(DIR,'projeto.json'),JSON.stringify(proj,null,1));
