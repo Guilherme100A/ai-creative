@@ -29,13 +29,13 @@ const score=(grupo,valor)=>{const c=(PREF.caracteristicas||[]).find(c=>c.grupo==
 const PACK_NAMES={y1:'YouTube: cliques + caixa registradora',y2:'YouTube: cliques + moeda Mario + vine boom',y3:'YouTube: iPhone + caixa registradora + vine boom'};
 // cada dimensão: opções dentro da receita boa + como o revisor chama essa opção (para puxar a nota)
 const DIM={
- gap:{op:[0.28,0.2],grupo:'Cortes',rot:v=>v<0.25?'Cortes bem rápidos':'Cortes rápidos (sem pausas)'},
+ gap:{op:[0.28],grupo:'Cortes',rot:v=>v<0.25?'Cortes bem rápidos':'Cortes rápidos (sem pausas)'},
  zoom:{op:[[1,1.15],[1.12,1],[1,1.12],[1.1,1]],grupo:'Zoom na fala',rot:v=>Math.max(...v)>=1.2?'Zoom forte':'Zoom leve'},
  pack:{op:['y1','y2','y3'],grupo:'Sons',rot:v=>PACK_NAMES[v]},
  grade:{op:['vivo','quente'],grupo:'Cor da imagem',rot:v=>v==='vivo'?'Cor viva':'Cor quente'},
- memes:{op:['muitos','medios'],grupo:'Memes no quadrado',rot:v=>v==='muitos'?'Muitos memes':'Memes médios'},
+ memes:{op:['medios','poucos'],grupo:'Memes no quadrado',rot:v=>({muitos:'Muitos memes',medios:'Memes médios',poucos:'Poucos memes'})[v]},
  memeSom:{op:[0.3,0.4,0.5]},
- boxLen:{op:[null,1.5]},
+ boxLen:{op:[null]},
  // efeitos novos (R.fx): sorteados para o revisor aprender qual você prefere
  musica:{op:['energia','leve','tech'],grupo:'Música de fundo',rot:v=>({energia:'Música: energia',leve:'Música: leve',tech:'Música: tech'})[v]},
  gancho:{op:[true,false],grupo:'Título no gancho',rot:v=>v?'Com título no gancho':'Sem título no gancho'},
@@ -44,10 +44,11 @@ const DIM={
 // lei do dono: legenda branca sem contorno e sem caixa — sempre "sombra"
 const CAP='sombra';
 // sempre ligados nos lotes novos: 1º frame claro, sem legenda brigando com o site, nitidez nela
-// (aprovado pelo crítico: v981 fase 1 + v982/v983 fase 2 — cor por tema, gameplay em tela cheia, speed lines, meme seco/curado, CTA curto, master corrigido)
+// ARROZ E FEIJÃO COM QUALIDADE (dono, out/2026: v990 reprovado por "muito corte feio, cortes aleatórios"): só o que é limpo e tem motivo.
+// Desligados de propósito: zoomFrase, punch, speed, popEntrada, siteCurto, telaCheia, precoGigante, progresso.
 // telaCheia fica DESLIGADO: só 1 de 42 clipes do estoque fica limpo em tela cheia (HUD, dano, flash) — volta quando houver gameplay própria sem HUD
 // precoGigante foi REPROVADO pelo dono ("17,90 gigante ficou muito ruim") — não religar sem ele pedir
-const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true,memeCurado:true,memeSeco:true,corTema:true,speed:true,ctaCurto:true,masterOk:true,pico:true,boxSeco:true,boxGrande:true,aura:true,zoomFrase:true,siteCurto:true,ctaVivo:true,popEntrada:true};
+const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',memeCurado:true,memeSeco:true,corTema:true,ctaCurto:true,ctaVivo:true,masterOk:true,pico:true,boxSeco:true,boxGrande:true,aura:true,zoomCalmo:true,listaUnica:true};
 // vocab (clipe escolhido pela etiqueta do que ele mostra) só liga quando o Garimpo entregou moveset/_tags.json — sem ele, toda a gameplay seria pulada
 if(fs.existsSync(path.join(require('./paths').DADOS,'moveset','_tags.json')))FX_FIXO.vocab=true;
 const temMusica=fs.existsSync(path.join(ROOT,'assets','musica','catalogo.json'));

@@ -7,6 +7,7 @@ const CENAS_PRECO_ANTIGO=['site_top','site_cta','brand_cta'];
 // meme toca até o fim, no máx 2,4s ou a janela da fala dele (o que for maior) e até +0,8s além da frase.
 // passar de 3,2s só acontece por bug.
 const MEME_MAX=3.2;
+const CORTES_MAX=4.5; // cortes visíveis a cada 10s
 
 // o id vira vt/<id> e render/variacoes/criativo_<id>.mp4 (globais): repetido em dois lotes = um render atropela o outro
 function lotesComId(id){const P=require('path').join(__dirname,'projetos');const achou=[];
@@ -29,6 +30,13 @@ function valida({R,shots,DUR,SENT,MV}){
  }
  const memes=new Map();for(const s of shots)if(s.k==='meme'){const m=memes.get(s.meme)||{a:s.oS,b:s.oE};m.a=Math.min(m.a,s.oS);m.b=Math.max(m.b,s.oE);memes.set(s.meme,m);}
  for(const [m,{a,b}] of memes)if(b-a>MEME_MAX+0.05)erros.push(`meme ${m.id} dura ${(b-a).toFixed(2)}s (máx ${MEME_MAX}s)`);
+ // ritmo: os vídeos que o dono deu nota 4 têm 3–4,4 cortes a cada 10s (plano médio 2,2–3,3s); o v990 reprovado ("muito corte
+ // feio, cortes aleatórios") tinha 6,8. Conta toda troca visível: tipo, cena, clipe, meme ou enquadramento dela.
+ if(R.fx){let cortes=0;for(let i=1;i<shots.length;i++){const a=shots[i-1],b=shots[i];
+   if(a.k!==b.k||a.clip!==b.clip||a.take!==b.take||a.meme!==b.meme||(a.k==='th'&&a.z!==b.z))cortes++;}
+  const porDez=cortes/DUR*10;
+  if(porDez>CORTES_MAX)erros.push(`cortes demais: ${porDez.toFixed(1)} a cada 10s (máx ${CORTES_MAX}; os aprovados pelo dono têm 3–4,4) — tire efeitos/inserts ou junte planos`);
+  else if(porDez>CORTES_MAX-0.7)avisos.push(`ritmo no limite: ${porDez.toFixed(1)} cortes a cada 10s`);}
  if(!shots.some(s=>s.k==='mo'&&s.clip==='brand_cta3'))avisos.push('sem o card final "SÓ R$ 17,90" (brand_cta3)');
  if(DUR>95)avisos.push(`vídeo longo: ${DUR.toFixed(1)}s`);
  const box=shots.filter(s=>s.k==='box'&&s.first);
