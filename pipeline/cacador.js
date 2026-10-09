@@ -51,7 +51,8 @@ const PAUSA=+arg('pausa',4)*1000,ESPERA=+arg('espera-bloqueio',20)*60000;let ult
 const cookieOk=()=>{try{return /	(SAPISID|__Secure-3PAPISID|LOGIN_INFO)	/.test(fs.readFileSync(COOKIES,'utf8'))}catch{return false}};
 // todas as chamadas ao YouTube com o ritmo pedido pelo maestro; ao PRIMEIRO "not a bot" o processo para (código 3) e não insiste
 const RITMO=['--sleep-requests','1.5','--sleep-interval','4','--max-sleep-interval','9'];
-function bloqueado(r){if(/not a bot|HTTP Error 429|rate.?limit/i.test(r.stderr||'')){log('YouTube bloqueou ("not a bot") — parando tudo, sem insistir');process.exit(3);}}
+const AVISO_BLOQ=()=>TMP+'/bloqueio';
+function bloqueado(r){if(/not a bot|HTTP Error 429|rate.?limit/i.test(r.stderr||'')){try{fs.mkdirSync(TMP,{recursive:true});fs.writeFileSync(AVISO_BLOQ(),new Date().toISOString())}catch{}log('YouTube bloqueou ("not a bot") — parando tudo, sem insistir');process.exit(3);}}
 function yt(a,o={}){const falta=ultimoYT+PAUSA-Date.now();if(falta>0)dorme(falta);ultimoYT=Date.now();
  const r=run(YT,['--no-check-certificates','--no-warnings',...(o.semIntervalo?RITMO.slice(0,2):RITMO),...(cookieOk()?['--cookies',COOKIES]:[]),...a]);bloqueado(r);return r;}
 const log=(...m)=>console.log('[caçador]',...m);
@@ -323,7 +324,16 @@ function prefiltroCapas(cand,cache){if(arg('sem-capa'))return cand;const fica=[]
   for(const v of lote){const x=ok.find(y=>y.v===v);if(!x||!nao.has(x.k+1)){v.promessa=x?prom.get(x.k+1)??5:5;fica.push(v);}}
   log(`capas: ${lote.length} vistas, ${nao.size} descartadas`);try{fs.rmSync(dir,{recursive:true,force:true})}catch{}}
  return fica.sort((a,b)=>(b.promessa??5)-(a.promessa??5));}
+// 2 processos em paralelo (pedido do dono): cada alvo é de um processo só (trava .lock); ao terminar vira .feito
+function pegaAlvo(){const d=SAIDA+'/alvos';fs.mkdirSync(d,{recursive:true});const L=`${d}/${ALVO}.lock`,Fe=`${d}/${ALVO}.feito`;
+ if(fs.existsSync(Fe)){log(`${ALVO} já concluído — nada a fazer`);process.exit(0);}
+ try{if(fs.existsSync(L)&&Date.now()-fs.statSync(L).mtimeMs>3*3600000)fs.rmSync(L,{force:true});}catch{}
+ try{fs.closeSync(fs.openSync(L,'wx'));}catch{log(`${ALVO} já está com outro processo — pulei`);process.exit(0);}
+ const toca=setInterval(()=>{try{const t=new Date();fs.utimesSync(L,t,t)}catch{}},600000);toca.unref();
+ process.on('exit',c=>{try{fs.rmSync(L,{force:true})}catch{}});return Fe;}
+const INICIO=Date.now();
 function main(){
+ const FEITO=ARQ?null:pegaAlvo();
  fs.mkdirSync(TMP,{recursive:true});const cache=rj(CACHE,{});const g0=rj(GASTO,{chamadas:0,usd:0});
  const tag=FN>1?` fatia ${FK+1}/${FN}`:'';
  fs.appendFileSync(REL,(fs.existsSync(REL)?'':'# Relatório do caçador de takes\n')+`
@@ -341,6 +351,9 @@ function main(){
  for(const v of cand){if(feitos>=NVID)break;
   if(!aprov.length&&meuGasto>TETO){log(`gasto US$ ${meuGasto.toFixed(2)} passou do teto (${TETO}) sem nenhum aprovado — parei${tag}`);parou=true;break;}
   esperaRam();if(feitos)dorme(4000+Math.random()*5000); // pausa entre vídeos (ritmo educado)
+  if(arg('segundo')){try{if(fs.statSync(AVISO_BLOQ()).mtimeMs>INICIO){log('o outro processo foi bloqueado — o segundo para, segue 1 só');process.exit(4);}}catch{}}
+  // o processo principal (rodando código anterior) só registra o bloqueio no log dele
+  if(arg('segundo')){try{const lg=SAIDA+'/logs/caca.log',st=fs.statSync(lg);if(st.mtimeMs>INICIO){const fd=fs.openSync(lg,'r'),n=Math.min(st.size,4000),b=Buffer.alloc(n);fs.readSync(fd,b,0,n,st.size-n);fs.closeSync(fd);if(/bloqueou|recusado/.test(b.toString()))process.exit(4);}}catch{}}
   let src;if(v.local){const p=run(require('ffprobe-static').path,['-v','error','-select_streams','v','-show_entries','stream=width,height','-of','csv=p=0',v.local]).stdout.trim().split(',');src={url:v.local,w:+p[0],h:+p[1]};}
   else src=fonte1080(v.id);
   if(!src){cacheSet(cache,v.id,{data:hoje(),motivo:'sem 1080p real'});log(v.id,'sem 1080p');continue;}
@@ -364,6 +377,8 @@ function main(){
 Resumo${tag}: ${feitos} vídeos novos avaliados, ${aprov.length} takes aprovados, US$ ${meuGasto.toFixed(3)} neste processo${parou?' (parou no teto)':''}.
 `);
  log(`fim${tag}: ${ALVO} — ${feitos} vídeos, ${aprov.length} aprovados, US$ ${meuGasto.toFixed(2)}`);
+ if(FEITO&&!parou&&cand.length)fs.writeFileSync(FEITO,`${new Date().toISOString()} ${feitos} vídeos, ${aprov.length} aprovados\n`);
+ if(FEITO&&parou)fs.writeFileSync(FEITO,`${new Date().toISOString()} parou no teto\n`);
 }
 if(require.main===module)main();
 // validação da régua: exemplos conhecidos (regua_takes.json, uso 'validacao'), 5 quadros por linha (t-0,4..t+0,4), numerados 1..n
