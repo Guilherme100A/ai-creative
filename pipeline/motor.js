@@ -105,7 +105,7 @@ const normW=t=>t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').r
 const GATS=(()=>{let C={};try{C=JSON.parse(fs.readFileSync(path.join(__dirname,'vocabulario.json'),'utf8')).conceitos}catch(e){}const g=[];for(const c of Object.values(C))if(c.tag)for(const x of c.gatilhos||[])g.push({g:normW(x),n:normW(x).split(' ').length,tag:c.tag});return g.sort((a,b)=>b.n-a.n);})();
 let TAGPOOL=null;const tagPool=tag=>{if(!TAGPOOL){TAGPOOL={};let T={};try{T=JSON.parse(fs.readFileSync(MV+'/_tags.json','utf8'))}catch(e){}
  const todos=[];const walk=p=>{for(const f of fs.readdirSync(path.join(MV,p))){if(f.startsWith('_'))continue; /* _descartados etc. nunca entram */const q=p?p+'/'+f:f;if(fs.statSync(path.join(MV,q)).isDirectory())walk(q);else if(f.endsWith('.mp4'))todos.push(q);}};walk('');
- for(const q of todos.sort()){const b=path.basename(q);if(b.startsWith('yt_')&&!ytOk(q))continue;for(const t of (T[b]||T[q]||[]))(TAGPOOL[t]=TAGPOOL[t]||[]).push(q);}}return TAGPOOL[tag]||[];};
+ for(const q of todos.sort()){const b=path.basename(q);if(b.startsWith('yt_')&&!ytOk(q))continue;TAGDE[q]=T[b]||T[q]||[];for(const t of TAGDE[q])(TAGPOOL[t]=TAGPOOL[t]||[]).push(q);}}return TAGPOOL[tag]||[];};const TAGDE={};
 const lerTela=()=>fs.existsSync(MV+'/_tela_cheia.txt')?new Set(fs.readFileSync(MV+'/_tela_cheia.txt','utf8').split(/\r?\n/).map(x=>path.basename(x.trim())).filter(Boolean)):null;
 // abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
 const ABRE_F=MO+'/_abertura.json';
@@ -146,8 +146,10 @@ function build(R){
  // 2) direções -> saída
  const used=new Set();const takeFor=wpn=>{const ALL3=[...TAKES.godhuman,...TAKES.cdk,...TAKES['soul guitar']],own=ALL3.filter(t=>!path.basename(t).startsWith('yt_'));const pool=wpn==='any'?(own.length?own:ALL3):TAKES[wpn];
   let cand=pool.filter(x=>!used.has(x));if(!cand.length)cand=pool;const x=pick(cand);used.add(x);return x};
- const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{const lim=new Set(tagPool('limpo_tela_cheia'));for(const t of ts){const pl=tagPool(t);if(pl.length){const top=pl.filter(x=>lim.has(x));return {pl:top.length?top:pl,t};}}return null;}; /* dentro da tag, prefere os clipes limpos (limpo_tela_cheia) */const AURA=!!(R.fx&&R.fx.aura);const fam=x=>path.dirname(x); /* família = mesma pasta (ex. aura/racas/Angel) */
+ const PL=R.fx?POOLS_OK:POOLS;const VOC=!!(R.fx&&R.fx.vocab),avV=[];const vocPool=ts=>{const lim=new Set(tagPool('limpo_tela_cheia'));for(const t of ts){const pl=tagPool(t);if(pl.length){const pri=x=>TAGDE[x][0]===t,cac=x=>path.basename(x).includes(`_${t}_`);
+   const nv=[pl.filter(x=>pri(x)&&cac(x)),pl.filter(x=>pri(x)&&lim.has(x)),pl.filter(pri),pl.filter(x=>lim.has(x)),pl].filter(a=>a.length);return {pl:nv[0],nv,t};}}return null;}; /* dentro da tag, em níveis: caçado para a tag (nome yt_…_<tag>_n) > tag principal do clipe (a 1ª) e limpo > tag principal > limpo (limpo_tela_cheia) > o resto */const AURA=!!(R.fx&&R.fx.aura);const fam=x=>path.dirname(x); /* família = mesma pasta (ex. aura/racas/Angel) */
  const pegaAura=pl=>{const uf=new Set([...used].map(fam));let c=pl.filter(x=>!used.has(x)&&!uf.has(fam(x)));if(!c.length)c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;}; /* evita repetir a mesma família (ex. duas Angel) */
+ const pegaVoc=r=>{const uf=new Set([...used].map(fam));const n=r.nv.find(a=>a.some(x=>!used.has(x)&&!uf.has(fam(x))));return pegaAura(n||r.pl);}; /* vocab: o melhor nível que ainda tem clipe novo (montage com várias auras não repete o caçado) */
  const qualquer=()=>[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar'),...auraPool('racas')];
  const auraDe=g=>!AURA?[]:g==='any'?qualquer():g==='racas'?auraPool('racas'):(auraPool(g).length?auraPool(g):qualquer()); // aura: montage (arma, senão qualquer aura), 'any' e raça
  let vis=[];
@@ -165,20 +167,23 @@ function build(R){
    oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,...(R.fx&&R.fx.ctaVivo&&fs.existsSync(`${MO}/${d.clip}_vivo.mp4`)?{arq:d.clip+'_vivo'}:{}),...(skipR?{skip:skipR}:{}),oS,oE});} // ctaVivo: card final com SAIBA MAIS, cursor tocando, seta e logo com bounce
   // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
   else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
-   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
+   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaVoc(r),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
   else if(d.v==='split'){ // telaDividida: rosto em cima, gameplay embaixo trocando na palavra que cita cada item (tag do vocabulário); armas em lista ≥0,4s, o resto ≥1,2s
    if(!(R.fx&&R.fx.telaDividida))continue;const wo=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e){const o=p.o+(w.s-p.s);if(o>=oS-0.01&&o<oE)wo.push({o,t:normW(w.t)});}
    const it=[];for(let i=0;i<wo.length;i++)for(const G of GATS){if(wo.slice(i,i+G.n).map(x=>x.t).join(' ')===G.g){if(!it.length||it[it.length-1].tag!==G.tag)it.push({o:wo[i].o,tag:G.tag});break;}}
-   const arma=t=>/^golpe_/.test(t);const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;const p=ok[ok.length-1];if(p&&x.o-p.o<(arma(x.tag)&&arma(p.tag)?0.4:1.2))continue;ok.push(x);} // lista de armas: cada arma na sua palavra (≥0,4s); raça/inventário/aura ≥1,2s
+   const arma=t=>/^golpe_/.test(t);const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;let x2=x;const p=ok[ok.length-1];
+    if(p&&!(arma(x.tag)&&arma(p.tag))&&x.o-p.o<1.2){if(p.tag==='aura'&&x.tag!=='aura'&&!arma(x.tag)){p.tag=x.tag;continue;} /* "da conta, raça V4": a aura genérica vira a coisa citada logo depois */
+     const w=wo.find(y=>y.o>=p.o+1.2);if(w&&w.o-x.o<=0.6&&w.o<oE-1.2)x2={...x,o:w.o};else continue;} /* colado demais: anda até a palavra seguinte (≤0,6s), senão sai */
+    if(p&&x2.o-p.o<0.4)continue;ok.push(x2);} // lista de armas: cada arma na sua palavra (≥0,4s); raça/inventário/aura ≥1,2s
    if(!ok.length&&vocPool(['aura']))ok.push({o:oS,tag:'aura'});if(!ok.length){avV.push(`sem clipe para a tela dividida (${name})`);continue;}
    ok[0].o=oS;if(ok.length>1&&oE-ok[ok.length-1].o<(arma(ok[ok.length-1].tag)?0.4:1.2))ok.pop();
-   ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaAura(r.pl),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
+   ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaVoc(r),tag:r.t,...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
   else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,...(R.fx?{wpn:d.wpn}:{}),oS,oE});}
   else if(VOC){const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3); // vocab na montage: aura, senão golpe da arma do quadro
    for(let i=0;i<n;i++){const r=vocPool(['aura',GOLPE[ws[(k+i)%3]]]);if(!r){avV.push(`sem clipe para aura/${GOLPE[ws[(k+i)%3]]} (montage ${name}): fica o rosto dela`);continue;}
-    vis.push({k:'box',take:pegaAura(r.pl),...(r.t==='aura'?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
+    vis.push({k:'box',take:pegaVoc(r),...(r.t==='aura'?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
    for(let i=0;i<n;i++){const ap=auraDe(ws[(k+i)%3]);vis.push({k:'box',take:ap.length?pegaAura(ap):takeFor(ws[(k+i)%3]),...(ap.length?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}}
  // listaUnica: armas citadas em sequência (gh/cdk/sg colados) viram UM quadrado só, com a 1ª arma cobrindo a lista inteira
