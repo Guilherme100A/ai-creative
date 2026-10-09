@@ -1,72 +1,162 @@
 {
- "obs": "Vocabulário visual: o que TEM que aparecer na tela quando a fala cita cada coisa. Cada conceito tem gatilhos (palavras da fala), a definição exata do visual, a etiqueta (tag) que os clipes precisam ter em moveset/_tags.json, e o que NÃO serve. Sem clipe com a tag certa = não mostra nada (fica o rosto/a cena atual) — nunca um visual errado. Pedido do dono: 'na hora de inventário ela mostra loja, não o inventário cheio — melhorar a definição de cada palavra'.",
+ "obs": "Vocabulário visual: o que TEM que aparecer na tela quando a fala cita cada coisa. Cada conceito tem gatilhos (palavras da fala), a definição exata do visual, a etiqueta (tag) que os clipes precisam ter em moveset/_tags.json, e o que NÃO serve. Sem clipe com a tag certa = não mostra nada (fica o rosto/a cena atual) — nunca um visual errado. Pedido do dono: 'na hora de inventário ela mostra loja, não o inventário cheio — melhorar a definição de cada palavra'. A definição de cada coisa do jogo vem de pipeline/conhecimento_blox.json (fonte de verdade).",
  "conceitos": {
   "godhuman": {
-   "gatilhos": ["godhuman", "god human"],
+   "gatilhos": [
+    "godhuman",
+    "god human"
+   ],
    "visual": "avatar usando uma skill do Godhuman (estilo de luta), golpe no auge, personagem visível",
    "tag": "golpe_godhuman",
-   "nao_serve": ["outra arma", "só clarão branco", "avatar parado sem golpe", "texto 'Safe Zone'/HUD dominando"]
+   "nao_serve": [
+    "outra arma",
+    "só clarão branco",
+    "avatar parado sem golpe",
+    "texto 'Safe Zone'/HUD dominando"
+   ]
   },
   "cdk": {
-   "gatilhos": ["cdk", "cursed dual katana", "katana", "katanas"],
+   "gatilhos": [
+    "cdk",
+    "cursed dual katana",
+    "katana",
+    "katanas"
+   ],
    "visual": "avatar com as DUAS katanas do CDK visíveis, de preferência golpeando (corte vermelho/roxo)",
    "tag": "golpe_cdk",
-   "nao_serve": ["outro personagem sem espadas", "golpe de outra arma"]
+   "nao_serve": [
+    "outro personagem sem espadas",
+    "golpe de outra arma"
+   ]
   },
   "soul_guitar": {
-   "gatilhos": ["soul guitar", "skull guitar", "guitarra", "guitar"],
+   "gatilhos": [
+    "soul guitar",
+    "skull guitar",
+    "guitarra",
+    "guitar"
+   ],
    "visual": "avatar com a GUITARRA visível na mão ou golpe característico do Soul Guitar (esfera verde com redemoinho, mãos verdes, raios em círculos)",
    "tag": "golpe_soul_guitar",
-   "nao_serve": ["feixe fino terminando em campo vazio", "orbe genérico sem contexto"]
+   "nao_serve": [
+    "feixe fino terminando em campo vazio",
+    "orbe genérico sem contexto"
+   ]
   },
   "raca_v4": {
-   "gatilhos": ["raça v4", "rasa v4", "v4", "raça full v4", "raça", "transformação"],
+   "gatilhos": [
+    "raça v4",
+    "rasa v4",
+    "v4",
+    "raça full v4",
+    "raça",
+    "transformação"
+   ],
    "visual": "avatar transformado com a raça V4 desperta: aura forte (asas douradas Angel, aura vermelha Human, sombra Ghoul, etc.), parado ou em pose",
    "tag": "aura_v4",
-   "nao_serve": ["avatar normal sem aura", "golpe de arma"]
+   "nao_serve": [
+    "avatar normal sem aura",
+    "golpe de arma"
+   ]
   },
   "inventario_frutas": {
-   "gatilhos": ["frutas místicas", "frutas míticas", "fruta mística", "fruta mítica", "frutas", "inventário", "inventario"],
-   "visual": "INVENTÁRIO/armazenamento de frutas do jogador CHEIO, com várias frutas míticas visíveis e legíveis (Kitsune, Dragon, Leopard, Dough, Venom…) — a prova de valor da conta",
+   "gatilhos": [
+    "frutas místicas",
+    "frutas míticas",
+    "fruta mística",
+    "fruta mítica",
+    "frutas",
+    "inventário",
+    "inventario"
+   ],
+   "visual": "INVENTÁRIO do próprio jogador onde a MAIORIA das frutas visíveis é Mythical: pelo menos 3 nomes da lista de míticas legíveis (Kitsune, Dragon, Leopard, Dough, Venom, T-Rex, Spirit, Control, Shadow, Mammoth, Gravity, Yeti, Gas) — ou a ficha de uma fruta com o rótulo Mythical legível. Grande e nítido.",
    "tag": "inventario_cheio",
-   "nao_serve": ["tela da LOJA (Blox Fruit Dealer / 'Visit the Blox Fruit Dealer to see stock' / preços em Robux)", "inventário vazio ou com 1–2 frutas", "lista ilegível"]
+   "nao_serve": [
+    "a LOJA (Blox Fruit Dealer / preços em Robux)",
+    "inventário com 1–2 míticas no meio de frutas comuns (parece conta comum, \"bugado\")",
+    "pequeno, chapado ou ilegível"
+   ]
   },
   "conta_forte": {
-   "gatilhos": ["conta", "tudo pronto", "pronta", "itens", "outros itens", "conta completa", "muita gente passa horas tentando conseguir"],
+   "gatilhos": [
+    "conta",
+    "tudo pronto",
+    "pronta",
+    "itens",
+    "outros itens",
+    "conta completa",
+    "muita gente passa horas tentando conseguir"
+   ],
    "visual": "avatar parado com AURA ligada (V4, haki colorido, brilho) — pose de 'conta forte'",
    "tag": "aura",
-   "nao_serve": ["golpe aleatório", "tela de menu"]
+   "nao_serve": [
+    "golpe aleatório",
+    "tela de menu"
+   ]
   },
   "level_maximo": {
-   "gatilhos": ["level máximo", "level max", "nível máximo", "lv máximo", "level"],
+   "gatilhos": [
+    "level máximo",
+    "level max",
+    "nível máximo",
+    "lv máximo",
+    "level"
+   ],
    "visual": "o nível 2800 (MAX) bem legível na tela ou o avatar forte com aura",
    "tag": "level_max",
-   "nao_serve": ["nível baixo", "número ilegível"]
+   "nao_serve": [
+    "nível baixo",
+    "número ilegível"
+   ]
   },
   "entrega": {
-   "gatilhos": ["entrega automática", "automaticamente", "automática", "na hora", "pix", "aprovada"],
+   "gatilhos": [
+    "entrega automática",
+    "automaticamente",
+    "automática",
+    "na hora",
+    "pix",
+    "aprovada"
+   ],
    "visual": "card da marca 'DEPOIS DA COMPRA / ENTREGA AUTOMÁTICA / PAGOU NO PIX / LOGIN NA HORA'",
    "cena": "brand_entrega"
   },
   "feedbacks": {
-   "gatilhos": ["feedbacks", "feedback", "quem já comprou", "avaliações"],
+   "gatilhos": [
+    "feedbacks",
+    "feedback",
+    "quem já comprou",
+    "avaliações"
+   ],
    "visual": "site 'QUEM JÁ COMPROU' com os prints de feedback legíveis",
    "cena": "site_feedback"
   },
   "marca": {
-   "gatilhos": ["basic-build", "basic build"],
+   "gatilhos": [
+    "basic-build",
+    "basic build"
+   ],
    "visual": "card da marca BASIC-BUILD (na primeira vez que ela fala a marca)",
    "cena": "brand_intro"
   },
   "preco": {
-   "gatilhos": ["17,90", "dezessete e noventa"],
+   "gatilhos": [
+    "17,90",
+    "dezessete e noventa"
+   ],
    "visual": "preço em VERDE na legenda + som de moeda; card final 'SÓ R$ 17,90' (nunca o preço gigante solto na tela)",
    "cena": "brand_cta3"
   }
  },
  "tags_de_clipe": {
-  "golpe_godhuman": "skill do Godhuman no auge", "golpe_cdk": "CDK com as duas katanas / golpe do CDK", "golpe_soul_guitar": "guitarra visível ou golpe característico",
-  "aura_v4": "raça V4 desperta com aura", "aura": "avatar com aura ligada (qualquer)", "inventario_cheio": "inventário de frutas cheio com míticas legíveis",
-  "loja_frutas": "tela da loja Blox Fruit Dealer (NÃO é inventário)", "level_max": "Lv. 2800 MAX legível", "limpo_tela_cheia": "sem HUD/números/títulos no recorte 9:16"
+  "golpe_godhuman": "skill do Godhuman no auge",
+  "golpe_cdk": "CDK com as duas katanas / golpe do CDK",
+  "golpe_soul_guitar": "guitarra visível ou golpe característico",
+  "aura_v4": "raça V4 desperta com aura",
+  "aura": "avatar com aura ligada (qualquer)",
+  "inventario_cheio": "inventário de frutas cheio com míticas legíveis",
+  "loja_frutas": "tela da loja Blox Fruit Dealer (NÃO é inventário)",
+  "level_max": "Lv. 2800 MAX legível",
+  "limpo_tela_cheia": "sem HUD/números/títulos no recorte 9:16"
  }
 }

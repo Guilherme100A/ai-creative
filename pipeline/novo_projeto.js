@@ -109,6 +109,8 @@ const SCHEMA={type:'object',additionalProperties:false,required:['frases','direc
 const transcr=W=>W.map(w=>`${w.s.toFixed(2)} ${w.t}`).join('\n');
 
 // vocabulário visual (pipeline/vocabulario.json): o que tem que aparecer para cada palavra
+// base de conhecimento do jogo (pipeline/conhecimento_blox.json): o que cada coisa É de verdade
+function conhecimentoTexto(){try{const K=JSON.parse(fs.readFileSync(path.join(__dirname,'conhecimento_blox.json'),'utf8'));return JSON.stringify({regras:K.regras_de_prova_visual,miticas:K.frutas_miticas.lista,inventario:K.inventario,itens:K.itens_da_conta});}catch{return '';}}
 function vocabTexto(){try{const V=JSON.parse(fs.readFileSync(path.join(__dirname,'vocabulario.json'),'utf8')).conceitos;
  return Object.entries(V).map(([k,c])=>`- ${k} (${c.gatilhos.slice(0,4).join(', ')}): ${c.visual}${c.nao_serve?' — NÃO serve: '+c.nao_serve.join('; '):''}`).join('\n');}catch{return '';}}
 
@@ -137,6 +139,9 @@ O vídeo é uma pessoa falando para a câmera; a edição coloca por cima anima�
 - Direções não podem se sobrepor. Tempos em segundos da fala original. Duração de uma animação (mo) = a duração da cena (abaixo); quadros de gameplay de arma ~0,6–0,9s; raça ~1,3s; montage = vários quadros seguidos de armas diferentes (2–3s) quando a fala continua sobre a conta.
 - Destaques (amarelo): nomes de itens, marca, preço, palavras de dor (HORAS, DIAS, ZERO) e de ação (JOGAR). Em MAIÚSCULAS, exatamente como a palavra aparece (com acento).
 - Correções: o Whisper erra nomes (ex.: "Base Key Build" → "Basic-Build", "God Human" → "Godhuman", "Blocks" → "Blox"). Já aplicamos estas correções globais: ${GLOBAL.fix.map(([s,r])=>`${s.map(x=>x.replace(/[\^$]/g,'')).join(' ')}→${r}`).join('; ')}. Se ainda sobrar erro de transcrição na fala nova, devolva em "correcoes" com as palavras EXATAMENTE como aparecem na transcrição abaixo.
+
+## O que cada coisa do jogo é de verdade (base de conhecimento — siga à risca)
+${conhecimentoTexto()}
 
 ## Vocabulário visual (o que TEM que aparecer para cada palavra; sem clipe certo, não ponha nada)
 ${vocabTexto()}

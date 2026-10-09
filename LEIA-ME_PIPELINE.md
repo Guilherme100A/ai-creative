@@ -8,6 +8,9 @@ Este documento explica **tudo** o que foi construído para gerar os criativos (a
 
 ---
 
+> **Base de conhecimento do jogo:** `pipeline/conhecimento_blox.json` diz o que cada coisa do Blox Fruits É de verdade (frutas míticas, inventário x loja, Godhuman, CDK, Soul Guitar, raça V4, level 2800). TODO o sistema a segue: juiz do caçador, projeto automático, crítico, garimpeiro. Um visual só prova uma palavra se um jogador reconheceria na hora; senão, fica o rosto.
+> **Paleta:** só as cores do site (verde-limão #C6F36B, branco, grafite).
+
 ## 0. Esteira (desde out/2026): o jeito atual de produzir
 
 Não se escreve mais `make_genN.js` / `genN.js` à mão. Tudo passa pelo **revisor → aba Produzir** (`Abrir revisor.bat`), ou pelos mesmos comandos dentro de `pipeline\`:
