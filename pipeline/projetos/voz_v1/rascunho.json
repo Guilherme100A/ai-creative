@@ -1,0 +1,142 @@
+{
+ "frases": [
+  {
+   "id": "A",
+   "de": 0,
+   "ate": 7.2,
+   "nome": "Mano, olha o que 17,90 compra…",
+   "opcional": false
+  },
+  {
+   "id": "B",
+   "de": 7.64,
+   "ate": 10.4,
+   "nome": "E às vezes ainda vem raça…",
+   "opcional": false
+  },
+  {
+   "id": "C",
+   "de": 10.88,
+   "ate": 15.36,
+   "nome": "Para de perder horas farmando: paga…",
+   "opcional": false
+  },
+  {
+   "id": "D",
+   "de": 15.8,
+   "ate": 19.12,
+   "nome": "Clica em saiba mais e pega…",
+   "opcional": false
+  }
+ ],
+ "direcoes": [
+  {
+   "nome": "hookSite",
+   "de": -0.03,
+   "ate": 1.12,
+   "tipo": "mo",
+   "clip": "site_top2",
+   "wpn": "",
+   "pool": "",
+   "motivo": "abre mostrando o produto"
+  },
+  {
+   "nome": "gh",
+   "de": 4.84,
+   "ate": 5.57,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "godhuman",
+   "pool": "",
+   "motivo": "fala \"Godhuman,\""
+  },
+  {
+   "nome": "cdk",
+   "de": 5.64,
+   "ate": 6.29,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "cdk",
+   "pool": "",
+   "motivo": "fala \"CDK\""
+  },
+  {
+   "nome": "sg",
+   "de": 6.44,
+   "ate": 7.25,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "soul guitar",
+   "pool": "",
+   "motivo": "fala \"Soul\""
+  },
+  {
+   "nome": "race",
+   "de": 8.59,
+   "ate": 9.89,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "",
+   "pool": "race",
+   "motivo": "fala da raça V4"
+  },
+  {
+   "nome": "final",
+   "de": 13.66,
+   "ate": 15.46,
+   "tipo": "box",
+   "clip": "",
+   "wpn": "any",
+   "pool": "",
+   "motivo": "fecho antes do CTA"
+  },
+  {
+   "nome": "brandCta",
+   "de": 15.75,
+   "ate": 99,
+   "tipo": "mo",
+   "clip": "brand_cta3",
+   "wpn": "",
+   "pool": "",
+   "motivo": "última frase: card final com o preço"
+  }
+ ],
+ "memes": [
+  {
+   "de": 11.04,
+   "ate": 13.84,
+   "categoria": "triste",
+   "prioridade": 1,
+   "motivo": "palavra-chave"
+  }
+ ],
+ "destaques": [
+  "GODHUMAN",
+  "CDK",
+  "BASIC-BUILD",
+  "V4",
+  "RAÇA",
+  "FULL",
+  "MÍSTICAS",
+  "MÍTICAS",
+  "LEVEL",
+  "MÁXIMO",
+  "BLOX",
+  "FRUITS",
+  "17,90",
+  "AUTOMATICAMENTE",
+  "FEEDBACKS",
+  "PARAR",
+  "BÁSICO",
+  "HORAS",
+  "DIAS",
+  "ZERO",
+  "E-MAIL",
+  "JOGAR",
+  "JOGO",
+  "SOUL",
+  "GUITAR"
+ ],
+ "correcoes": [],
+ "observacoes": "rascunho por regras"
+}

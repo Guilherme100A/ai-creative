@@ -1,0 +1,161 @@
+{
+ "lote": 99,
+ "projeto": "voz_v1",
+ "estilo": "viral",
+ "criadoEm": "2026-10-08T23:41:50.493Z",
+ "variacoes": [
+  {
+   "id": "vz01",
+   "order": "ABCDEF",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 984,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "punch": true,
+    "memeCurado": true,
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "gancho": true,
+    "corTema": true,
+    "memeSeco": true,
+    "masterOk": true
+   },
+   "boxLen": 1.5
+  },
+  {
+   "id": "vz02",
+   "order": "ABCDEF",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 984,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "punch": true,
+    "memeCurado": true,
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "gancho": true,
+    "corTema": true,
+    "memeSeco": true,
+    "masterOk": true
+   },
+   "boxLen": 1.5
+  },
+  {
+   "id": "vz03",
+   "order": "ABCDEF",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 984,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "punch": true,
+    "memeCurado": true,
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "gancho": true,
+    "corTema": true,
+    "memeSeco": true,
+    "masterOk": true
+   },
+   "boxLen": 1.5
+  },
+  {
+   "id": "vz04",
+   "order": "ABCDEF",
+   "gap": 0.2,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y2",
+   "seed": 984,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "muitos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "punch": true,
+    "memeCurado": true,
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "gancho": true,
+    "corTema": true,
+    "memeSeco": true,
+    "masterOk": true
+   },
+   "boxLen": 1.5
+  }
+ ],
+ "obs": "Eco: criativos sem UGC (voz Liam + gameplay tela cheia). vz01 = rodada 1 (Coruja 5/10, render apagado), vz02 = rodada 2"
+}

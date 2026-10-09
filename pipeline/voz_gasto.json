@@ -1,0 +1,27 @@
+[
+ {
+  "data": "2026-10-08T23:31:19.839Z",
+  "roteiro": "../voz/teste.txt",
+  "caracteres": 91,
+  "mes": "1884/10000"
+ },
+ {
+  "data": "2026-10-08T23:32:56.601Z",
+  "roteiro": "../voz/teste.txt",
+  "caracteres": 91,
+  "mes": "1975/10000"
+ },
+ {
+  "data": "2026-10-08T23:33:01.275Z",
+  "roteiro": "../voz/teste.txt",
+  "caracteres": 91,
+  "mes": "1975/10000"
+ },
+ {
+  "data": "2026-10-08T23:38:03.699Z",
+  "roteiro": "../voz/v1/roteiro.txt",
+  "caracteres": 301,
+  "voz": "liam",
+  "mes": "2157/10000"
+ }
+]

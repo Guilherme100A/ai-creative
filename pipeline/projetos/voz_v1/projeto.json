@@ -1,0 +1,194 @@
+{
+ "nome": "voz_v1",
+ "descricao": "Sem UGC: voz em off (Liam) + gameplay tela cheia — roteiro V1 (achado + preço no 1º s)",
+ "video": "videos/voz_v1.mp4",
+ "palavras": "palavras.json",
+ "fix": [
+  [
+   [
+    "^Base$",
+    "^Key$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^BaseK$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^base$",
+    "^que$",
+    "^bill$",
+    "^e$"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^Besky$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^Base$",
+    "^Ki$",
+    "^Build"
+   ],
+   "Basic-Build"
+  ],
+  [
+   [
+    "^God$",
+    "^of$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^God$",
+    "^Human"
+   ],
+   "Godhuman"
+  ],
+  [
+   [
+    "^Blocks$"
+   ],
+   "Blox"
+  ],
+  [
+   [
+    "^BASIC$"
+   ],
+   "básico"
+  ],
+  [
+   [
+    "^Leve$",
+    "^ao$"
+   ],
+   "Level"
+  ],
+  [
+   [
+    "^Rasa$"
+   ],
+   "Raça"
+  ],
+  [
+   [
+    "^serve$",
+    "^a$",
+    "^mais"
+   ],
+   "saiba mais"
+  ],
+  [
+   [
+    "^e$",
+    "^-mail"
+   ],
+   "e-mail"
+  ],
+  [
+   [
+    "^apagacar$",
+    "^o$"
+   ],
+   "pagar caro"
+  ],
+  [
+   [
+    "^17$",
+    "^,90"
+   ],
+   "17,90"
+  ]
+ ],
+ "frases": {
+  "A": [
+   0,
+   3.3
+  ],
+  "B": [
+   3.68,
+   7.2
+  ],
+  "C": [
+   7.64,
+   10.4
+  ],
+  "D": [
+   10.88,
+   12.3
+  ],
+  "E": [
+   12.61,
+   15.36
+  ],
+  "F": [
+   15.8,
+   19.12
+  ]
+ },
+ "nomesFrases": {
+  "A": "Mano, olha o que 17,90 compra no Blox Fruits",
+  "B": "conta level máximo com Godhuman, CDK e Soul Guitar",
+  "C": "às vezes vem raça V4 e fruta mítica",
+  "D": "para de perder horas farmando",
+  "E": "paga no Pix, login na hora, automático",
+  "F": "clica em saiba mais… Basic-Build"
+ },
+ "frasesOpcionais": [],
+ "fimFala": 20.62,
+ "direcoes": {
+  "brandCta": {
+   "s": 16.9,
+   "e": 99,
+   "v": "mo",
+   "clip": "brand_cta3"
+  }
+ },
+ "direcoesPadrao": [
+  "brandCta"
+ ],
+ "reacoes": [],
+ "memes": [
+  [
+   10.84,
+   11.9,
+   "espera",
+   1
+  ]
+ ],
+ "destaques": [
+  "17,90",
+  "GODHUMAN",
+  "CDK",
+  "SOUL",
+  "GUITAR",
+  "V4",
+  "RAÇA",
+  "MÍTICA",
+  "LEVEL",
+  "MÁXIMO",
+  "HORAS",
+  "PIX",
+  "AUTOMÁTICO",
+  "BASIC-BUILD"
+ ],
+ "moedaEm": 1.04,
+ "gancho": "CONTA *PRONTA* SEM FARMAR",
+ "origem": "eco (manual)",
+ "observacoes": "Formato sem UGC: o vídeo base já é gameplay em tela cheia (base_gameplay.js), a arma citada entra na hora da palavra. Sem quadros de gameplay (box) e sem site no 1º segundo: abre com gameplay forte + título.",
+ "criadoEm": "2026-10-08T23:41:11.283Z",
+ "formato": "voz"
+}

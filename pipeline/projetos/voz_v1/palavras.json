@@ -1,0 +1,397 @@
+{
+ "text": " Mano, olha o que 17,90 compra no Blox Fruits: conta level máximo com Godhuman, CDK e Soul Guitar! E às vezes ainda vem raça V4 e fruta mítica. Para de perder horas farmando: paga no Pix e o login chega na hora, automático. Clica em saiba mais e pega a sua na Basic-Build antes que acabe.",
+ "chunks": [
+  {
+   "text": " Mano,",
+   "timestamp": [
+    0,
+    0.32
+   ]
+  },
+  {
+   "text": " olha",
+   "timestamp": [
+    0.64,
+    0.8
+   ]
+  },
+  {
+   "text": " o",
+   "timestamp": [
+    0.84,
+    0.88
+   ]
+  },
+  {
+   "text": " que",
+   "timestamp": [
+    0.92,
+    0.96
+   ]
+  },
+  {
+   "text": " 17,90",
+   "timestamp": [
+    1.04,
+    2
+   ]
+  },
+  {
+   "text": " compra",
+   "timestamp": [
+    2.16,
+    2.4
+   ]
+  },
+  {
+   "text": " no",
+   "timestamp": [
+    2.48,
+    2.56
+   ]
+  },
+  {
+   "text": " Blox",
+   "timestamp": [
+    2.6,
+    2.88
+   ]
+  },
+  {
+   "text": " Fruits:",
+   "timestamp": [
+    2.96,
+    3.28
+   ]
+  },
+  {
+   "text": " conta",
+   "timestamp": [
+    3.68,
+    3.92
+   ]
+  },
+  {
+   "text": " level",
+   "timestamp": [
+    4.08,
+    4.24
+   ]
+  },
+  {
+   "text": " máximo",
+   "timestamp": [
+    4.32,
+    4.72
+   ]
+  },
+  {
+   "text": " com",
+   "timestamp": [
+    4.8,
+    4.88
+   ]
+  },
+  {
+   "text": " Godhuman,",
+   "timestamp": [
+    4.96,
+    5.52
+   ]
+  },
+  {
+   "text": " CDK",
+   "timestamp": [
+    5.76,
+    6.24
+   ]
+  },
+  {
+   "text": " e",
+   "timestamp": [
+    6.32,
+    6.4
+   ]
+  },
+  {
+   "text": " Soul",
+   "timestamp": [
+    6.56,
+    6.72
+   ]
+  },
+  {
+   "text": " Guitar!",
+   "timestamp": [
+    6.8,
+    7.2
+   ]
+  },
+  {
+   "text": " E",
+   "timestamp": [
+    7.64,
+    7.68
+   ]
+  },
+  {
+   "text": " às",
+   "timestamp": [
+    7.76,
+    7.88
+   ]
+  },
+  {
+   "text": " vezes",
+   "timestamp": [
+    7.92,
+    8.24
+   ]
+  },
+  {
+   "text": " ainda",
+   "timestamp": [
+    8.32,
+    8.48
+   ]
+  },
+  {
+   "text": " vem",
+   "timestamp": [
+    8.52,
+    8.64
+   ]
+  },
+  {
+   "text": " raça",
+   "timestamp": [
+    8.72,
+    8.96
+   ]
+  },
+  {
+   "text": " V4",
+   "timestamp": [
+    9.08,
+    9.52
+   ]
+  },
+  {
+   "text": " e",
+   "timestamp": [
+    9.573,
+    9.627
+   ]
+  },
+  {
+   "text": " fruta",
+   "timestamp": [
+    9.68,
+    9.92
+   ]
+  },
+  {
+   "text": " mítica.",
+   "timestamp": [
+    10,
+    10.4
+   ]
+  },
+  {
+   "text": " Para",
+   "timestamp": [
+    10.88,
+    11.04
+   ]
+  },
+  {
+   "text": " de",
+   "timestamp": [
+    11.12,
+    11.2
+   ]
+  },
+  {
+   "text": " perder",
+   "timestamp": [
+    11.24,
+    11.44
+   ]
+  },
+  {
+   "text": " horas",
+   "timestamp": [
+    11.52,
+    11.76
+   ]
+  },
+  {
+   "text": " farmando:",
+   "timestamp": [
+    11.84,
+    12.24
+   ]
+  },
+  {
+   "text": " paga",
+   "timestamp": [
+    12.613,
+    12.72
+   ]
+  },
+  {
+   "text": " no",
+   "timestamp": [
+    12.8,
+    12.88
+   ]
+  },
+  {
+   "text": " Pix",
+   "timestamp": [
+    12.96,
+    13.2
+   ]
+  },
+  {
+   "text": " e",
+   "timestamp": [
+    13.28,
+    13.307
+   ]
+  },
+  {
+   "text": " o",
+   "timestamp": [
+    13.333,
+    13.36
+   ]
+  },
+  {
+   "text": " login",
+   "timestamp": [
+    13.52,
+    13.68
+   ]
+  },
+  {
+   "text": " chega",
+   "timestamp": [
+    13.76,
+    13.92
+   ]
+  },
+  {
+   "text": " na",
+   "timestamp": [
+    14,
+    14.16
+   ]
+  },
+  {
+   "text": " hora,",
+   "timestamp": [
+    14.28,
+    14.4
+   ]
+  },
+  {
+   "text": " automático.",
+   "timestamp": [
+    14.76,
+    15.36
+   ]
+  },
+  {
+   "text": " Clica",
+   "timestamp": [
+    15.8,
+    16
+   ]
+  },
+  {
+   "text": " em",
+   "timestamp": [
+    16.04,
+    16.08
+   ]
+  },
+  {
+   "text": " saiba",
+   "timestamp": [
+    16.16,
+    16.4
+   ]
+  },
+  {
+   "text": " mais",
+   "timestamp": [
+    16.48,
+    16.72
+   ]
+  },
+  {
+   "text": " e",
+   "timestamp": [
+    16.8,
+    16.88
+   ]
+  },
+  {
+   "text": " pega",
+   "timestamp": [
+    16.96,
+    17.12
+   ]
+  },
+  {
+   "text": " a",
+   "timestamp": [
+    17.173,
+    17.227
+   ]
+  },
+  {
+   "text": " sua",
+   "timestamp": [
+    17.28,
+    17.44
+   ]
+  },
+  {
+   "text": " na",
+   "timestamp": [
+    17.48,
+    17.52
+   ]
+  },
+  {
+   "text": " Basic-Build",
+   "timestamp": [
+    17.68,
+    18.32
+   ]
+  },
+  {
+   "text": " antes",
+   "timestamp": [
+    18.4,
+    18.64
+   ]
+  },
+  {
+   "text": " que",
+   "timestamp": [
+    18.72,
+    18.773
+   ]
+  },
+  {
+   "text": " acabe.",
+   "timestamp": [
+    18.827,
+    19.12
+   ]
+  }
+ ]
+}
