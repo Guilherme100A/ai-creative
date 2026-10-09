@@ -41,6 +41,8 @@ const YT_OK=/yt_0_OnhJ_uG_M_(z_[5-9]|x_[4-7])|yt_b6Gqb4yiiF4_(z_[1-5]|x_[15])/;
 const APROV=new Set((fs.existsSync(MV+'/_aprovados.txt')?fs.readFileSync(MV+'/_aprovados.txt','utf8'):'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean));
 const ytOk=t=>YT_OK.test(t)||APROV.has(path.basename(t));
 for(const k in TAKES)TAKES[k]=TAKES[k].filter(t=>!BAD.includes(t)&&(!path.basename(t).startsWith('yt_')||ytOk(t))).sort();
+// com fx, raça e inventário também respeitam _aprovados.txt (clipe do YouTube tirado da lista sai do estoque; estoque vazio = a direção é pulada)
+const POOLS_OK={};for(const k in POOLS)POOLS_OK[k]=POOLS[k].filter(t=>!path.basename(t).startsWith('yt_')||ytOk(t));
 
 // ---------- direções visuais ----------
 const DIR=PROJ.direcoes;
@@ -89,7 +91,7 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
-// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
@@ -135,8 +137,9 @@ function build(R){
  // 2) direções -> saída
  const used=new Set();const takeFor=wpn=>{const ALL3=[...TAKES.godhuman,...TAKES.cdk,...TAKES['soul guitar']],own=ALL3.filter(t=>!path.basename(t).startsWith('yt_'));const pool=wpn==='any'?(own.length?own:ALL3):TAKES[wpn];
   let cand=pool.filter(x=>!used.has(x));if(!cand.length)cand=pool;const x=pick(cand);used.add(x);return x};
- const AURA=!!(R.fx&&R.fx.aura);const pegaAura=pl=>{let c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;};
- const auraDe=g=>AURA?(g==='any'?[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar')]:auraPool(g)):[]; // aura: montage, 'any' e raça
+ const PL=R.fx?POOLS_OK:POOLS;const AURA=!!(R.fx&&R.fx.aura);const pegaAura=pl=>{let c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;};
+ const qualquer=()=>[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar'),...auraPool('racas')];
+ const auraDe=g=>!AURA?[]:g==='any'?qualquer():g==='racas'?auraPool('racas'):(auraPool(g).length?auraPool(g):qualquer()); // aura: montage (arma, senão qualquer aura), 'any' e raça
  let vis=[];
  for(const name of R.dirs){const d=DIR[name];const parts=pieces.filter(p=>p.e>d.s&&p.s<d.e);if(!parts.length)continue;
   let oS=Infinity,oE=-Infinity;for(const p of parts){oS=Math.min(oS,p.o+Math.max(0,d.s-p.s));oE=Math.max(oE,p.o+(Math.min(d.e,p.e)-p.s));}
@@ -144,7 +147,8 @@ function build(R){
   if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
    oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,oS,oE});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
-  else if(d.v==='box'){let take;if(d.pool){const pl=POOLS[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:POOLS[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
+  else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
+  else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
    for(let i=0;i<n;i++){const ap=auraDe(ws[(k+i)%3]);vis.push({k:'box',take:ap.length?pegaAura(ap):takeFor(ws[(k+i)%3]),...(ap.length?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}}
  // memes: só entram onde não tem animação nem gameplay
@@ -155,6 +159,8 @@ function build(R){
   let b2=b;if(m.tipo==='video'){b2=a+Math.min(2.4,b-a+0.8,Math.max(b-a,m.dur-(CUR?m.ini||0:0)-0.15));const nx=vis.filter(v=>v.oS>=a).sort((x,y)=>x.oS-y.oS)[0];if(nx)b2=Math.min(b2,nx.oS-0.05);b2=Math.min(b2,DUR-0.5);if(b2<b)b2=b;}
   vis.push({k:'meme',cat,meme:m,audio:CUR&&'som' in m?(pick(C.audios),m.som):pick(C.audios),som:rand()<(R.memeSom??0.5),oS:a,oE:b2});}
  vis.sort((a,b)=>a.oS-b.oS);
+ // aura: plano de aura com pelo menos 1,2s, tirando o tempo do quadrado que vem colado depois
+ if(R.fx&&R.fx.aura)for(let i=0;i+1<vis.length;i++){const v=vis[i],n=vis[i+1];if(!v.aura||v.oE-v.oS>=1.2||n.k!=='box'||Math.abs(n.oS-v.oE)>0.05)continue;const d=Math.min(1.2-(v.oE-v.oS),n.oE-n.oS-0.8);if(d>0){v.oE+=d;n.oS+=d;}}
  const ENTRIES=['flip','rise','pop','swing'];let bi=Math.floor(rand()*4);
  for(const v of vis)if(v.k==='box'||v.k==='meme'){v.pose=bi%2?1:-1;v.entry=ENTRIES[(bi+Math.floor(rand()*2))%4];bi++;}
  const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
@@ -171,6 +177,13 @@ function build(R){
  if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
   if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
  let zi=0;for(const s of shots)if(s.k==='th'){s.z=R.zoom[zi%R.zoom.length];zi++;}
+ // zoomFrase: shot dela com mais de ~2,5s é cortado (seco) no começo de uma frase/grupo e alterna 1,00↔1,12 com leve deslocamento lateral
+ if(FX.zoomFrase){const wo=[];for(const p of pieces)for(let k=0;k<W.length;k++){const w=W[k];if(w.s>=p.s&&w.s<p.e)wo.push({o:p.o+(w.s-p.s),fim:/[.,?!]$/.test((W[k-1]||{}).t||''),gap:w.s-((W[k-1]||{}).e??w.s)});}
+  const out=[];let lado=1;for(const sh of shots){if(sh.k!=='th'||sh.oE-sh.oS<=2.5){out.push(sh);continue;}
+   const MX=sh.oE-sh.oS>4?2.0:2.5;const cs=[];let a=sh.oS;for(;;){if(sh.oE-a<=MX)break;const c=wo.filter(w=>w.o>=a+1.1&&w.o<=Math.min(a+MX,sh.oE-0.9));if(!c.length)break;
+    const sc=w=>(w.fim?10:0)+w.gap,b=c.reduce((x,y)=>sc(y)>sc(x)?y:x);cs.push(b.o);a=b.o;}
+   let a0=sh.oS;[...cs,sh.oE].forEach((c,j)=>{const alt=j%2===1;const z=alt?(sh.z>1?1:1.12):sh.z;out.push({...sh,oS:a0,oE:c,off:sh.off+(a0-sh.oS),first:sh.first&&j===0,z,dx:z>1&&alt?(lado=-lado)*36:0});a0=c;});}
+  shots=out;}
  // punch: degrau de zoom (×1,10, segurando até o corte) em até 4 palavras de destaque, espaçadas ≥5s
  if(FX.punch){let ult=-9,n=0;for(const p of pieces)for(const w of W){if(n>=4||w.s<p.s||w.s>=p.e)continue;const u=w.t.toUpperCase().replace(/[.,!?]$/,'');if(!HL_RE.test(u))continue;const o=p.o+(w.s-p.s)-0.03;
    const k=shots.findIndex(x=>x.k==='th'&&o-x.oS>=0.15&&x.oE-o>=0.35);if(k<0||o-ult<5)continue;const a=shots[k];shots.splice(k,1,{...a,oE:o},{...a,oS:o,off:a.off+(o-a.oS),first:false,z:+(a.z*1.1).toFixed(3),punch:true});ult=o;n++;}}
@@ -183,7 +196,7 @@ function build(R){
 
  // 3) render dos shots (com correção de cor nela)
  const G=GRADE[R.grade];
- const thCrop=z=>{const w=Math.round(1080/z/2)*2,h=Math.round(1920/z/2)*2;return `crop=${w}:${h}:${(1080-w)/2}:${Math.round((1920-h)*0.3)},scale=1080:1920:flags=lanczos`};
+ const thCrop=(z,dx=0)=>{const w=Math.round(1080/z/2)*2,h=Math.round(1920/z/2)*2;return `crop=${w}:${h}:${Math.max(0,Math.min(1080-w,(1080-w)/2+dx))}:${Math.round((1920-h)*0.3)},scale=1080:1920:flags=lanczos`};
  const list=[],gameAudio=[];
  // speed lines nos primeiros 0,3s do gameplay, mesmo se um corte da fala dividir o shot (cheias até 0,08s, somem até 0,28s)
  const slIn=s=>['-loop','1','-t',(0.3-s.off).toFixed(3),'-i',speedLines()];
@@ -192,7 +205,7 @@ function build(R){
   if(s.k==='th'){let fxv='';
    // nitidez: unsharp leve + vinheta suave
    if(FX.nitidez)fxv+=',unsharp=5:5:0.45:5:5:0,vignette=angle=PI/7';
-   args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z)},${G},fps=30${fxv},setsar=1`];}
+   args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z,s.dx)},${G},fps=30${fxv},setsar=1`];}
   else if(s.k==='mo')args=['-ss',s.off.toFixed(3),'-i',`${MO}/${s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&i===0?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
@@ -256,10 +269,12 @@ function build(R){
   ass=ass.replace(/\n\n\[Events\]/,`\nStyle: G,Archivo Black,${G2.size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H8C000000,0,0,0,0,100,100,0,0,1,0,7,8,40,40,0,1\n\n[Events]`);
   ass+=`Dialogue: 2,${ts(0)},${ts(Math.min(2.2,DUR))},G,,0,0,0,,{\\an8\\pos(540,470)\\fad(0,220)\\fscx60\\fscy60\\t(0,140,\\fscx108\\fscy108)\\t(140,240,\\fscx100\\fscy100)}${G2.txt}\n`;}
  let hi=0;const lim=t=>t.replace(/\{[^}]*\}/g,''); // legenda grande: sobe para a parede (y=1300) e palavra comprida encolhe para caber em ~85% da largura
- groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;let s=g[0].o;const nx=groups[i+1];const e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
+ groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;let s=g[0].o;const nx=groups[i+1];let e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
   if(FX.speed&&FX.telaCheia){const sh=shots.find(x=>x.k==='box'&&cheia(x)&&x.first&&s>=x.oS-0.03&&s<x.oS+0.3);if(sh){s=sh.oS+0.3;if(s>e-0.15)return;}} // speed: legenda só depois das linhas (~0,3s)
-  const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||(FX.corTema&&PRECO_RE.test(u))){const c=FX.corTema?temaCor(u):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
-  ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='brand'?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
+  // telaCheia: legenda acaba no corte para quadrado/meme; no gameplay em tela cheia o destaque é branco (só o preço segue verde)
+  let emCheia=false;if(FX.telaCheia){const nb=shots.find(x=>((x.k==='box'&&(!cheia(x)||x.first))||x.k==='meme')&&x.oS>s+0.05);if(nb&&e>nb.oS)e=nb.oS;if(s>e-0.15)return;const sh=shotAt(s);emCheia=!!(sh&&sh.k==='box'&&cheia(sh));}
+  const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||(FX.corTema&&PRECO_RE.test(u))){const c=FX.corTema?(emCheia&&!PRECO_RE.test(u)?'&HFFFFFF&':temaCor(u)):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
+  ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='brand'||emCheia?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
  // precoGigante: "R$ 17,90" verde gigante no alto (na parede, acima da cabeça) por ~1,2s quando ela fala o preço (sem moedaEm: logo depois do gancho, antes dos 3s)
  if(FX.precoGigante){const o=PROJ.moedaEm!=null?s2o(PROJ.moedaEm):ganchoTxt?2.25:1.0;
   if(o!=null&&o+1.2<DUR){ass=ass.replace(/\n\n\[Events\]/,`\nStyle: P,Archivo Black,250,&H00${VERDE.slice(2,8)},&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,1,0,9,5,40,40,0,1\n\n[Events]`);
