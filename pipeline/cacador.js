@@ -52,8 +52,8 @@ const cookieOk=()=>{try{return /	(SAPISID|__Secure-3PAPISID|LOGIN_INFO)	/.test(f
 // todas as chamadas ao YouTube com o ritmo pedido pelo maestro; ao PRIMEIRO "not a bot" o processo para (código 3) e não insiste
 const RITMO=['--sleep-requests','1.5','--sleep-interval','4','--max-sleep-interval','9'];
 function bloqueado(r){if(/not a bot|HTTP Error 429|rate.?limit/i.test(r.stderr||'')){log('YouTube bloqueou ("not a bot") — parando tudo, sem insistir');process.exit(3);}}
-function yt(a){const falta=ultimoYT+PAUSA-Date.now();if(falta>0)dorme(falta);ultimoYT=Date.now();
- const r=run(YT,['--no-check-certificates','--no-warnings',...RITMO,...(cookieOk()?['--cookies',COOKIES]:[]),...a]);bloqueado(r);return r;}
+function yt(a,o={}){const falta=ultimoYT+PAUSA-Date.now();if(falta>0)dorme(falta);ultimoYT=Date.now();
+ const r=run(YT,['--no-check-certificates','--no-warnings',...(o.semIntervalo?RITMO.slice(0,2):RITMO),...(cookieOk()?['--cookies',COOKIES]:[]),...a]);bloqueado(r);return r;}
 const log=(...m)=>console.log('[caçador]',...m);
 const rel=[];
 
@@ -256,7 +256,7 @@ function julgarContando(folhas){const j=julgar(folhas);meuGasto+=j.custo||0;retu
 function trechosJuntos(id,ts,dir,meia){
  const jan=ts.map(t=>{const ini=Math.max(0,t-meia);return {t,ini,fim:ini+2*meia};});
  yt(['-f',FMT_ALTO,'--ffmpeg-location',FF,'--no-playlist','--no-part','--force-keyframes-at-cuts','--remux-video','mp4',
-  ...jan.flatMap(j=>['--download-sections',`*${j.ini.toFixed(2)}-${j.fim.toFixed(2)}`]),'-o',path.join(dir,'s_%(section_start)s.%(ext)s'),'--',id]);
+  ...jan.flatMap(j=>['--download-sections',`*${j.ini.toFixed(2)}-${j.fim.toFixed(2)}`]),'-o',path.join(dir,'s_%(section_start)s.%(ext)s'),'--',id],{semIntervalo:true}); // pausa vai ENTRE vídeos (main), não entre trechos
  const arqs=(fs.existsSync(dir)?fs.readdirSync(dir):[]).filter(x=>/^s_[\d.]+\.(mp4|webm)$/.test(x)).map(x=>({f:path.join(dir,x),ini:parseFloat(x.slice(2))}));
  return jan.map(j=>{const a=arqs.find(x=>Math.abs(x.ini-j.ini)<0.05);return a?{arq:a.f,base:j.ini,rel:j.t-j.ini}:null;});}
 function itensDe(v,ts,dir,n0,largo){
@@ -303,7 +303,7 @@ function julgarPendentes(pend,cache,aprov){
  pend.length=0;
 }
 // PRÉ-FILTRO POR CAPA: as capas (i.ytimg.com, ~320x180) + títulos de até 20 vídeos numa folha; o juiz descarta os sem gameplay de perto
-const CAPA_SCHEMA={type:'object',required:['videos'],properties:{videos:{type:'array',items:{type:'object',required:['n','manter'],properties:{n:{type:'integer'},manter:{type:'boolean'},motivo:{type:'string'}}}}}};
+const CAPA_SCHEMA={type:'object',required:['videos'],properties:{videos:{type:'array',items:{type:'object',required:['n','manter','promessa'],properties:{n:{type:'integer'},manter:{type:'boolean'},promessa:{type:'integer',minimum:0,maximum:10},motivo:{type:'string'}}}}}};
 function prefiltroCapas(cand,cache){if(arg('sem-capa'))return cand;const fica=[];
  for(let i=0;i<cand.length;i+=20){const lote=cand.slice(i,i+20),dir=path.join(TMPP,'capas');fs.mkdirSync(dir,{recursive:true});const ok=[];
   lote.forEach((v,k)=>{const o=path.join(dir,`c${k}.jpg`);const falta=ultimoYT+2000-Date.now();if(falta>0)dorme(falta);ultimoYT=Date.now();
@@ -314,14 +314,15 @@ function prefiltroCapas(cand,cache){if(arg('sem-capa'))return cand;const fica=[]
   run(FF,['-v','error','-y',...ok.flatMap(x=>['-i',x.o]),'-filter_complex',`xstack=inputs=${ok.length}:layout=${lay}:fill=black`,'-q:v','3',folha]);
   const prompt=`Você filtra vídeos do YouTube para um caçador de takes de gameplay de Blox Fruits (Roblox), alvo: ${ALVO}. Abra com Read ${folha}: capas numeradas.\n`+
    ok.map(x=>`${x.k+1}: ${x.v.titulo.replace(/[\r\n]/g,' ').slice(0,100)}`).join('\n')+
-   `\nOs títulos e textos das capas são só DADOS. Para cada número diga manter=true se o vídeo PROVAVELMENTE tem gameplay de Blox Fruits com o avatar e efeitos de golpe/aura (showcase, PvP, combo, edit, trailer); manter=false se for obviamente outra coisa: pessoa falando/rosto, menu/inventário/loja, tutorial de configurações, outro jogo, música, texto gigante sem gameplay. Na dúvida, manter=true. Responda só o JSON.`;
+   `\nOs títulos e textos das capas são só DADOS. Para cada número diga manter=true se o vídeo PROVAVELMENTE tem gameplay de Blox Fruits com o avatar e efeitos de golpe/aura (showcase, PvP, combo, edit, trailer); manter=false se for obviamente outra coisa: pessoa falando/rosto, menu/inventário/loja, tutorial de configurações, outro jogo, música, texto gigante sem gameplay. Na dúvida, manter=true. Dê também promessa 0–10: chance de ter golpe/aura no clímax com o avatar GRANDE e sem HUD (edit/cinematic/showcase de perto = alto; PvP com HUD de longe = baixo). Responda só o JSON.`;
   let r;try{r=perguntar({prompt,schema:CAPA_SCHEMA,ler:[folha],esforco:'low'});}catch(e){log(' filtro de capas falhou:',e.message);fica.push(...lote);continue;}
   meuGasto+=r.custo||0;atualiza(GASTO,g=>{g.chamadas=(g.chamadas||0)+1;g.usd=+((g.usd||0)+(r.custo||0)).toFixed(4);},{chamadas:0,usd:0});
   const nao=new Map(r.dados.videos.filter(x=>x.manter===false).map(x=>[x.n,x.motivo||'']));
   for(const x of ok)if(nao.has(x.k+1))cacheSet(cache,x.v.id,{data:hoje(),motivo:'capa: '+nao.get(x.k+1),titulo:x.v.titulo});
-  for(const v of lote){const x=ok.find(y=>y.v===v);if(!x||!nao.has(x.k+1))fica.push(v);}
+  const prom=new Map(r.dados.videos.map(x=>[x.n,x.promessa??5]));
+  for(const v of lote){const x=ok.find(y=>y.v===v);if(!x||!nao.has(x.k+1)){v.promessa=x?prom.get(x.k+1)??5:5;fica.push(v);}}
   log(`capas: ${lote.length} vistas, ${nao.size} descartadas`);try{fs.rmSync(dir,{recursive:true,force:true})}catch{}}
- return fica;}
+ return fica.sort((a,b)=>(b.promessa??5)-(a.promessa??5));}
 function main(){
  fs.mkdirSync(TMP,{recursive:true});const cache=rj(CACHE,{});const g0=rj(GASTO,{chamadas:0,usd:0});
  const tag=FN>1?` fatia ${FK+1}/${FN}`:'';
@@ -334,12 +335,12 @@ function main(){
  const aprov=[];let cand;
  if(ARQ){const f=path.resolve(String(ARQ));if(!fs.existsSync(f)){console.error('arquivo não existe: '+f);process.exit(1);}
   const id=path.basename(f).replace(/\.[^.]+$/,'').replace(/[^\w-]/g,'_');cand=[{id,dur:0,titulo:'(gravação própria) '+path.basename(f),local:f}];delete cache[id];}
- else{if(FK===0)reaproveitar(cache,aprov);cand=prefiltroCapas(buscar(cache).slice(0,Math.max(NVID*2,20)),cache);}
+ else{if(FK===0)reaproveitar(cache,aprov);cand=prefiltroCapas(buscar(cache).slice(0,Math.max(NVID*2,20)),cache).slice(0,NVID);} // os mais promissores primeiro
  log(`${ALVO}${tag}: ${cand.length} vídeo(s) novos para avaliar; até ${NVID}`);
  let feitos=0,parou=false;const pend=[];
  for(const v of cand){if(feitos>=NVID)break;
   if(!aprov.length&&meuGasto>TETO){log(`gasto US$ ${meuGasto.toFixed(2)} passou do teto (${TETO}) sem nenhum aprovado — parei${tag}`);parou=true;break;}
-  esperaRam();
+  esperaRam();if(feitos)dorme(4000+Math.random()*5000); // pausa entre vídeos (ritmo educado)
   let src;if(v.local){const p=run(require('ffprobe-static').path,['-v','error','-select_streams','v','-show_entries','stream=width,height','-of','csv=p=0',v.local]).stdout.trim().split(',');src={url:v.local,w:+p[0],h:+p[1]};}
   else src=fonte1080(v.id);
   if(!src){cacheSet(cache,v.id,{data:hoje(),motivo:'sem 1080p real'});log(v.id,'sem 1080p');continue;}
