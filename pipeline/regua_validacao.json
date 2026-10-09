@@ -1,0 +1,107 @@
+{
+ "data": "2026-10-09T14:27:19.955Z",
+ "acertos": 9,
+ "total": 10,
+ "linhas": [
+  {
+   "id": "V7",
+   "tipo": "ruim",
+   "nota": 1,
+   "sem_hud": 3,
+   "grande": 0,
+   "ok": true,
+   "arma": "nada claro",
+   "arquivo": "moveset/_descartados/soul guitar/X - El Diablo/yt_0_OnhJ_uG_M_x_3.mp4"
+  },
+  {
+   "id": "V6",
+   "tipo": "ruim",
+   "nota": 0,
+   "sem_hud": 8,
+   "grande": 0,
+   "ok": true,
+   "arma": "nada claro",
+   "arquivo": "moveset/soul guitar/showcase/yt_0_OnhJ_uG_M_s_1.mp4"
+  },
+  {
+   "id": "V4",
+   "tipo": "ruim",
+   "nota": 3,
+   "sem_hud": 2,
+   "grande": 4,
+   "ok": true,
+   "arma": "Godhuman",
+   "arquivo": "moveset/_descartados/godhuman/C - Sixth Realm Gun/yt_-LTjZd-SATc_c_3.mp4"
+  },
+  {
+   "id": "V9",
+   "tipo": "ruim",
+   "nota": 2,
+   "sem_hud": 2,
+   "grande": 1,
+   "ok": true,
+   "arma": "cortes vermelhos genéricos",
+   "arquivo": "moveset/_descartados/cdk/Z - Revolving Ravager/yt_KUNLIm3X46A_z_1.mp4"
+  },
+  {
+   "id": "V5",
+   "tipo": "bom",
+   "nota": 3,
+   "sem_hud": 3,
+   "grande": 7,
+   "ok": false,
+   "arma": "nada",
+   "arquivo": "referencias/_fb/luckzs_1.mp4"
+  },
+  {
+   "id": "V2",
+   "tipo": "bom",
+   "nota": 8,
+   "sem_hud": 9,
+   "grande": 9,
+   "ok": true,
+   "arma": "Angel V4",
+   "arquivo": "moveset/aura/racas/Angel/yt_eSycbUn9Bf4_aura_2.mp4"
+  },
+  {
+   "id": "V10",
+   "tipo": "ruim",
+   "nota": 3,
+   "sem_hud": 4,
+   "grande": 2,
+   "ok": true,
+   "arma": "nada claro",
+   "arquivo": "moveset/_descartados/cdk/showcase/yt_12ILz_85W-E_s_1.mp4"
+  },
+  {
+   "id": "V8",
+   "tipo": "ruim",
+   "nota": 1,
+   "sem_hud": 5,
+   "grande": 1,
+   "ok": true,
+   "arma": "nada claro",
+   "arquivo": "moveset/cdk/Z - Revolving Ravager/yt_b6Gqb4yiiF4_z_3.mp4"
+  },
+  {
+   "id": "V3",
+   "tipo": "ruim",
+   "nota": 3,
+   "sem_hud": 4,
+   "grande": 4,
+   "ok": true,
+   "arma": "Godhuman",
+   "arquivo": "moveset/_descartados/godhuman/X - Heaven and Earth/yt_-LTjZd-SATc_x_2.mp4"
+  },
+  {
+   "id": "V1",
+   "tipo": "bom",
+   "nota": 8,
+   "sem_hud": 9,
+   "grande": 10,
+   "ok": true,
+   "arma": "Angel V4",
+   "arquivo": "moveset/aura/racas/Angel/yt_eSycbUn9Bf4_aura_1.mp4"
+  }
+ ]
+}

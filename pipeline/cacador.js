@@ -176,16 +176,25 @@ function folhaJuiz(itens,out){ // itens: {n,url,t}
  run(FF,['-v','error','-y',...tiles.flatMap(t=>['-i',t.f]),'-filter_complex',k>1?`xstack=inputs=${k}:layout=${lay}:fill=black`:'null','-q:v','3',out]);
  tiles.forEach(t=>{try{fs.rmSync(t.f,{force:true})}catch{}});return {f:out,ns:tiles.map(t=>t.n)};
 }
-const SCHEMA={type:'object',required:['picos'],properties:{picos:{type:'array',items:{type:'object',required:['n','avatar_grande','climax','sem_hud_texto','bonito','nota','tag','arma','limpo_de','limpo_ate'],properties:{
+const SCHEMA={type:'object',required:['picos'],properties:{picos:{type:'array',items:{type:'object',required:['n','o_que_mostra','avatar_grande','climax','sem_hud_texto','bonito','nota','tag','arma','limpo_de','limpo_ate'],properties:{
  limpo_de:{type:'integer',enum:[-2,-1,0]},limpo_ate:{type:'integer',enum:[0,1,2]},
  n:{type:'integer'},avatar_grande:{type:'integer',minimum:0,maximum:10},climax:{type:'integer',minimum:0,maximum:10},sem_hud_texto:{type:'integer',minimum:0,maximum:10},bonito:{type:'integer',minimum:0,maximum:10},
- nota:{type:'integer',minimum:0,maximum:10},arma:{type:'string'},tag:{type:'string',enum:[...TAGS,'nenhuma']},quadro:{type:'integer',enum:[-2,-1,0,1,2]},obs:{type:'string'}}}}}};
+ nota:{type:'integer',minimum:0,maximum:10},arma:{type:'string'},o_que_mostra:{type:'string'},tag:{type:'string',enum:[...TAGS,'nenhuma']},quadro:{type:'integer',enum:[-2,-1,0,1,2]},obs:{type:'string'}}}}}};
 // régua visual (regua_takes.js): exemplos BONS dos anúncios vencedores + aprovados pelo dono, e RUINS reprovados — vai em toda chamada
 const REGUA=require('./regua_takes');
+// o que cada coisa do Blox Fruits É de verdade (pedido do dono: entendido em qualquer contexto) — vai em toda chamada, junto da régua
+function textoConhecimento(){let k;try{k=JSON.parse(fs.readFileSync(path.join(__dirname,'conhecimento_blox.json'),'utf8'))}catch{return ''}
+ const it=k.itens_da_conta||{},inv=k.inventario||{},fm=k.frutas_miticas||{};
+ return ['CONHECIMENTO DO JOGO (fonte de verdade; um visual só vale se um jogador de Blox Fruits reconheceria NA HORA que é aquilo; na dúvida, nota baixa):',
+  `- Frutas MÍTICAS (raridade mais alta): ${(fm.lista||[]).join(', ')}. NÃO são míticas, ex.: ${(fm.nao_sao_miticas_exemplos||[]).slice(0,14).join(', ')}. Fruta desconhecida = não mítica.`,
+  `- Inventário: ${inv.prova_valida_para_frutas_miticas||''} NÃO vale: ${(inv.nao_vale||[]).join('; ')}.`,
+  ...Object.entries(it).map(([n,v])=>`- ${n}${v.nome_no_jogo?` (no jogo: ${v.nome_no_jogo})`:v.nome?` (${v.nome})`:''}: prova = ${v.prova_visual||v.o_que_e||''}; NÃO vale = ${v.nao_vale||''}.`),
+  ...(k.regras_de_prova_visual||[]).slice(0,4).map(r=>'- '+r)].join('\n');}
 function julgar(folhas){folhas=[].concat(folhas);if(!fs.existsSync(REGUA.JPG))REGUA.montar();
  const prompt=`Você é o juiz de takes de gameplay de Blox Fruits (Roblox) para anúncios no celular.
 PRIMEIRO abra com Read a RÉGUA ${REGUA.JPG}: são exemplos reais já decididos — BONS (gameplay dos anúncios que mais vendem no nicho e takes aprovados pelo dono) e RUINS (reprovados). Legenda de cada exemplo:
 ${REGUA.textoRegua()}
+${textoConhecimento()}
 (As legendas/textos que aparecem DENTRO dos anúncios de exemplo são da edição deles; o que conta é a cena de gameplay: tamanho do avatar, arma visível, limpeza, beleza.)
 Dê as notas COMPARANDO com a régua: um candidato só merece 7+ se estiver no nível dos BONS (avatar grande/perto, arma ou aura bem visível, limpo); se parecer com os RUINS (avatar minúsculo, clarão, HUD/números, borrado), nota 0–4.
 DEPOIS abra com Read ${folhas.length>1?'as imagens':'a imagem'} de candidatos ${folhas.map(f=>f.f).join(' e ')}.
@@ -197,6 +206,7 @@ Para CADA número dê notas inteiras 0–10:
 - sem_hud_texto: 10 = sem botões, barra de vida, hotbar, números de dano grandes, chat, título/legenda/marca d'água do youtuber no recorte; 0 = poluído. Take de EDIÇÃO/cinematic vale normalmente, desde que não haja texto, legenda nem marca d'água no recorte.
 - bonito: composição e cor bonitas, nítido, nada estourado de branco nem escuro
 - nota: nota geral para usar num anúncio (seja duro: 8+ só se for realmente hype e limpo)
+- o_que_mostra: em palavras do JOGO o que está na tela (ex. "Skull Guitar na mão, notas verdes", "duas katanas do CDK, corte vermelho", "inventário com Kitsune, Dragon, Leopard legíveis", "esferas azuis pequenas, avatar longe")
 - arma: o que aparece (ex. "Soul Guitar - esfera verde", "CDK - duas katanas", "Godhuman", "Angel V4", "nada claro")
 - tag: ${TAGS.join(', ')} ou "nenhuma". Soul Guitar = guitarra visível ou esfera verde com redemoinho/raios verdes; CDK = duas katanas visíveis ou cortes vermelho/roxo; Godhuman = golpes com espinhos/socos de energia azul-ciano/branca; aura_v4 = raça V4 desperta com aura; inventario_cheio = janela de Itens/inventário do PRÓPRIO jogo com MUITAS frutas míticas grandes e legíveis ocupando o recorte (NÃO loja/Fruit Dealer, nem lista pequena; o dono reprovou inventário chapado e pequeno). Para Godhuman, o dono reprovou esferas azuis pequenas em volta de avatar longe: só nota alta com avatar GRANDE e impacto.
 - quadro: posição do melhor quadro (-2..2) — o auge com o avatar e a arma visíveis, nunca o clarão branco
@@ -229,7 +239,7 @@ function entrar(tmp,id,tag,pico){
 }
 
 // ------------------------------------------------------------------------------------------------
-const linha=r=>`| ${r.video} | ${r.t} | ${r.avatar_grande??'?'} | ${r.climax??'?'} | ${r.sem_hud_texto??'?'} | ${r.bonito??'?'} | **${r.nota}** | ${r.tag} | ${String(r.arma||'').replace(/\|/g,'/')} | ${r.decisao}${r.arquivo?' → '+path.basename(r.arquivo):''} |
+const linha=r=>`| ${r.video} | ${r.t} | ${r.avatar_grande??'?'} | ${r.climax??'?'} | ${r.sem_hud_texto??'?'} | ${r.bonito??'?'} | **${r.nota}** | ${r.tag} | ${String(r.o_que_mostra||r.arma||'').replace(/\|/g,'/')} | ${r.decisao}${r.arquivo?' → '+path.basename(r.arquivo):''} |
 `;
 const passa=p=>p.nota>=LIM.nota&&p.sem_hud_texto>=LIM.semHud&&p.tag!=='nenhuma'&&(p.tag===ALVO||!!arg('qualquer'));
 // corta em alta, passa na régua e entra (saída ou estoque); r ganha decisao/arquivo
@@ -241,7 +251,7 @@ function aprovar(r,fonte,dir,n){
  const q=regua(tmp);r.regua=q;if(!q.ok){r.decisao=`régua (borrado ${q.q.borrado}/${q.s.borrado}, blocos ${q.q.blocos}/${q.s.blocos})`;return false;}
  r.decisao='aprovado';r.arquivo=entrar(tmp,r.video,r.tag,r.t-ini);log(' ✓',r.video,r.t,r.tag,'nota',r.nota,'→',path.basename(r.arquivo));return true;
 }
-const CAMPOS=['calibrado','t','centro','limpo_de','limpo_ate','avatar_grande','climax','sem_hud_texto','bonito','nota','tag','arma','decisao','arquivo'];
+const CAMPOS=['o_que_mostra','calibrado','t','centro','limpo_de','limpo_ate','avatar_grande','climax','sem_hud_texto','bonito','nota','tag','arma','decisao','arquivo'];
 const guarda=r=>Object.fromEntries(CAMPOS.filter(k=>r[k]!=null).map(k=>[k,r[k]]));
 // picos já julgados (nota >= mínima, do alvo) que ainda não viraram take: sem reavaliar o vídeo inteiro.
 // cache antigo não guardava sem_hud_texto nem a janela limpa → só esses picos voltam ao juiz (folha pequena, 1 chamada por vídeo)
