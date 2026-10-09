@@ -92,6 +92,7 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
 // fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true  siteCurto:true  ctaVivo:true  popEntrada:true  aberturaRosto:true (A/B)  zoomCalmo:true  listaUnica:true
+// formato REF: empurrao:true  chips:true (PROJ.chips)  telaDividida:true (direção v:"split")  ctaRosto:true  memeMax:n  siteLegivel:true
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
@@ -99,6 +100,9 @@ const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf
 const auraPool=g=>fs.existsSync(path.join(MV,'aura',g))?listAll('aura/'+g):[];
 // vocab: estoque por ETIQUETA (moveset/_tags.json {arquivo:[tags]}, ver vocabulario.json), não por pasta; sem clipe com a tag certa = não mostra nada
 const GOLPE={godhuman:'golpe_godhuman',cdk:'golpe_cdk','soul guitar':'golpe_soul_guitar'};
+// telaDividida: gatilhos da fala (vocabulario.json) → tag do clipe da metade de baixo
+const normW=t=>t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,'').trim();
+const GATS=(()=>{let C={};try{C=JSON.parse(fs.readFileSync(path.join(__dirname,'vocabulario.json'),'utf8')).conceitos}catch(e){}const g=[];for(const c of Object.values(C))if(c.tag)for(const x of c.gatilhos||[])g.push({g:normW(x),n:normW(x).split(' ').length,tag:c.tag});return g.sort((a,b)=>b.n-a.n);})();
 let TAGPOOL=null;const tagPool=tag=>{if(!TAGPOOL){TAGPOOL={};let T={};try{T=JSON.parse(fs.readFileSync(MV+'/_tags.json','utf8'))}catch(e){}
  const todos=[];const walk=p=>{for(const f of fs.readdirSync(path.join(MV,p))){const q=p?p+'/'+f:f;if(fs.statSync(path.join(MV,q)).isDirectory())walk(q);else if(f.endsWith('.mp4'))todos.push(q);}};walk('');
  for(const q of todos.sort()){const b=path.basename(q);if(b.startsWith('yt_')&&!ytOk(q))continue;for(const t of (T[b]||T[q]||[]))(TAGPOOL[t]=TAGPOOL[t]||[]).push(q);}}return TAGPOOL[tag]||[];};
@@ -151,14 +155,24 @@ function build(R){
   let oS=Infinity,oE=-Infinity;for(const p of parts){oS=Math.min(oS,p.o+Math.max(0,d.s-p.s));oE=Math.max(oE,p.o+(Math.min(d.e,p.e)-p.s));}
   if(d.e>=99)oE=DUR;
   if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
+   if(d.e>=99&&R.fx&&R.fx.ctaRosto)oS=Math.max(oS,DUR-3); // ctaRosto: card final ≤3s (o rosto faz o CTA antes)
    // aberturaRosto (A/B, não padrão): abre com ela falando; a cena do começo entra na 1ª palavra depois de ~1,1s
    let skipR=0;if(R.fx&&R.fx.aberturaRosto&&oS<0.3){let w1=null;for(const p of pieces)for(const w of W)if(w1==null&&w.s>=p.s&&w.s<p.e&&p.o+(w.s-p.s)>=1.1)w1=p.o+(w.s-p.s);if(w1!=null){oS=w1;oE=Math.max(oE,oS+1.5);skipR=aberturaDe(d.clip);}}
    // siteCurto: cena de site no meio do vídeo vira a versão _curto (1,5s num bloco legível), sem o fade escuro do começo
+   // siteLegivel (formato REF): site no meio do vídeo vira a versão _ref (título → zoom num print só e SEGURA ~2s para ler), com a duração da direção
+   if(R.fx&&R.fx.siteLegivel&&/^site_/.test(d.clip)&&oS>0.3&&fs.existsSync(`${MO}/${d.clip}_ref.mp4`)){const clip=d.clip+'_ref';vis.push({k:'mo',clip,skip:Math.min(0.2,aberturaDe(clip)),oS,oE:Math.min(oE,oS+require('./scenes.json')[clip].dur-0.2)});continue;}
    if(R.fx&&R.fx.siteCurto&&/^site_/.test(d.clip)&&oS>0.3&&fs.existsSync(`${MO}/${d.clip}_curto.mp4`)){const clip=d.clip+'_curto';vis.push({k:'mo',clip,skip:Math.min(0.2,aberturaDe(clip)),oS,oE:Math.min(oE,oS+1.5)});continue;}
    oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,...(R.fx&&R.fx.ctaVivo&&fs.existsSync(`${MO}/${d.clip}_vivo.mp4`)?{arq:d.clip+'_vivo'}:{}),...(skipR?{skip:skipR}:{}),oS,oE});} // ctaVivo: card final com SAIBA MAIS, cursor tocando, seta e logo com bounce
   // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
   else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
    if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
+  else if(d.v==='split'){ // telaDividida: rosto em cima, gameplay embaixo trocando na palavra que cita cada item (tag do vocabulário), cada um ≥1,2s
+   if(!(R.fx&&R.fx.telaDividida))continue;const wo=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e){const o=p.o+(w.s-p.s);if(o>=oS-0.01&&o<oE)wo.push({o,t:normW(w.t)});}
+   const it=[];for(let i=0;i<wo.length;i++)for(const G of GATS){if(wo.slice(i,i+G.n).map(x=>x.t).join(' ')===G.g){if(!it.length||it[it.length-1].tag!==G.tag)it.push({o:wo[i].o,tag:G.tag});break;}}
+   const ok=[];for(const x of it){if(!vocPool([x.tag]))continue;if(ok.length&&x.o-ok[ok.length-1].o<1.2)continue;ok.push(x);}
+   if(!ok.length&&vocPool(['aura']))ok.push({o:oS,tag:'aura'});if(!ok.length){avV.push(`sem clipe para a tela dividida (${name})`);continue;}
+   ok[0].o=oS;if(ok.length>1&&oE-ok[ok.length-1].o<1.2)ok.pop();
+   ok.forEach((x,j)=>{const r=vocPool([x.tag]);vis.push({k:'split',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),oS:x.o,oE:j+1<ok.length?ok[j+1].o:oE});});}
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
   else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,...(R.fx?{wpn:d.wpn}:{}),oS,oE});}
@@ -172,7 +186,8 @@ function build(R){
   if(p&&p.k==='box'&&v.k==='box'&&GOLPE[p.wpn]&&GOLPE[v.wpn]&&!p.pool&&!v.pool&&v.oS-p.oE<0.3){p.oE=Math.max(p.oE,v.oE);continue;}out.push(v);}vis=out;}
  // memes: só entram onde não tem animação nem gameplay
  const usedM=new Set();const CUR=!!(R.fx&&R.fx.memeCurado); // memeCurado: começa em m.ini e usa o som curado do meme (m.som)
- for(const [ms,me,cat,prio] of MEME_CUES){if(prio>MDENS[R.memes])continue;const near=(x,dir)=>{let v=s2o(x);if(v!=null)return v;for(const p of pieces){if(dir<0&&p.s<=x&&x>p.e)v=p.oe;if(dir>0&&p.s>x&&v==null)v=p.o;}return v;};const a=near(ms,1),b=near(me,-1);if(a==null||b==null||b-a<0.6)continue;
+ for(const [ms,me,cat,prio] of MEME_CUES){if(prio>MDENS[R.memes])continue;if(R.fx&&R.fx.memeMax!=null&&vis.filter(v=>v.k==='meme').length>=R.fx.memeMax)continue; // memeMax: teto de memes no vídeo
+ const near=(x,dir)=>{let v=s2o(x);if(v!=null)return v;for(const p of pieces){if(dir<0&&p.s<=x&&x>p.e)v=p.oe;if(dir>0&&p.s>x&&v==null)v=p.o;}return v;};const a=near(ms,1),b=near(me,-1);if(a==null||b==null||b-a<0.6)continue;
   if(vis.some(v=>v.oS<b+0.1&&v.oE>a-0.1))continue;if(CUR&&vis.some(v=>v.k==='meme'&&a<v.oE+6&&b>v.oS-6))continue;const C=CATALOG.categorias[cat];
   let cand=C.memes.filter(m=>!usedM.has(m.id));if(!cand.length)cand=C.memes;const m=pick(cand);usedM.add(m.id);
   let b2=b;if(m.tipo==='video'){b2=a+Math.min(2.4,b-a+0.8,Math.max(b-a,m.dur-(CUR?m.ini||0:0)-0.15));const nx=vis.filter(v=>v.oS>=a).sort((x,y)=>x.oS-y.oS)[0];if(nx)b2=Math.min(b2,nx.oS-0.05);b2=Math.min(b2,DUR-0.5);if(b2<b)b2=b;}
@@ -199,6 +214,8 @@ function build(R){
  let zi=0;for(const s of shots)if(s.k==='th'){s.z=R.zoom[zi%R.zoom.length];zi++;}
  // zoomCalmo: o enquadramento dela nunca troca entre dois shots dela seguidos (jump cut mantém o zoom); só alterna na volta de um insert, onde já há corte
  if(FX.zoomCalmo){let k=0;shots.forEach((s,i)=>{if(s.k!=='th')return;if(i>0&&shots[i-1].k!=='th')k++;s.z=R.zoom[k%R.zoom.length];});}
+ // empurrao: zoom contínuo 1,00→1,12 em ~4s em cada trecho de rosto (sem corte); recomeça na volta de um insert ou no 1º jump cut depois de ~4s
+ if(FX.empurrao){let r0=null;shots.forEach((s,i)=>{if(s.k!=='th'){r0=null;return;}if(r0==null||s.oS-r0>=4)r0=s.oS;const f=t=>1+0.12*Math.min(1,(t-r0)/4);s.emp=[f(s.oS),f(s.oE)];});}
  // zoomFrase: shot dela com mais de ~2,5s é cortado (seco) no começo de uma frase/grupo e alterna 1,00↔1,12 com leve deslocamento lateral
  if(FX.zoomFrase){const wo=[];for(const p of pieces)for(let k=0;k<W.length;k++){const w=W[k];if(w.s>=p.s&&w.s<p.e)wo.push({o:p.o+(w.s-p.s),fim:/[.,?!]$/.test((W[k-1]||{}).t||''),gap:w.s-((W[k-1]||{}).e??w.s)});}
   const out=[];let lado=1;for(const sh of shots){if(sh.k!=='th'||sh.oE-sh.oS<=2.5){out.push(sh);continue;}
@@ -226,10 +243,15 @@ function build(R){
  shots.forEach((s,i)=>{const n=fr(s.oE)-fr(s.oS);if(n<=0)return;const o=path.join(TMP,`s${String(i).padStart(3,'0')}.mp4`);const src=o2s(s.oS);let args;
   if(s.k==='th'){let fxv='';
    // nitidez: unsharp leve + vinheta suave
+   if(s.emp){const [a,b]=s.emp,D=Math.max(0.04,s.oE-s.oS);const F=`(${a.toFixed(4)}+${(b-a).toFixed(4)}*min(1,t/${D.toFixed(3)}))`; // empurrao: escala por frame + crop fixo (sem tremer)
+    fxv+=`,scale=w='trunc(1080*${F}/2)*2':h='trunc(1920*${F}/2)*2':eval=frame:flags=lanczos,crop=1080:1920:(iw-1080)/2:(ih-1920)*0.3`;}
    if(FX.nitidez)fxv+=',unsharp=5:5:0.45:5:5:0,vignette=angle=PI/7';
    // aberturaRosto + gancho: enquanto o título está sobre o rosto, o topo (~35%) escurece em degradê (até −30%) para o branco separar da parede
    if(FX.aberturaRosto&&ganchoTxt&&s.oS<2.2)fxv+=",geq=lum='lum(X,Y)*(1-0.3*max(0,1-Y/672))':cb='cb(X,Y)':cr='cr(X,Y)'";
    args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z,s.dx)},${G},fps=30${fxv},setsar=1`];}
+  else if(s.k==='split'){ // telaDividida: rosto na metade de cima (sempre), gameplay na de baixo, divisória fina verde-limão
+   const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;const bot=s.aura?"crop='ih*0.72*9/8':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6":isYT?"crop='ih*9/8':'ih':(iw-ow)/2:0":'crop=1620:1440:900:0';
+   args=['-ss',src.toFixed(3),'-i',BASE,'-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-filter_complex',`[0:v]crop=1080:960:0:330,${G},fps=30[top];[1:v]fps=30,${bot},scale=1080:960:flags=lanczos,eq=saturation=1.2:contrast=1.04[bot];[top][bot]vstack,drawbox=x=0:y=956:w=1080:h=8:color=0xC6F36B@0.9:t=fill,setsar=1[out]`,'-map','[out]'];}
   else if(s.k==='mo')args=['-ss',(s.off+(s.skip||0)).toFixed(3),'-i',`${MO}/${s.arq||s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&(i===0||(FX.aberturaRosto&&s.oS<2.2))?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
@@ -276,7 +298,7 @@ function build(R){
  // 5) legendas
  const inBox=o=>shots.some(s=>((s.k==='box'&&!cheia(s))||s.k==='meme')&&o>=s.oS-0.03&&o<s.oE); // gameplay em tela cheia leva legenda
  // zona da legenda: box (sem legenda), site (sem legenda com legendaSite:false), brand (legenda mais baixa), n (normal)
- const zona=o=>{if(inBox(o))return 'box';if(FX.legendaSite===false){const s=shotAt(o);if(s&&s.k==='mo')return /^site_/.test(s.clip)?'site':/^brand_/.test(s.clip)?'brand':'n';}return 'n';};
+ const zona=o=>{if(inBox(o))return 'box';if(FX.telaDividida){const s=shotAt(o);if(s&&s.k==='split')return 'split';}if(FX.legendaSite===false){const s=shotAt(o);if(s&&s.k==='mo')return /^site_/.test(s.clip)?'site':/^brand_/.test(s.clip)?'brand':'n';}return 'n';};
  const ws=[];for(const p of pieces)for(const w of W)if(w.s>=p.s&&w.s<p.e)ws.push({...w,o:p.o+(w.s-p.s),oe:p.o+(Math.min(w.e,p.e)-p.s)});
  const groups=[];let g=[];
  ws.forEach((w,i)=>{g.push(w);const txt=g.map(x=>x.t).join(' ');const nx=ws[i+1];
@@ -296,13 +318,32 @@ function build(R){
  groups.forEach((g,i)=>{const z=zona(g[0].o);if(z==='box'||z==='site')return;let s=g[0].o;const nx=groups[i+1];let e=Math.min(nx?nx[0].o:g[g.length-1].oe+0.4,g[g.length-1].oe+0.6,DUR);
   if(FX.speed&&FX.telaCheia){const sh=shots.find(x=>x.k==='box'&&cheia(x)&&x.first&&s>=x.oS-0.03&&s<x.oS+0.3);if(sh){s=sh.oS+0.3;if(s>e-0.15)return;}} // speed: legenda só depois das linhas (~0,3s)
   // telaCheia: legenda acaba no corte para quadrado/meme; no gameplay em tela cheia o destaque é branco (só o preço segue verde)
+  if(FX.legendaSite===false){const ns=shots.find(x=>x.k==='mo'&&/^site_/.test(x.clip)&&x.oS>s+0.02);if(ns&&e>ns.oS)e=ns.oS;if(s>e-0.15)return;} // legendaSite: legenda acaba no corte para o site
   let emCheia=false;if(FX.telaCheia){const nb=shots.find(x=>((x.k==='box'&&(!cheia(x)||x.first))||x.k==='meme')&&x.oS>s+0.05);if(nb&&e>nb.oS)e=nb.oS;if(s>e-0.15)return;const sh=shotAt(s);emCheia=!!(sh&&sh.k==='box'&&cheia(sh));}
   const txt=g.map(w=>{const u=w.t.toUpperCase().replace(/[.,!]$/,'');if(HL.test(u)||HL.test(u.replace(/\?$/,''))||(FX.corTema&&PRECO_RE.test(u))){const c=FX.corTema?(emCheia&&!PRECO_RE.test(u)?'&HFFFFFF&':temaCor(u)):R.hl[hi++%R.hl.length];return `{\\c${c}}${u}{\\c&HFFFFFF&}`}return u}).join(' ');
-  ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='brand'||emCheia?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
+  ass+=`Dialogue: 1,${ts(s)},${ts(e)},C,,0,0,0,,{\\pos(540,${z==='split'?960:z==='brand'||emCheia?1700:FX.legenda==='grande'?1300:1470})${FX.legenda==='grande'&&lim(txt).length>10?'\\fs'+Math.round(1300/lim(txt).length):''}\\fscx80\\fscy80\\t(0,80,\\fscx106\\fscy106)\\t(80,150,\\fscx100\\fscy100)}${txt}\n`;});
  // precoGigante: "R$ 17,90" verde gigante no alto (na parede, acima da cabeça) por ~1,2s quando ela fala o preço (sem moedaEm: logo depois do gancho, antes dos 3s)
  if(FX.precoGigante){const o=PROJ.moedaEm!=null?s2o(PROJ.moedaEm):ganchoTxt?2.25:1.0;
   if(o!=null&&o+1.2<DUR){ass=ass.replace(/\n\n\[Events\]/,`\nStyle: P,Archivo Black,250,&H00${VERDE.slice(2,8)},&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,1,0,9,5,40,40,0,1\n\n[Events]`);
    ass+=`Dialogue: 3,${ts(o)},${ts(o+1.2)},P,,0,0,0,,{\\an5\\pos(540,480)\\fad(0,150)\\fscx40\\fscy40\\t(0,120,\\fscx112\\fscy112)\\t(120,200,\\fscx100\\fscy100)}{\\fs120}R$ {\\fs250}17,90\n`;}}
+ // chips: selos por cima do rosto (PROJ.chips = [[início, fim, 'TEXTO']] em tempo da fala), pílula escura + ponto verde-limão, no terço de cima; nunca preço gigante
+ // ctaRosto: nos últimos ~4s de rosto antes do card, chip 'CLICA EM SAIBA MAIS' + seta verde pulando para baixo
+ const pilula=(a,b,txt,y)=>{ // selo: frase longa em 2 linhas para a letra crescer; pílula com cantos redondos de verdade
+  let ls=[txt];if(txt.length>12){const p=txt.split(' ');let best=null;for(let i=1;i<p.length;i++){const l=[p.slice(0,i).join(' '),p.slice(i).join(' ')];const m=Math.max(l[0].length,l[1].length);if(!best||m<best.m)best={l,m};}if(best)ls=best.l;}
+  const ml=Math.max(...ls.map(l=>l.length)),fz=Math.min(92,Math.floor(880/(ml*0.64+2.4))),tw=Math.round(ml*0.64*fz),d=Math.round(fz*0.5),pd=Math.round(fz*0.6),gap=Math.round(fz*0.4);
+  const h=Math.round(fz*(ls.length*1.15+0.7)),w=tw+pd*2+d+gap,x0=540-Math.round(w/2),y0=y-Math.round(h/2),r=Math.min(Math.round(h/2),Math.round(fz*0.9)),kr=+(r*0.552).toFixed(1);
+  const rr=`m ${r} 0 l ${w-r} 0 b ${w-r+kr} 0 ${w} ${r-kr} ${w} ${r} l ${w} ${h-r} b ${w} ${h-r+kr} ${w-r+kr} ${h} ${w-r} ${h} l ${r} ${h} b ${r-kr} ${h} 0 ${h-r+kr} 0 ${h-r} l 0 ${r} b 0 ${r-kr} ${r-kr} 0 ${r} 0`;
+  const q=d/2,k=+(q*0.552).toFixed(1),c=`m ${q} 0 b ${q+k} 0 ${d} ${q-k} ${d} ${q} b ${d} ${q+k} ${q+k} ${d} ${q} ${d} b ${q-k} ${d} 0 ${q+k} 0 ${q} b 0 ${q-k} ${q-k} 0 ${q} 0`;
+  const mv=(x,yy)=>`\\move(${x},${yy+14},${x},${yy},0,140)\\fad(120,160)`;
+  return `Dialogue: 4,${ts(a)},${ts(b)},K,,0,0,0,,{\\an7${mv(x0,y0)}\\p1\\1c&H1A1A1A&\\1a&H28&\\bord0\\shad0}${rr}{\\p0}\n`+
+   `Dialogue: 5,${ts(a)},${ts(b)},K,,0,0,0,,{\\an7${mv(x0+pd,y0+Math.round((h-d)/2))}\\p1\\1c${LIME}\\bord0\\shad0}${c}{\\p0}\n`+
+   `Dialogue: 5,${ts(a)},${ts(b)},K,,0,0,0,,{\\an5${mv(x0+pd+d+gap+Math.round(tw/2),y0+Math.round(h/2))}\\fs${fz}}${ls.join('\\N')}\n`;};
+ if((FX.chips&&PROJ.chips)||FX.ctaRosto)ass=ass.replace(/\n\n\[Events\]/,`\nStyle: K,Archivo Black,46,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,10,10,0,1\n\n[Events]`);
+ if(FX.chips&&PROJ.chips)for(const [a0,b0,txt] of PROJ.chips){const o=s2o(a0);if(o==null)continue;const sh=shotAt(o);if(!sh||sh.k!=='th'||o<(ganchoTxt?2.3:0))continue;
+  let e=Math.min(o+Math.max(1.5,Math.min(2.6,(s2o(b0)??o+2)-o)),DUR);const nx=shots.find(x=>x.oS>o&&x.k!=='th');if(nx)e=Math.min(e,nx.oS);if(e-o<0.8)continue;ass+=pilula(o,e,txt.toUpperCase(),470);}
+ if(FX.ctaRosto){const c=shots.find(x=>x.k==='mo'&&x.clip==='brand_cta3'&&x.first);const fim=c?c.oS:DUR;let ini=fim-4;for(const x of shots)if(x.k!=='th'&&x.oE>ini&&x.oE<=fim)ini=x.oE;
+  if(fim-ini>=1){ass+=pilula(ini,fim,'CLICA EM SAIBA MAIS',470);const sv='m 0 20 l 20 0 l 60 40 l 100 0 l 120 20 l 60 80';
+   for(let t0=ini;t0<fim-0.05;t0+=0.6){const t1=Math.min(fim,t0+0.6);ass+=`Dialogue: 5,${ts(t0)},${ts(t1)},K,,0,0,0,,{\\an5\\move(540,1600,540,1640,0,300)\\t(300,600,\\fscx96)\\p1\\1c${LIME}\\bord0\\shad3\\4c&H000000&\\4a&H80&}${sv}{\\p0}\n`;}}}
  fs.writeFileSync(path.join(TMP,'legenda.ass'),ass);
 
  // 6) sons

@@ -84,7 +84,7 @@ window.render=function(t){
       const it=document.getElementById('it2');if(it)it.style.transform+=` scale(${1+0.08*press})`;}
     document.getElementById('stage').style.transform=`scale(${1+0.025*t})`;
   }else{
-    const pl=document.getElementById('plane');const u=eio(t/T);
+    const pl=document.getElementById('plane');const u=eio(t/(P.ate||T)); // ate (opcional): chega no enquadramento final em 'ate' segundos e segura
     const y=lerp(P.y0,P.y1,u)*K;
     const rx=lerp(P.r0[0],P.r1[0],u),ry=lerp(P.r0[1],P.r1[1],u),rz=lerp(P.r0[2],P.r1[2],u),z=lerp(P.z0,P.z1,u);
     const intro=eout(t/0.5);

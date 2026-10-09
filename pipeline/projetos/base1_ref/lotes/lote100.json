@@ -1,0 +1,162 @@
+{
+ "lote": 100,
+ "projeto": "base1_ref",
+ "estilo": "ref",
+ "criadoEm": "2026-10-09T00:57:32.027Z",
+ "variacoes": [
+  {
+   "id": "v994",
+   "order": "AFGIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y3",
+   "seed": 994,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "poucos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "memeCurado": true,
+    "memeSeco": true,
+    "corTema": true,
+    "ctaCurto": true,
+    "ctaVivo": true,
+    "masterOk": true,
+    "pico": true,
+    "boxSeco": true,
+    "boxGrande": true,
+    "aura": true,
+    "zoomCalmo": true,
+    "listaUnica": true,
+    "vocab": true,
+    "aberturaRosto": true,
+    "chips": true,
+    "empurrao": true,
+    "telaDividida": true,
+    "ctaRosto": true,
+    "musica": {
+     "mood": "leve",
+     "db": -16
+    },
+    "gancho": true,
+    "memeMax": 1
+   }
+  },
+  {
+   "id": "v995",
+   "order": "AFGIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y3",
+   "seed": 994,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "poucos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "memeCurado": true,
+    "memeSeco": true,
+    "corTema": true,
+    "ctaCurto": true,
+    "ctaVivo": true,
+    "masterOk": true,
+    "pico": true,
+    "boxSeco": true,
+    "boxGrande": true,
+    "aura": true,
+    "zoomCalmo": true,
+    "listaUnica": true,
+    "vocab": true,
+    "aberturaRosto": true,
+    "chips": true,
+    "empurrao": true,
+    "telaDividida": true,
+    "ctaRosto": true,
+    "musica": {
+     "mood": "leve",
+     "db": -16
+    },
+    "gancho": true,
+    "memeMax": 0
+   }
+  },
+  {
+   "id": "v996",
+   "order": "AFGIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.15
+   ],
+   "pack": "y3",
+   "seed": 994,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "poucos",
+   "memeSom": 0.5,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "memeCurado": true,
+    "memeSeco": true,
+    "corTema": true,
+    "ctaCurto": true,
+    "ctaVivo": true,
+    "masterOk": true,
+    "pico": true,
+    "boxSeco": true,
+    "boxGrande": true,
+    "aura": true,
+    "zoomCalmo": true,
+    "listaUnica": true,
+    "vocab": true,
+    "aberturaRosto": true,
+    "chips": true,
+    "empurrao": true,
+    "telaDividida": true,
+    "ctaRosto": true,
+    "musica": {
+     "mood": "leve",
+     "db": -16
+    },
+    "gancho": true,
+    "memeMax": 0,
+    "siteLegivel": true
+   }
+  }
+ ]
+}
