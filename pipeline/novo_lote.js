@@ -47,7 +47,7 @@ const CAP='sombra';
 // (aprovado pelo crítico: v981 fase 1 + v982/v983 fase 2 — cor por tema, gameplay em tela cheia, speed lines, meme seco/curado, CTA curto, master corrigido)
 // telaCheia fica DESLIGADO: só 1 de 42 clipes do estoque fica limpo em tela cheia (HUD, dano, flash) — volta quando houver gameplay própria sem HUD
 // precoGigante foi REPROVADO pelo dono ("17,90 gigante ficou muito ruim") — não religar sem ele pedir
-const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true,memeCurado:true,memeSeco:true,corTema:true,speed:true,ctaCurto:true,masterOk:true,pico:true,boxSeco:true,boxGrande:true,aura:true,zoomFrase:true};
+const FX_FIXO={abertura:true,legendaSite:false,nitidez:true,legenda:'grande',punch:true,memeCurado:true,memeSeco:true,corTema:true,speed:true,ctaCurto:true,masterOk:true,pico:true,boxSeco:true,boxGrande:true,aura:true,zoomFrase:true,siteCurto:true};
 // vocab (clipe escolhido pela etiqueta do que ele mostra) só liga quando o Garimpo entregou moveset/_tags.json — sem ele, toda a gameplay seria pulada
 if(fs.existsSync(path.join(require('./paths').DADOS,'moveset','_tags.json')))FX_FIXO.vocab=true;
 const temMusica=fs.existsSync(path.join(ROOT,'assets','musica','catalogo.json'));
