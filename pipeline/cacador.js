@@ -42,9 +42,11 @@ const cacheSet=(cache,id,val)=>{cache[id]=val;atualiza(CACHE,c=>{c[id]=val;});};
 const run=(bin,a,o={})=>spawnSync(bin,a,{encoding:o.bin?'buffer':'utf8',maxBuffer:1<<30,windowsHide:true,timeout:o.t||10*60*1000});
 // YouTube: pausa entre pedidos (--pausa s, padrão 4) e, se vier o bloqueio "not a bot", espera (--espera-bloqueio min, padrão 20) e tenta de novo
 // — nunca marca vídeo como "sem 1080p" por causa de bloqueio. Depois de 3 bloqueios seguidos, encerra o processo.
+// login do YouTube exportado pelo dono (cookies.txt); se existir, vai em todo pedido. Nunca vai para o git.
+const COOKIES=path.join(__dirname,'youtube_cookies.txt');
 const PAUSA=+arg('pausa',4)*1000,ESPERA=+arg('espera-bloqueio',20)*60000;let ultimoYT=0,bloqueios=0;
 function yt(a){for(;;){const falta=ultimoYT+PAUSA-Date.now();if(falta>0)dorme(falta);ultimoYT=Date.now();
- const r=run(YT,['--no-check-certificates','--no-warnings',...a]);
+ const r=run(YT,['--no-check-certificates','--no-warnings',...(fs.existsSync(COOKIES)?['--cookies',COOKIES]:[]),...a]);
  if(/not a bot|HTTP Error 429|rate.?limit/i.test(r.stderr||'')){bloqueios++;if(bloqueios>3){log('YouTube bloqueou 3x seguidas — encerrando este processo');process.exit(3);}
   log(`YouTube bloqueou ("not a bot") — esperando ${ESPERA/60000} min (${bloqueios}/3)`);dorme(ESPERA);continue;}
  bloqueios=0;return r;}}
