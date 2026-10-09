@@ -73,15 +73,23 @@ function buscar(cache){
 }
 const hoje=()=>new Date().toISOString().slice(0,10);
 // formato real ≥1080p (paisagem); devolve a URL direta do melhor vídeo 1080–1440p
+// segurança (dono): só VÍDEO mp4/webm e só pelo yt-dlp; nada de URL crua no ffmpeg (dá 403 sem os cabeçalhos do yt-dlp)
+const FMT_ALTO='bv*[height>=1080][height<=1440][ext=mp4]/bv*[height>=1080][height<=1440]',FMT_360='bv*[height<=360][ext=mp4]/bv*[height<=360]';
+function baixa(id,fmt,out,secao){const base=out.replace(/.mp4$/,'');
+ yt(['-f',fmt,'--ffmpeg-location',FF,'--no-playlist','--no-part',...(secao?['--download-sections',secao,'--force-keyframes-at-cuts']:[]),'--remux-video','mp4','-o',base+'.%(ext)s','--',id]);
+ const d=path.dirname(base),b=path.basename(base);const f=fs.existsSync(d)&&fs.readdirSync(d).find(x=>x.startsWith(b+'.')&&/.(mp4|webm)$/.test(x));
+ if(!f)return null;const p=path.join(d,f);if(p!==out){try{fs.renameSync(p,out)}catch{return p}}return out;}
+// trecho curto em 1080p ao redor de um pico: é dele que saem os quadros do juiz E o corte final
+const MEIA=1.4;function trecho(id,t,out){const ini=Math.max(0,t-MEIA);return baixa(id,FMT_ALTO,out,`*${ini.toFixed(2)}-${(ini+2*MEIA).toFixed(2)}`)?{arq:out,base:ini,rel:t-ini}:null;}
 function fonte1080(id){
  const r=yt(['-J',`https://www.youtube.com/watch?v=${id}`]);let j;try{j=JSON.parse(r.stdout)}catch{return null;}if(!j||typeof j!=="object")return null;
  const v=(j.formats||[]).filter(f=>f.vcodec&&f.vcodec!=='none'&&f.height>=1080&&f.height<=1440&&f.width>f.height&&f.url&&/^https?/.test(f.protocol||'https'))
   .sort((a,b)=>(b.height-a.height)||((/avc1/.test(b.vcodec)?1:0)-(/avc1/.test(a.vcodec)?1:0))||((b.tbr||0)-(a.tbr||0)));
  const lo=(j.formats||[]).filter(f=>f.vcodec&&f.vcodec!=='none'&&f.height>=240&&f.height<=480&&f.url&&/^https?/.test(f.protocol||'https')).sort((a,b)=>a.height-b.height)[0];
- return v[0]?{url:v[0].url,h:v[0].height,w:v[0].width,fps:v[0].fps,lo:lo&&lo.url}:null;
+ return v[0]?{id,h:v[0].height,w:v[0].width,fps:v[0].fps,tem360:!!lo}:null;
 }
 
-// 2. pré-triagem: 64x36 RGB a 3 fps lidos direto do stream de 360p (sem baixar), tudo medido aqui no node ----
+// 2. pré-triagem: 64x36 RGB a 3 fps do 360p baixado pelo yt-dlp (apagado logo depois), tudo medido aqui no node ----
 const W=64,H=36,FPS=+arg('fps',3);
 function quadros(f,lim){const r=run(FF,['-v','error',...(lim?['-t',String(lim)]:[]),'-i',f,'-vf',`fps=${FPS},scale=${W}:${H}:flags=area`,'-f','rawvideo','-pix_fmt','rgb24','-'],{bin:true});
  const buf=r.stdout||Buffer.alloc(0),N=Math.floor(buf.length/(W*H*3)),Y=[],S=[];
@@ -97,10 +105,10 @@ function hudDe(Y){const N=Y.length;
  const regiao=(x0,x1,y0,y1)=>{let c=0,t=0;for(let yy=y0;yy<y1;yy++)for(let x=x0;x<x1;x++){t++;c+=hudPx[yy*W+x];}return c/t;};
  // recorte do quadrado do motor (ih*0.72 central, 60% para baixo): só o que cai nele importa
  return {topo:banda(0,6),base:banda(H-7,H),meio:banda(6,H-7),quadrado:regiao(qL,W-qL,qT,qT+Math.round(0.72*H))};}
-function triagem(id,dir,local,lo){
- const f=local||lo;if(!f)return {erro:'sem stream de 360p'};
+function triagem(id,dir,local){
+ const f=local||baixa(id,FMT_360,path.join(dir,'p360.mp4'));if(!f)return {erro:'sem 360p'};
  // descarte cedo: HUD/texto fixo já nos primeiros 30s → nem lê o resto
- const c=quadros(f,30);if(c.N<FPS*10)return {erro:'curto/sem leitura'};const h0=hudDe(c.Y);if(h0.quadrado>0.05)return {hud:h0,picos:[],dur:0};
+ const c=quadros(f,30);if(c.N<FPS*10)return {erro:'curto/sem leitura'};const h0=hudDe(c.Y);if(h0.quadrado>0.05){if(!local)try{fs.rmSync(f,{force:true})}catch{}return {hud:h0,picos:[],dur:0};}
  const {Y,S,N}=quadros(f);if(N<FPS*20)return {erro:'curto'};
  const hud=hudDe(Y);
  // por frame: energia (diferença), cor, brilho; janela de 1s
@@ -112,6 +120,7 @@ function triagem(id,dir,local,lo){
  for(const x of ord){if(picos.every(p=>Math.abs(p.t-x.t)>=4))picos.push(x);if(picos.length>=NPICOS)break;}
  // dentro do segundo, o frame de maior energia+cor é o pico
  for(const p of picos){let best=-1,bt=p.t;for(let i=Math.round(p.t*FPS);i<Math.min(N,Math.round(p.t*FPS)+FPS);i++){const v=fr[i].e*8+fr[i].s*1.5-(fr[i].b>0.82?2:0);if(v>best){best=v;bt=i/FPS;}}p.t=+bt.toFixed(2);}
+ if(!local)try{fs.rmSync(f,{force:true})}catch{}
  return {hud,picos,dur};
 }
 
@@ -188,10 +197,10 @@ const linha=r=>`| ${r.video} | ${r.t} | ${r.avatar_grande??'?'} | ${r.climax??'?
 const passa=p=>p.nota>=LIM.nota&&p.sem_hud_texto>=LIM.semHud&&p.tag!=='nenhuma'&&(p.tag===ALVO||!!arg('qualquer'));
 // corta em alta, passa na régua e entra (saída ou estoque); r ganha decisao/arquivo
 // janela = quadros limpos que o juiz apontou ao redor do centro (passos de 0,5s); precisa ter >=1s e conter o pico
-function aprovar(r,src,dir,n){
+function aprovar(r,fonte,dir,n){
  const ini=r.centro+0.5*r.limpo_de,fim=r.centro+0.5*r.limpo_ate;
  if(fim-ini<1||r.t<ini||r.t>fim){r.decisao=`janela limpa curta (${ini.toFixed(1)}–${fim.toFixed(1)}s)`;return false;}
- const tmp=path.join(dir,`c${n}.mp4`);if(!cortar(src.url,ini,fim-ini,tmp)){r.decisao='falhou corte';return false;}
+ const tmp=path.join(dir,`c${n}.mp4`);if(!cortar(fonte,ini,fim-ini,tmp)){r.decisao='falhou corte';return false;}
  const q=regua(tmp);r.regua=q;if(!q.ok){r.decisao=`régua (borrado ${q.q.borrado}/${q.s.borrado}, blocos ${q.q.blocos}/${q.s.blocos})`;return false;}
  r.decisao='aprovado';r.arquivo=entrar(tmp,r.video,r.tag,r.t-ini);log(' ✓',r.video,r.t,r.tag,'nota',r.nota,'→',path.basename(r.arquivo));return true;
 }
@@ -204,18 +213,26 @@ const TRAVAS=[];function trava(id){const d=TMP+'/travas';fs.mkdirSync(d,{recursi
 process.on('exit',()=>{for(const t of TRAVAS)try{fs.rmSync(t,{force:true})}catch{}try{fs.rmSync(TMPP,{recursive:true,force:true})}catch{}});
 let meuGasto=0; // gasto deste processo (o arquivo de gasto é somado por todos os processos)
 function julgarContando(folhas){const j=julgar(folhas);meuGasto+=j.custo||0;return j;}
+// um item por pico: arquivo local (trecho 1080p ou a gravação própria) + tempo relativo a ele; base = início do trecho no vídeo
+function itensDe(v,ts,dir,n0){const out=[];ts.forEach((t,i)=>{const n=n0+i+1;
+ if(v.local){out.push({n,url:v.local,t,base:0});return;}
+ const tr=trecho(v.id,t,path.join(dir,`t${n}.mp4`));if(tr)out.push({n,url:tr.arq,t:tr.rel,base:tr.base});});return out;}
+// devolve tempos ao vídeo original (cache/relatório guardam o tempo absoluto)
+const absoluto=(r,it)=>{r.t=+(r.t+it.base).toFixed(2);r.centro=+(r.centro+it.base).toFixed(2);return r;};
 function reaproveitar(cache,aprov){
  for(const [id,v] of Object.entries(cache)){if(!v.picos||v.revisado)continue;
   // picos de nota >= REJ (padrão 5) julgados antes da régua voltam ao juiz calibrado (uma vez: marca calibrado)
   const alvo=v.picos.filter(p=>(p.calibrado?p.nota>=LIM.nota:p.nota>=REJ)&&p.decisao!=='aprovado'&&!/^régua|falhou|janela|dono/.test(p.decisao)&&(p.tag===ALVO||arg('qualquer')));if(!alvo.length)continue;
   const src=fonte1080(id);if(!src){log(id,'sem 1080p agora');continue;}
   const dir=path.join(TMPP,id);fs.mkdirSync(dir,{recursive:true});
-  const falta=alvo.filter(p=>!p.calibrado);
-  if(falta.length){const itens=falta.map((p,i)=>({n:i+1,url:src.url,t:p.centro??p.t}));const folha=folhaJuiz(itens,path.join(dir,'juiz_re.jpg'));
-   if(folha)try{for(const q of julgarContando(folha).picos){const p=falta[q.n-1],c=itens[q.n-1];if(p){Object.assign(p,{...q,centro:c.t,t:+(c.t+0.5*(q.quadro||0)).toFixed(2),calibrado:true});delete p.n;delete p.quadro;delete p.obs;}}}catch(e){log(' juiz falhou:',e.message);}}
-  for(const p of alvo){const r={video:id,...p,decisao:'reprovado'};
-   if(p.calibrado&&p.limpo_de!=null&&passa(r)&&aprovar(r,src,dir,'r'+Math.round(p.t*100)))aprov.push(r);
-   Object.assign(p,guarda(r));fs.appendFileSync(REL,linha(r));}
+  // cada pico ganha seu trecho 1080p; julgamento e corte usam o tempo relativo ao trecho
+  const itens=itensDe({id},alvo.map(p=>p.centro??p.t),dir,0);const porN=new Map(itens.map((it,i)=>[it.n,{it,p:alvo[it.n-1]}]));
+  const falta=itens.filter(it=>!porN.get(it.n).p.calibrado);
+  if(falta.length){const folha=folhaJuiz(falta,path.join(dir,'juiz_re.jpg'));
+   if(folha)try{for(const q of julgarContando(folha).picos){const x=porN.get(q.n);if(x){const {it,p}=x;Object.assign(p,{...q,centro:+(it.t+it.base).toFixed(2),t:+(it.t+0.5*(q.quadro||0)+it.base).toFixed(2),calibrado:true});delete p.n;delete p.quadro;delete p.obs;}}}catch(e){log(' juiz falhou:',e.message);}}
+  for(const {it,p} of porN.values()){const r={video:id,...p,t:p.t-it.base,centro:(p.centro??p.t)-it.base,decisao:'reprovado'};
+   if(p.calibrado&&p.limpo_de!=null&&passa(r)&&aprovar(r,it.url,dir,'r'+it.n))aprov.push(r);
+   Object.assign(p,guarda(absoluto(r,it)));fs.appendFileSync(REL,linha(r));}
   cacheSet(cache,id,v);fs.rmSync(dir,{recursive:true,force:true});}
 }
 // julga os vídeos pendentes numa chamada só (até LOTE picos), corta os aprovados, grava cache e relatório
@@ -224,8 +241,8 @@ function julgarPendentes(pend,cache,aprov){
  let j;try{j=julgarContando(pend.map(p=>p.folha));}catch(e){log(' juiz falhou:',e.message);pend.forEach(p=>fs.rmSync(p.dir,{recursive:true,force:true}));pend.length=0;return;}
  for(const pv of pend){const notas=[];
   for(const q of j.picos){const it=pv.itens.find(x=>x.n===q.n);if(!it)continue;const t=+(it.t+0.5*(q.quadro||0)).toFixed(2);
-   const r={video:pv.v.id,...q,t,centro:it.t,calibrado:true,decisao:'reprovado'};notas.push(r);
-   if(passa(r)&&aprovar(r,pv.src,pv.dir,q.n))aprov.push(r);fs.appendFileSync(REL,linha(r));}
+   const r={video:pv.v.id,...q,t,centro:it.t,calibrado:true,decisao:'reprovado'};
+   if(passa(r)&&aprovar(r,it.url,pv.dir,q.n))aprov.push(r);notas.push(absoluto(r,it));fs.appendFileSync(REL,linha(r));}
   cacheSet(cache,pv.v.id,{data:hoje(),alvo:ALVO,titulo:pv.v.titulo,picos:notas.map(guarda)});
   fs.rmSync(pv.dir,{recursive:true,force:true});}
  pend.length=0;
@@ -254,12 +271,12 @@ function main(){
   if(!trava(v.id)){log(v.id,'em análise por outro processo, pulei');continue;}
   feitos++;const dir=path.join(TMPP,v.id);fs.mkdirSync(dir,{recursive:true});
   log(`[${ALVO}${tag} ${feitos}/${NVID}] ${v.id} ${src.w}x${src.h} "${v.titulo.slice(0,60)}"`);
-  const tr=triagem(v.id,dir,v.local,src.lo);if(tr.erro){cacheSet(cache,v.id,{data:hoje(),motivo:tr.erro});fs.rmSync(dir,{recursive:true,force:true});continue;}
+  const tr=triagem(v.id,dir,v.local);if(tr.erro){cacheSet(cache,v.id,{data:hoje(),motivo:tr.erro});fs.rmSync(dir,{recursive:true,force:true});continue;}
   // HUD/texto fixo dentro do recorte do quadrado = vídeo inteiro poluído (já nos primeiros 30s ou no vídeo todo)
   if(tr.hud.quadrado>0.05){cacheSet(cache,v.id,{data:hoje(),motivo:`HUD/texto fixo dentro do recorte (${(tr.hud.quadrado*100).toFixed(0)}%)`,hud:tr.hud});log(' HUD fixo, pulei');fs.rmSync(dir,{recursive:true,force:true});continue;}
   // numeração contínua dentro do lote do juiz
   const base=pend.reduce((a,p)=>a+p.itens.length,0);
-  const itens=tr.picos.map((p,i)=>({n:base+i+1,url:src.url,t:p.t,sc:p.sc}));
+  const itens=itensDe(v,tr.picos.map(p=>p.t),dir,base);if(!itens.length){cacheSet(cache,v.id,{data:hoje(),motivo:'trechos 1080p não baixaram'});fs.rmSync(dir,{recursive:true,force:true});continue;}
   const folha=folhaJuiz(itens,path.join(dir,'juiz.jpg'));if(!folha){cacheSet(cache,v.id,{data:hoje(),motivo:'não consegui quadros 1080p'});fs.rmSync(dir,{recursive:true,force:true});continue;}
   const keep=path.join(SAIDA,'_folhas');fs.mkdirSync(keep,{recursive:true});fs.copyFileSync(folha.f,`${keep}/${v.id}.jpg`);
   pend.push({v,src,dir,itens,folha});
