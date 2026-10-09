@@ -1,0 +1,252 @@
+{
+ "obs": "Régua do juiz de takes (cacador.js). 'regua' = exemplos mostrados ao juiz em TODA chamada; 'validacao' = exemplos conhecidos fora da régua, para testar o juiz às cegas. Fonte: anúncios vencedores do nicho (referencias/_fb), takes aprovados/reprovados pelo dono e o estoque descartado. Todo take aprovado/reprovado pelo dono ou pelo maestro entra aqui. Tempo em segundos; recorte: 'quadrado' = ih*0.72 central a 60% (clipes do YouTube); 'centro' = quadrado central de um vídeo 9:16 (anúncios).",
+ "exemplos": [
+  {
+   "id": "B1",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 9,
+   "arquivo": "referencias/_fb/bloxrealm_1.mp4",
+   "t": 0.3,
+   "recorte": "centro",
+   "porque": "avatar GRANDE de corpo inteiro, pose de conta forte, fundo limpo (anúncio vencedor Bloxrealm)"
+  },
+  {
+   "id": "B2",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "referencias/_fb/bloxrealm_1.mp4",
+   "t": 19.4,
+   "recorte": "centro",
+   "porque": "avatar perto da câmera com a arma visível (Bloxrealm)"
+  },
+  {
+   "id": "B3",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 9,
+   "arquivo": "referencias/_fb/rdblox_1.mp4",
+   "t": 11.5,
+   "recorte": "centro",
+   "porque": "espada grande no centro, linhas de velocidade, avatar visível (RD Blox)"
+  },
+  {
+   "id": "B4",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "referencias/_fb/rdblox_1.mp4",
+   "t": 24.9,
+   "recorte": "centro",
+   "porque": "avatar grande com katana, enquadramento de corpo, céu limpo (RD Blox)"
+  },
+  {
+   "id": "B5",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "referencias/_fb/emperialbloxx_1.mp4",
+   "t": 16.4,
+   "recorte": "centro",
+   "porque": "avatar de corpo inteiro com duas espadas, centralizado (Emperial Bloxx)"
+  },
+  {
+   "id": "B6",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "referencias/_fb/bloxshop_god_1.mp4",
+   "t": 13.6,
+   "recorte": "centro",
+   "porque": "avatar grande no clímax com aura azul, efeito em volta dele (BloxShop)"
+  },
+  {
+   "id": "B7",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "referencias/_fb/ultimatebloxx_1.mp4",
+   "t": 0.4,
+   "recorte": "centro",
+   "porque": "avatar forte em pose, perto, armas visíveis (Ultimate Bloxx)"
+  },
+  {
+   "id": "B8",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "moveset/soul guitar/cacador/yt_K7YE6-2GwYI_golpe_soul_guitar_1.mp4",
+   "t": 0.4,
+   "recorte": "quadrado",
+   "porque": "APROVADO PELO DONO: guitarra na mão, notas verdes, avatar grande"
+  },
+  {
+   "id": "B9",
+   "uso": "regua",
+   "tipo": "bom",
+   "nota": 8,
+   "arquivo": "moveset/aura/geral/yt_ojnM_X-X8Ls_aura_1.mp4",
+   "t": 0.3,
+   "recorte": "quadrado",
+   "porque": "APROVADO PELO DONO: close do avatar com aura e arma escura"
+  },
+  {
+   "id": "R1",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 2,
+   "arquivo": "moveset/soul guitar/Z - Soul Shaker/yt_0_OnhJ_uG_M_z_3.mp4",
+   "t": 1.3,
+   "recorte": "quadrado",
+   "porque": "REPROVADO PELO DONO ('podre'): avatar MINÚSCULO na grama, efeito genérico"
+  },
+  {
+   "id": "R2",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 1,
+   "arquivo": "moveset/_descartados/soul guitar/X - El Diablo/yt_0_OnhJ_uG_M_x_1.mp4",
+   "t": 2,
+   "recorte": "quadrado",
+   "porque": "clarão branco dominando, avatar some"
+  },
+  {
+   "id": "R3",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 2,
+   "arquivo": "moveset/_descartados/cdk/Z - Revolving Ravager/yt_b6Gqb4yiiF4_z_1.mp4",
+   "t": 1.2,
+   "recorte": "quadrado",
+   "porque": "explosão rosa estourada, avatar pequeno, 'In Combat' embaixo"
+  },
+  {
+   "id": "R4",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 2,
+   "arquivo": "moveset/_descartados/cdk/X - Slayer of Goliath/proprio_testing_x_1.mp4",
+   "t": 2,
+   "recorte": "proprio",
+   "porque": "imagem ampliada e borrada, blocos de compressão"
+  },
+  {
+   "id": "R5",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 1,
+   "arquivo": "moveset/_descartados/godhuman/Z - Soaring Beast/yt_f-Nr9Kj2GiM_z_1.mp4",
+   "t": 1.6,
+   "recorte": "quadrado",
+   "porque": "texto 'Safe Zone' e clarão, avatar pequeno"
+  },
+  {
+   "id": "R6",
+   "uso": "regua",
+   "tipo": "ruim",
+   "nota": 2,
+   "arquivo": "moveset/_descartados/godhuman/Z - Soaring Beast/yt_-LTjZd-SATc_z_1.mp4",
+   "t": 0.4,
+   "recorte": "quadrado",
+   "porque": "números de dano grandes e clarão"
+  },
+  {
+   "id": "V1",
+   "uso": "validacao",
+   "tipo": "bom",
+   "arquivo": "moveset/aura/racas/Angel/yt_eSycbUn9Bf4_aura_1.mp4",
+   "t": 1.5,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V2",
+   "uso": "validacao",
+   "tipo": "bom",
+   "arquivo": "moveset/aura/racas/Angel/yt_eSycbUn9Bf4_aura_2.mp4",
+   "t": 1.8,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V3",
+   "uso": "validacao",
+   "tipo": "bom",
+   "arquivo": "moveset/godhuman/X - Heaven and Earth/yt_-LTjZd-SATc_x_2.mp4",
+   "t": 0.6,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V4",
+   "uso": "validacao",
+   "tipo": "bom",
+   "arquivo": "moveset/godhuman/C - Sixth Realm Gun/yt_-LTjZd-SATc_c_3.mp4",
+   "t": 2.4,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V5",
+   "uso": "validacao",
+   "tipo": "bom",
+   "arquivo": "referencias/_fb/luckzs_1.mp4",
+   "t": 6,
+   "recorte": "centro"
+  },
+  {
+   "id": "V6",
+   "uso": "validacao",
+   "tipo": "ruim",
+   "arquivo": "moveset/soul guitar/showcase/yt_0_OnhJ_uG_M_s_1.mp4",
+   "t": 1.5,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V7",
+   "uso": "validacao",
+   "tipo": "ruim",
+   "arquivo": "moveset/_descartados/soul guitar/X - El Diablo/yt_0_OnhJ_uG_M_x_3.mp4",
+   "t": 2,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V8",
+   "uso": "validacao",
+   "tipo": "ruim",
+   "arquivo": "moveset/cdk/Z - Revolving Ravager/yt_b6Gqb4yiiF4_z_3.mp4",
+   "t": 1,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V9",
+   "uso": "validacao",
+   "tipo": "ruim",
+   "arquivo": "moveset/_descartados/cdk/Z - Revolving Ravager/yt_KUNLIm3X46A_z_1.mp4",
+   "t": 0.7,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "V10",
+   "uso": "validacao",
+   "tipo": "ruim",
+   "arquivo": "moveset/_descartados/cdk/showcase/yt_12ILz_85W-E_s_1.mp4",
+   "t": 0.7,
+   "recorte": "quadrado"
+  },
+  {
+   "id": "D1",
+   "uso": "decidido",
+   "tipo": "ruim",
+   "nota": 3,
+   "video": "R5rxrfPqylw",
+   "t": 160.25,
+   "porque": "REPROVADO PELO DONO: CDK em silhueta escura, confuso"
+  },
+  {
+   "id": "N1",
+   "uso": "nota",
+   "tipo": "ambiguo",
+   "arquivo": "moveset/_descartados/godhuman/C - Sixth Realm Gun/yt_9DGe8iR5HeM_c_1.mp4",
+   "t": 0.4,
+   "porque": "composição boa (juiz deu 7), mas descartado por BORRADO — nitidez é papel da régua de nitidez, não do juiz"
+  }
+ ]
+}
