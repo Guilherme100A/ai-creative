@@ -34,7 +34,7 @@ function valida({R,shots,DUR,SENT,MV}){
   else if(s.k==='box'&&s.first&&!fs.existsSync(`${MV}/${s.take}`))erros.push(`clipe não existe: ${s.take}`);
  }
  // congelamento: gameplay mais longa que o clipe vira quadro parado ("o vídeo bugou" — v999, aura de 1,4s num trecho de 2,6s)
- if(R.fx){const uso=new Map();for(const s of shots)if(s.k==='box'&&s.take)uso.set(s.take,(uso.get(s.take)||0)+(s.oE-s.oS));
+ if(R.fx){const uso=new Map();for(const s of shots)if((s.k==='box'||s.k==='split')&&s.take)uso.set(s.take,(uso.get(s.take)||0)+(s.oE-s.oS));
   for(const [t,seg] of uso){const d=durClipe(`${MV}/${t}`);if(d!=null&&seg>d-0.15)erros.push(`clipe curto demais: ${t.split('/').pop()} tem ${d.toFixed(1)}s e o vídeo pede ${seg.toFixed(1)}s — ia congelar o último quadro`);}}
  const memes=new Map();for(const s of shots)if(s.k==='meme'){const m=memes.get(s.meme)||{a:s.oS,b:s.oE};m.a=Math.min(m.a,s.oS);m.b=Math.max(m.b,s.oE);memes.set(s.meme,m);}
  for(const [m,{a,b}] of memes)if(b-a>MEME_MAX+0.05)erros.push(`meme ${m.id} dura ${(b-a).toFixed(2)}s (máx ${MEME_MAX}s)`);
