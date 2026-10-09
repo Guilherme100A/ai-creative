@@ -21,7 +21,7 @@ const REJ=+arg('rejulgar',5);const [FK,FN]=String(arg('fatia','0/1')).split('/')
 const naFatia=id=>[...id].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0,7)%FN===FK;
 const dorme=ms=>Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,ms);
 function esperaRam(){let avisou=false;while(os.freemem()/2**30<RAMMIN){if(!avisou){log(`RAM livre ${(os.freemem()/2**30).toFixed(1)} GB < ${RAMMIN} — segurando`);avisou=true;}dorme(15000);}}
-const LIM={borrado:5.3,blocos:1.6,nota:7,semHud:8}; // nota >=7 liberada pelo dono ('deixa os nota 7'); HUD/texto e borrado continuam fora
+const LIM={borrado:6.5,blocos:2.0,nota:6,semHud:6}; // régua mais leve a pedido do dono (09/10: 'muito exigente'): era nota 7, sem HUD 8, borrado 5,3, blocos 1,6
 
 const QUERIES={
  golpe_soul_guitar:['blox fruits soul guitar edit 4k','soul guitar cinematic edit','blox fruits soul guitar showcase no ui','blox fruits soul guitar close up','blox fruits soul guitar 1440p','blox fruits update 17.3 trailer','blox fruits skull guitar edit'],
