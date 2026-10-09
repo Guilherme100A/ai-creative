@@ -23,9 +23,14 @@ const eout=x=>1-Math.pow(1-clamp(x),3);
 const back=x=>{x=clamp(x);const c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
 const lerp=(a,b,t)=>a+(b-a)*t;
 const card=document.getElementById('card'),sh=document.getElementById('shadow'),sheen=document.getElementById('sheen');
+if(P.tam){const T=P.tam,S=Math.round(T*780/860),R=Math.round(64*T/860)+'px'; // tam: quadrado maior, mesmo centro (540,960)
+  Object.assign(card.style,{width:T+'px',height:T+'px',left:(540-T/2)+'px',top:(960-T/2)+'px'});
+  Object.assign(sh.style,{width:S+'px',height:S+'px',left:(540-S/2)+'px',top:(990-S/2)+'px'});
+  document.querySelectorAll('.slab,#face').forEach(e=>e.style.borderRadius=R);}
 window.render=function(t){
   const s=P.pose; // lado da inclinação: 1 ou -1
-  let ry=s*13+Math.sin(t*1.6)*2.5, rx=7+Math.cos(t*1.3)*1.5, rz=0, ty=Math.sin(t*2)*8, tx=0, sc=1, op=1;
+  // grande (tam): inclina menos para não cortar na borda
+  let ry=P.tam?s*8+Math.sin(t*1.6)*2:s*13+Math.sin(t*1.6)*2.5, rx=(P.tam?4:7)+Math.cos(t*1.3)*1.5, rz=0, ty=Math.sin(t*2)*8, tx=0, sc=1, op=1;
   if(P.entry){const u=t/0.38, e=eout(u), b=back(u);
     if(P.entry==='flip'){ry=lerp(s*80,ry,e);sc=lerp(.75,1,e);op=clamp(u*3);}
     if(P.entry==='rise'){ty+=lerp(900,0,e);rx=lerp(55,rx,e);op=clamp(u*3);}

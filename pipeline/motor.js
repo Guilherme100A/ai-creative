@@ -89,10 +89,12 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
-// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
+// aura: clipes de avatar parado brilhando em moveset/aura/<godhuman|cdk|soul guitar|racas/<Raça>|geral> (começam em {aura:seg} do _picos.json)
+const auraPool=g=>fs.existsSync(path.join(MV,'aura',g))?listAll('aura/'+g):[];
 const lerTela=()=>fs.existsSync(MV+'/_tela_cheia.txt')?new Set(fs.readFileSync(MV+'/_tela_cheia.txt','utf8').split(/\r?\n/).map(x=>path.basename(x.trim())).filter(Boolean)):null;
 // abertura: quantos frames do começo de uma cena são escuros (fade do fundo); cache em assets/motion/_abertura.json
 const ABRE_F=MO+'/_abertura.json';
@@ -133,15 +135,18 @@ function build(R){
  // 2) direções -> saída
  const used=new Set();const takeFor=wpn=>{const ALL3=[...TAKES.godhuman,...TAKES.cdk,...TAKES['soul guitar']],own=ALL3.filter(t=>!path.basename(t).startsWith('yt_'));const pool=wpn==='any'?(own.length?own:ALL3):TAKES[wpn];
   let cand=pool.filter(x=>!used.has(x));if(!cand.length)cand=pool;const x=pick(cand);used.add(x);return x};
+ const AURA=!!(R.fx&&R.fx.aura);const pegaAura=pl=>{let c=pl.filter(x=>!used.has(x));if(!c.length)c=pl;const x=pick(c);used.add(x);return x;};
+ const auraDe=g=>AURA?(g==='any'?[...auraPool('geral'),...auraPool('godhuman'),...auraPool('cdk'),...auraPool('soul guitar')]:auraPool(g)):[]; // aura: montage, 'any' e raça
  let vis=[];
  for(const name of R.dirs){const d=DIR[name];const parts=pieces.filter(p=>p.e>d.s&&p.s<d.e);if(!parts.length)continue;
   let oS=Infinity,oE=-Infinity;for(const p of parts){oS=Math.min(oS,p.o+Math.max(0,d.s-p.s));oE=Math.max(oE,p.o+(Math.min(d.e,p.e)-p.s));}
   if(d.e>=99)oE=DUR;
   if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
    oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,oS,oE});}
+  else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'){let take;if(d.pool){const pl=POOLS[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:POOLS[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
-   for(let i=0;i<n;i++)vis.push({k:'box',take:takeFor(ws[(k+i)%3]),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
+   for(let i=0;i<n;i++){const ap=auraDe(ws[(k+i)%3]);vis.push({k:'box',take:ap.length?pegaAura(ap):takeFor(ws[(k+i)%3]),...(ap.length?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}}
  // memes: só entram onde não tem animação nem gameplay
  const usedM=new Set();const CUR=!!(R.fx&&R.fx.memeCurado); // memeCurado: começa em m.ini e usa o som curado do meme (m.som)
  for(const [ms,me,cat,prio] of MEME_CUES){if(prio>MDENS[R.memes])continue;const near=(x,dir)=>{let v=s2o(x);if(v!=null)return v;for(const p of pieces){if(dir<0&&p.s<=x&&x>p.e)v=p.oe;if(dir>0&&p.s>x&&v==null)v=p.o;}return v;};const a=near(ms,1),b=near(me,-1);if(a==null||b==null||b-a<0.6)continue;
@@ -157,10 +162,11 @@ function build(R){
  const cuts=pieces.map(p=>p.o).slice(1);let shots=[];
  for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS,vd:v.oE-v.oS});a=c;}}
  const FX=R.fx||{};
- const PICOS=FX.pico?lerPicos():null,TELA=FX.telaCheia?lerTela():null;
- const cheia=s=>!!FX.telaCheia&&!s.pool&&(!TELA||TELA.has(path.basename(s.take))); // gameplay em tela cheia (só clipe limpo da lista)
+ const PICOS=FX.pico||FX.aura?lerPicos():null,TELA=FX.telaCheia?lerTela():null;
+ const cheia=s=>!!FX.telaCheia&&(TELA?s.pool!=='inv'&&TELA.has(path.basename(s.take)):!s.pool); // gameplay em tela cheia (só clipe limpo da lista)
  // início do clipe: padrão 0,15 (YouTube) / 0,9 (gravação); com pico, o auge cai a ~40% do shot (nunca antes do padrão)
- const iniClipe=(s,isYT)=>{const p=PICOS&&(PICOS[s.take]??PICOS[path.basename(s.take)]);const v=p==null?null:typeof p==='object'?p.pico:p;const b=isYT?0.15:0.9;return v==null?b:Math.max(b,v-0.4*s.vd);};const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
+ const iniClipe=(s,isYT)=>{const p=PICOS&&(PICOS[s.take]??PICOS[path.basename(s.take)]);const b=isYT?0.15:0.9;if(s.aura&&p&&p.aura!=null)return Math.max(b,p.aura); // aura: começa no melhor trecho
+  const v=p==null||!FX.pico?null:typeof p==='object'?p.pico:p;return v==null?b:Math.max(b,v-0.4*s.vd);};const ganchoTxt=FX.gancho===true?PROJ.gancho:FX.gancho;
  // abertura: cena logo no início começa no 0 (some o fiapo dela antes) e pula o fade escuro da cena
  if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
   if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
@@ -203,10 +209,11 @@ function build(R){
    if(!isYT){const wav=path.join(TMP,`g${i}.wav`);execFileSync(ff,['-v','error','-y','-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-t',(s.oE-s.oS).toFixed(3),'-vn','-ac','2','-ar','48000','-af',`afade=t=in:d=0.03,afade=t=out:st=${Math.max(0,s.oE-s.oS-0.05).toFixed(3)}:d=0.05`,wav]);
    gameAudio.push([wav,s.oS]);}}
   else{const isYT=path.basename(s.take).startsWith('yt_');const gss=iniClipe(s,isYT)+s.off;
-   const vf=!isYT?'crop=980:980:1220:330,scale=860:860:flags=lanczos':s.pool==='inv'?'scale=860:-2:flags=lanczos,pad=860:860:0:(oh-ih)/2:color=0x16171a':"crop='ih*0.72':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6,scale=860:860:flags=lanczos";
+   const BX=FX.boxGrande?980:860; // boxGrande: quadrado 3D de 980px (padrão 860)
+   const vf=!isYT?`crop=980:980:1220:330,scale=${BX}:${BX}:flags=lanczos`:s.pool==='inv'?`scale=${BX}:-2:flags=lanczos,pad=${BX}:${BX}:0:(oh-ih)/2:color=0x16171a`:`crop='ih*0.72':'ih*0.72':(iw-ow)/2:(ih-oh)*0.6,scale=${BX}:${BX}:flags=lanczos`;
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);
    run(['-ss',gss.toFixed(3),'-i',`${MV}/${s.take}`,'-frames:v',String(n),'-vf',`fps=30,${vf},eq=saturation=1.2:contrast=1.04`,'-q:v','2',path.join(fd,'f%04d.jpg')]);
-   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,...(FX.boxSeco?{seco:true}:{})})],{stdio:'inherit'});
+   execFileSync('node',[path.join(__dirname,'box3d.js'),JSON.stringify({frames:fd,out:od,n:fs.readdirSync(fd).length,entry:s.entry,pose:s.pose,off:s.off,...(FX.boxSeco?{seco:true}:{}),...(FX.boxGrande?{tam:980}:{})})],{stdio:'inherit'});
    args=['-ss',src.toFixed(3),'-i',BASE,'-framerate','30','-i',path.join(od,'o%04d.png'),'-filter_complex',
     `[0:v]${thCrop(1)},${G},fps=30,gblur=sigma=28,eq=brightness=-0.1[bg];[1:v]tpad=stop_mode=clone:stop_duration=2[fg];[bg][fg]overlay=0:0,setsar=1[out]`,'-map','[out]'];
    if(FX.speed&&s.off<0.28&&!s.pool){args.splice(args.indexOf('-filter_complex'),0,...slIn(s)); // speed também no quadrado 3D
