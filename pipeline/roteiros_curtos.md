@@ -1,5 +1,31 @@
 # Roteiros curtos para gravar (20–28 s) — formato dos vencedores do nicho
 
+## Linha sem UGC — status (PAUSADA em 08/10/2026)
+
+**Por que pausou:** o dono assistiu o `criativo_vz04.mp4` e reprovou. Cada clipe do YouTube mostra um avatar diferente, e o formato sem UGC precisa de **um avatar só**, sempre o mesmo. Isso só existe com gameplay própria gravada. Não gastar mais caracteres da ElevenLabs até retomar.
+
+**Condição para retomar:** gameplay própria de **1 avatar** (o mesmo em tudo), **sem HUD** (sem barra de skills, notificações, "Safe Zone" etc.), com **vários takes** de cada coisa: Godhuman, CDK (espadas visíveis), Soul Guitar (guitarra visível), raça V4, inventário de frutas míticas, avatar parado com aura (para o título e o preço) e o avatar equipado. O ideal é gravar em 16:9 cheio, com o avatar no centro.
+
+**O que já está pronto:**
+- `pipeline/voz.js`: roteiro (txt) vira `voz.mp3` + `palavras.json`, no mesmo formato do Whisper, usando o endpoint `/with-timestamps` da ElevenLabs. `[17,90|dezessete e noventa]` faz a legenda mostrar "17,90" enquanto a voz fala por extenso. Se o texto não mudou, não gera de novo. O gasto fica registrado em `pipeline/voz_gasto.json`, e `node voz.js --status` mostra o saldo do mês.
+  - Uso: `node voz.js <roteiro.txt> <pasta_saida> [--voz liam|nassif|<voice_id>]`. Modelo `eleven_v4`, chave `ELEVENLABS_API_KEY` no `.env`.
+  - **Para trocar pela Nassif:** é preciso assinar um plano pago da ElevenLabs. No free, a API recusa vozes da biblioteca com erro 402; o plano pago também libera o uso comercial. Depois é só usar `--voz nassif` (`Fjiik8aKXNDjmxd1Q2jF`) ou mudar o padrão `'liam'` em `voz.js`. Enquanto isso, a voz é a premade **Liam**.
+  - Gasto até a pausa: 574 caracteres (3 testes de voz + o roteiro V1). O mês estava em 2.458/10.000.
+- `pipeline/base_gameplay.js`: monta o vídeo base 1080x1920 30fps com gameplay em TELA CHEIA cobrindo a voz, e o áudio é a voz.
+  - O corte cai na palavra que cita a arma ou a raça.
+  - Mede cada clipe (cor, movimento, flash branco, tela escura; cache em `gameplay_metricas.json`) e escolhe o melhor trecho.
+  - Usa trechos calmos, com o avatar visível, embaixo do título e do preço.
+  - Tem listas curadas: `ABERTURAS`, `CITA` (clipes em que o item aparece) e `CALMOS`.
+  - Corta o texto de edição dos vídeos do YouTube.
+  - Uso: `node base_gameplay.js <voz.mp3> <palavras.json> <saida.mp4> [--seed N] [--pular inv]`.
+  - Com gameplay própria, basta trocar as listas curadas pelos takes novos.
+- Projeto `voz_v1` (roteiro em `pipeline/roteiros_voz/v1.txt`, lote 99, `vz01`…`vz04`).
+  - Fluxo: `node novo_projeto.js voz_v1 videos/voz_v1.mp4 --palavras <palavras.json> --sem-ia`, depois o projeto editado à mão, depois `novo_lote.js --estilo viral`, depois `motor.js`.
+  - Decisões do formato: sem quadros de gameplay (`box`) e sem site no 1º segundo; abre com gameplay e o título; meme só em momento de dor; card final só nos últimos ~3s; usar o prefixo de id `vz` para não colidir com os outros lotes.
+  - Coruja: vz01 5/10, vz03 7/10, vz04 7/10. O que faltava (no review da vz04): espadas do CDK na palavra "CDK", Soul Guitar sem orbe genérico, veto de popup e de flash embaixo da legenda.
+
+---
+
 Base: `pipeline/referencias_nicho.md` (22 anúncios que mais rodam na Biblioteca de Anúncios).
 
 **O que eles têm em comum:**
