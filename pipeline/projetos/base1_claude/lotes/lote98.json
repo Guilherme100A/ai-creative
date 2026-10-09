@@ -490,6 +490,149 @@
     "ctaVivo": true,
     "popEntrada": true
    }
+  },
+  {
+   "id": "v991",
+   "order": "AFGIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 981,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5,
+   "fx": {
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "abertura": true,
+    "legendaSite": false,
+    "gancho": true,
+    "nitidez": true,
+    "punch": true,
+    "legenda": "grande",
+    "corTema": true,
+    "speed": true,
+    "memeSeco": true,
+    "masterOk": true,
+    "memeCurado": true,
+    "ctaCurto": true,
+    "pico": true,
+    "boxGrande": true,
+    "boxSeco": true,
+    "aura": true,
+    "telaCheia": true,
+    "zoomFrase": true,
+    "siteCurto": true,
+    "vocab": true,
+    "ctaVivo": true,
+    "popEntrada": true,
+    "aberturaRosto": true
+   }
+  },
+  {
+   "id": "v992",
+   "order": "AFGIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 981,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5,
+   "fx": {
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "abertura": true,
+    "legendaSite": false,
+    "gancho": true,
+    "nitidez": true,
+    "legenda": "grande",
+    "corTema": true,
+    "memeSeco": true,
+    "masterOk": true,
+    "memeCurado": true,
+    "ctaCurto": true,
+    "pico": true,
+    "boxGrande": true,
+    "boxSeco": true,
+    "aura": true,
+    "telaCheia": true,
+    "vocab": true,
+    "ctaVivo": true
+   }
+  },
+  {
+   "id": "v993",
+   "order": "AFGIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1,
+    1.12
+   ],
+   "pack": "y2",
+   "seed": 981,
+   "hl": [
+    "amarelo"
+   ],
+   "reac": "nenhuma",
+   "memes": "medios",
+   "memeSom": 0.4,
+   "grade": "quente",
+   "cap": "sombra",
+   "raceInv": true,
+   "boxLen": 1.5,
+   "fx": {
+    "musica": {
+     "mood": "energia",
+     "db": -16
+    },
+    "abertura": true,
+    "legendaSite": false,
+    "gancho": true,
+    "nitidez": true,
+    "legenda": "grande",
+    "corTema": true,
+    "memeSeco": true,
+    "masterOk": true,
+    "memeCurado": true,
+    "ctaCurto": true,
+    "pico": true,
+    "boxGrande": true,
+    "boxSeco": true,
+    "aura": true,
+    "telaCheia": true,
+    "vocab": true,
+    "ctaVivo": true,
+    "zoomCalmo": true,
+    "listaUnica": true
+   }
   }
  ]
 }

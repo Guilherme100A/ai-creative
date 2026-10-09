@@ -91,7 +91,7 @@ function rng(seed){let s=seed*2654435761%4294967296;return()=>{s=(s*1664525+1013
 
 // ---------- efeitos opcionais (R.fx) — sem fx o render é o mesmo de sempre ----------
 // musica:{mood,db}  abertura:true  legendaSite:false  gancho:"TEXTO"|true  legenda:"grande"  progresso:true  nitidez:true  punch:true
-// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true  siteCurto:true  ctaVivo:true  popEntrada:true
+// fase 2: corTema:true  telaCheia:true  speed:true  precoGigante:true  memeSeco:true  memeCurado:true  ctaCurto:true  masterOk:true  pico:true  boxSeco:true  boxGrande:true  aura:true  zoomFrase:true  vocab:true  siteCurto:true  ctaVivo:true  popEntrada:true  aberturaRosto:true (A/B)  zoomCalmo:true  listaUnica:true
 const MUS=ROOT+'/assets/musica';
 // pico: segundo do auge de cada clipe (moveset/_picos.json, chave = caminho ou nome do arquivo); telaCheia: só clipes de moveset/_tela_cheia.txt
 const lerPicos=()=>{try{return JSON.parse(fs.readFileSync(MV+'/_picos.json','utf8'))}catch(e){return null}};
@@ -151,20 +151,25 @@ function build(R){
   let oS=Infinity,oE=-Infinity;for(const p of parts){oS=Math.min(oS,p.o+Math.max(0,d.s-p.s));oE=Math.max(oE,p.o+(Math.min(d.e,p.e)-p.s));}
   if(d.e>=99)oE=DUR;
   if(d.v==='mo'){if(d.e>=99&&R.fx&&R.fx.ctaCurto)oS=Math.max(oS,DUR-3.5); // ctaCurto: card final só nos últimos ~3,5s
+   // aberturaRosto (A/B, não padrão): abre com ela falando; a cena do começo entra na 1ª palavra depois de ~1,1s
+   let skipR=0;if(R.fx&&R.fx.aberturaRosto&&oS<0.3){let w1=null;for(const p of pieces)for(const w of W)if(w1==null&&w.s>=p.s&&w.s<p.e&&p.o+(w.s-p.s)>=1.1)w1=p.o+(w.s-p.s);if(w1!=null){oS=w1;oE=Math.max(oE,oS+1.5);skipR=aberturaDe(d.clip);}}
    // siteCurto: cena de site no meio do vídeo vira a versão _curto (1,5s num bloco legível), sem o fade escuro do começo
    if(R.fx&&R.fx.siteCurto&&/^site_/.test(d.clip)&&oS>0.3&&fs.existsSync(`${MO}/${d.clip}_curto.mp4`)){const clip=d.clip+'_curto';vis.push({k:'mo',clip,skip:Math.min(0.2,aberturaDe(clip)),oS,oE:Math.min(oE,oS+1.5)});continue;}
-   oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,...(R.fx&&R.fx.ctaVivo&&fs.existsSync(`${MO}/${d.clip}_vivo.mp4`)?{arq:d.clip+'_vivo'}:{}),oS,oE});} // ctaVivo: card final com SAIBA MAIS, cursor tocando, seta e logo com bounce
+   oE=Math.min(oE,oS+CLIPLEN[d.clip]+(d.e>=99?9:0));vis.push({k:'mo',clip:d.clip,...(R.fx&&R.fx.ctaVivo&&fs.existsSync(`${MO}/${d.clip}_vivo.mp4`)?{arq:d.clip+'_vivo'}:{}),...(skipR?{skip:skipR}:{}),oS,oE});} // ctaVivo: card final com SAIBA MAIS, cursor tocando, seta e logo com bounce
   // vocab: raça→aura_v4, inventário→inventario_cheio, arma→golpe_<arma>, any→aura (senão golpe de qualquer arma); sem clipe = fica o rosto dela
   else if(VOC&&d.v==='box'){const ts=d.pool==='race'?['aura_v4']:d.pool==='inv'?['inventario_cheio']:d.wpn==='any'?['aura','golpe_godhuman','golpe_cdk','golpe_soul_guitar']:[GOLPE[d.wpn]];const r=vocPool(ts);
-   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
+   if(!r){avV.push(`sem clipe para ${ts[0]} (direção ${name}): fica o rosto dela`);continue;}vis.push({k:'box',take:pegaAura(r.pl),...(/^aura/.test(r.t)?{aura:true}:{}),pool:d.pool==='inv'?'invcheio':d.pool,wpn:d.wpn,oS,oE});} // inventário cheio usa o recorte quadrado (o letterbox do 'inv' era para a loja)
   else if(d.v==='box'&&(d.wpn==='any'?auraDe('any'):d.pool==='race'?auraDe('racas'):[]).length){const pl=d.wpn==='any'?auraDe('any'):auraDe('racas');vis.push({k:'box',take:pegaAura(pl),aura:true,pool:d.pool,oS,oE});}
   else if(d.v==='box'&&d.pool&&!PL[d.pool].length)continue;
-  else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,oS,oE});}
+  else if(d.v==='box'){let take;if(d.pool){const pl=PL[d.pool].filter(x=>!used.has(x));take=pick(pl.length?pl:PL[d.pool]);used.add(take);}else take=takeFor(d.wpn);vis.push({k:'box',take,pool:d.pool,...(R.fx?{wpn:d.wpn}:{}),oS,oE});}
   else if(VOC){const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3); // vocab na montage: aura, senão golpe da arma do quadro
    for(let i=0;i<n;i++){const r=vocPool(['aura',GOLPE[ws[(k+i)%3]]]);if(!r){avV.push(`sem clipe para aura/${GOLPE[ws[(k+i)%3]]} (montage ${name}): fica o rosto dela`);continue;}
     vis.push({k:'box',take:pegaAura(r.pl),...(r.t==='aura'?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}
   else{const L=R.boxLen||1.8;const n=Math.max(1,Math.round((oE-oS)/L));const ws=['godhuman','cdk','soul guitar'];let k=Math.floor(rand()*3);
    for(let i=0;i<n;i++){const ap=auraDe(ws[(k+i)%3]);vis.push({k:'box',take:ap.length?pegaAura(ap):takeFor(ws[(k+i)%3]),...(ap.length?{aura:true}:{}),oS:oS+(oE-oS)*i/n,oE:oS+(oE-oS)*(i+1)/n});}}}
+ // listaUnica: armas citadas em sequência (gh/cdk/sg colados) viram UM quadrado só, com a 1ª arma cobrindo a lista inteira
+ if(R.fx&&R.fx.listaUnica){vis.sort((a,b)=>a.oS-b.oS);const out=[];for(const v of vis){const p=out[out.length-1];
+  if(p&&p.k==='box'&&v.k==='box'&&GOLPE[p.wpn]&&GOLPE[v.wpn]&&!p.pool&&!v.pool&&v.oS-p.oE<0.3){p.oE=Math.max(p.oE,v.oE);continue;}out.push(v);}vis=out;}
  // memes: só entram onde não tem animação nem gameplay
  const usedM=new Set();const CUR=!!(R.fx&&R.fx.memeCurado); // memeCurado: começa em m.ini e usa o som curado do meme (m.som)
  for(const [ms,me,cat,prio] of MEME_CUES){if(prio>MDENS[R.memes])continue;const near=(x,dir)=>{let v=s2o(x);if(v!=null)return v;for(const p of pieces){if(dir<0&&p.s<=x&&x>p.e)v=p.oe;if(dir>0&&p.s>x&&v==null)v=p.o;}return v;};const a=near(ms,1),b=near(me,-1);if(a==null||b==null||b-a<0.6)continue;
@@ -177,7 +182,8 @@ function build(R){
  if(R.fx&&R.fx.aura)for(let i=0;i+1<vis.length;i++){const v=vis[i],n=vis[i+1];if(!v.aura||v.oE-v.oS>=1.2||n.k!=='box'||Math.abs(n.oS-v.oE)>0.05)continue;const d=Math.min(1.2-(v.oE-v.oS),n.oE-n.oS-0.8);if(d>0){v.oE+=d;n.oS+=d;}}
  const ENTRIES=['flip','rise','pop','swing'];let bi=Math.floor(rand()*4);
  for(const v of vis)if(v.k==='box'||v.k==='meme'){v.pose=bi%2?1:-1;v.entry=ENTRIES[(bi+Math.floor(rand()*2))%4];bi++;}
- const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
+ const CALMO=!!(R.fx&&R.fx.zoomCalmo); // zoomCalmo: fiapo dela (<0,35s) entre dois inserts some — o insert anterior segue até o próximo
+ const full=[];let cur=0;for(const v of vis){if(v.oS<cur)v.oS=cur;if(v.oE-v.oS<0.2)continue;if(CALMO&&v.oS>cur+0.02&&v.oS-cur<0.35&&full.length&&full[full.length-1].k!=='th'){full[full.length-1].oE=v.oS;cur=v.oS;}if(v.oS>cur+0.02)full.push({k:'th',oS:cur,oE:v.oS});full.push(v);cur=v.oE;}
  if(cur<DUR-0.02)full.push({k:'th',oS:cur,oE:DUR});
  const cuts=pieces.map(p=>p.o).slice(1);let shots=[];
  for(const v of full){let a=v.oS;const cs=cuts.filter(c=>c>v.oS+0.05&&c<v.oE-0.05);for(const c of [...cs,v.oE]){shots.push({...v,oS:a,oE:c,off:a-v.oS,first:a===v.oS,vd:v.oE-v.oS});a=c;}}
@@ -191,6 +197,8 @@ function build(R){
  if(FX.abertura){if(shots[0].k==='th'&&shots[1]&&shots[1].k==='mo'&&shots[1].first&&shots[0].oE<0.3){shots=shots.slice(1);shots[0].oS=0;}
   if(shots[0].k==='mo'){const k=aberturaDe(shots[0].clip);for(let j=0;j<shots.length&&(j===0||(shots[j].k==='mo'&&!shots[j].first));j++)shots[j].off+=k;}}
  let zi=0;for(const s of shots)if(s.k==='th'){s.z=R.zoom[zi%R.zoom.length];zi++;}
+ // zoomCalmo: o enquadramento dela nunca troca entre dois shots dela seguidos (jump cut mantém o zoom); só alterna na volta de um insert, onde já há corte
+ if(FX.zoomCalmo){let k=0;shots.forEach((s,i)=>{if(s.k!=='th')return;if(i>0&&shots[i-1].k!=='th')k++;s.z=R.zoom[k%R.zoom.length];});}
  // zoomFrase: shot dela com mais de ~2,5s é cortado (seco) no começo de uma frase/grupo e alterna 1,00↔1,12 com leve deslocamento lateral
  if(FX.zoomFrase){const wo=[];for(const p of pieces)for(let k=0;k<W.length;k++){const w=W[k];if(w.s>=p.s&&w.s<p.e)wo.push({o:p.o+(w.s-p.s),fim:/[.,?!]$/.test((W[k-1]||{}).t||''),gap:w.s-((W[k-1]||{}).e??w.s)});}
   const out=[];let lado=1;for(const sh of shots){if(sh.k!=='th'||sh.oE-sh.oS<=2.5){out.push(sh);continue;}
@@ -219,8 +227,10 @@ function build(R){
   if(s.k==='th'){let fxv='';
    // nitidez: unsharp leve + vinheta suave
    if(FX.nitidez)fxv+=',unsharp=5:5:0.45:5:5:0,vignette=angle=PI/7';
+   // aberturaRosto + gancho: enquanto o título está sobre o rosto, o topo (~35%) escurece em degradê (até −30%) para o branco separar da parede
+   if(FX.aberturaRosto&&ganchoTxt&&s.oS<2.2)fxv+=",geq=lum='lum(X,Y)*(1-0.3*max(0,1-Y/672))':cb='cb(X,Y)':cr='cr(X,Y)'";
    args=['-ss',src.toFixed(3),'-i',BASE,'-vf',`${thCrop(s.z,s.dx)},${G},fps=30${fxv},setsar=1`];}
-  else if(s.k==='mo')args=['-ss',(s.off+(s.skip||0)).toFixed(3),'-i',`${MO}/${s.arq||s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&i===0?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
+  else if(s.k==='mo')args=['-ss',(s.off+(s.skip||0)).toFixed(3),'-i',`${MO}/${s.arq||s.clip}.mp4`,'-vf',`fps=30,tpad=stop_mode=clone:stop_duration=10${ganchoTxt&&(i===0||(FX.aberturaRosto&&s.oS<2.2))?',scale=810:1440:flags=lanczos,pad=1080:2000:135:560:color=0x07080a,crop=1080:1920:0:0':''},setsar=1`]; // com gancho, o site de abertura fica a 75% e mais baixo
   else if(s.k==='meme'){ // meme no quadrado 3D arredondado, centro, com ela desfocada atrás
    const fd=path.join(TMP,`bf${i}`),od=path.join(TMP,`bo${i}`);fs.mkdirSync(fd);fs.mkdirSync(od);const file=CATALOG.pasta+'/'+s.meme.arquivo;
    const inArgs=s.meme.tipo==='video'?['-stream_loop','-1','-ss',((CUR&&s.meme.ini!=null?s.meme.ini:0.1)+s.off).toFixed(3),'-i',file]:['-loop','1','-i',file];
