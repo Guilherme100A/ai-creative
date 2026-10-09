@@ -1,6 +1,6 @@
 {
  "nome": "ref",
- "descricao": "Formato REF (UGC real de Roblox): rosto >=75%, gancho sobre o rosto, chips por cima do rosto, tela dividida nas listas, poucos inserts legíveis, CTA no rosto",
+ "descricao": "Formato REF (UGC real de Roblox): rosto >=75%, gancho sobre o rosto, chips por cima do rosto, tela dividida nas listas, poucos inserts legíveis, CTA no rosto — sem meme (refs não usam; o meme custava 2 cortes e 8% de rosto)",
  "origem": "referencias_ugc.md",
  "fixo": {
   "memes": "poucos",
@@ -18,6 +18,9 @@
   "musica": {
    "mood": "leve"
   },
-  "progresso": false
+  "progresso": false,
+  "memeMax": 0,
+  "siteLegivel": true,
+  "legendaSite": false
  }
 }
