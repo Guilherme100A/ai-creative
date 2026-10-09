@@ -9,3 +9,4 @@ pipeline/projetos/*/projeto.bak_*.json
 .maestri/
 .env
 pipeline/youtube_cookies.txt
+pipeline/.chrome_cacador/
