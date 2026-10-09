@@ -262,6 +262,7 @@ Histórico condensado do feedback, de onde cada regra veio:
   - **Gameplay:** tem que mostrar o AUGE do golpe/aura, não um momento aleatório (`fx.pico` + `moveset/_picos.json`).
   - **Gameplay em tela cheia (`fx.telaCheia`):** desligada, porque só 1 de 42 clipes do estoque fica limpo em tela cheia. Volta com gameplay própria gravada sem HUD.
   - **Som do meme:** tem que combinar com a imagem (curado por meme no catálogo).
+  - **Linha sem UGC (voz em off, pausada):** o dono reprovou o vz04 porque os takes eram de avatares diferentes (um youtuber por clipe). Esse formato só funciona com UM avatar consistente, ou seja, gameplay própria. Retomar quando ela existir (ver pipeline/roteiros_curtos.md).
 
 ---
 
