@@ -14,7 +14,7 @@ const CACHE=path.join(__dirname,'cacador_cache.json'),GASTO=path.join(__dirname,
 const arg=(k,d)=>{const i=process.argv.indexOf('--'+k);return i<0?d:(process.argv[i+1]&&!process.argv[i+1].startsWith('--')?process.argv[i+1]:true);};
 const ALVO=arg('alvo');if(!ALVO){console.error('uso: node cacador.js --alvo golpe_soul_guitar [--videos 40] [--queries "a|b"] [--estoque]');process.exit(1);}
 const NVID=+arg('videos',40),NPICOS=+arg('picos',8),ESTOQUE=!!arg('estoque',false),TETO=+arg('teto',3),ARQ=arg('arquivo');
-const LIM={borrado:5.3,blocos:1.6,nota:8,semHud:8};
+const LIM={borrado:5.3,blocos:1.6,nota:7,semHud:8}; // nota >=7 liberada pelo dono ('deixa os nota 7'); HUD/texto e borrado continuam fora
 
 const QUERIES={
  golpe_soul_guitar:['blox fruits soul guitar edit 4k','soul guitar cinematic edit','blox fruits soul guitar showcase no ui','blox fruits soul guitar close up','blox fruits soul guitar 1440p','blox fruits update 17.3 trailer','blox fruits skull guitar edit'],
@@ -142,14 +142,46 @@ function entrar(tmp,id,tag){
 }
 
 // ------------------------------------------------------------------------------------------------
+const linha=r=>`| ${r.video} | ${r.t} | ${r.avatar_grande??'?'} | ${r.climax??'?'} | ${r.sem_hud_texto??'?'} | ${r.bonito??'?'} | **${r.nota}** | ${r.tag} | ${String(r.arma||'').replace(/\|/g,'/')} | ${r.decisao}${r.arquivo?' → '+path.basename(r.arquivo):''} |
+`;
+const passa=p=>p.nota>=LIM.nota&&p.sem_hud_texto>=LIM.semHud&&p.tag!=='nenhuma'&&(p.tag===ALVO||!!arg('qualquer'));
+// corta em alta, passa na régua e entra (saída ou estoque); r ganha decisao/arquivo
+function aprovar(r,src,dir,n){
+ const tmp=path.join(dir,`c${n}.mp4`);if(!cortar(src.url,r.t,tmp)){r.decisao='falhou corte';return false;}
+ const q=regua(tmp);r.regua=q;if(!q.ok){r.decisao=`régua (borrado ${q.q.borrado}/${q.s.borrado}, blocos ${q.q.blocos}/${q.s.blocos})`;return false;}
+ r.decisao='aprovado';r.arquivo=entrar(tmp,r.video,r.tag);log(' ✓',r.video,r.t,r.tag,'nota',r.nota,'→',path.basename(r.arquivo));return true;
+}
+const CAMPOS=['t','avatar_grande','climax','sem_hud_texto','bonito','nota','tag','arma','decisao','arquivo'];
+const guarda=r=>Object.fromEntries(CAMPOS.filter(k=>r[k]!=null).map(k=>[k,r[k]]));
+// picos já julgados (nota >= mínima, do alvo) que ainda não viraram take: sem reavaliar o vídeo inteiro.
+// cache antigo não guardava sem_hud_texto → só esses picos voltam ao juiz (folha pequena, 1 chamada por vídeo)
+function reaproveitar(cache,aprov){
+ for(const [id,v] of Object.entries(cache)){if(!v.picos)continue;
+  const alvo=v.picos.filter(p=>p.nota>=LIM.nota&&p.decisao!=='aprovado'&&!/^régua|falhou/.test(p.decisao)&&(p.tag===ALVO||arg('qualquer')));if(!alvo.length)continue;
+  const src=fonte1080(id);if(!src){log(id,'sem 1080p agora');continue;}
+  const dir=path.join(TMP,id);fs.mkdirSync(dir,{recursive:true});
+  const falta=alvo.filter(p=>p.sem_hud_texto==null);
+  if(falta.length){const itens=falta.map((p,i)=>({n:i+1,url:src.url,t:p.t}));const folha=folhaJuiz(itens,path.join(dir,'juiz_re.jpg'));
+   if(folha)try{for(const q of julgar(folha).picos){const p=falta[q.n-1];if(p){Object.assign(p,{...q,t:+(p.t+0.5*(q.quadro||0)).toFixed(2)});delete p.n;delete p.quadro;delete p.obs;}}}catch(e){log(' juiz falhou:',e.message);}}
+  for(const p of alvo){const r={video:id,...p,decisao:'reprovado'};
+   if(p.sem_hud_texto!=null&&passa(r)&&aprovar(r,src,dir,'r'+Math.round(p.t*100)))aprov.push(r);
+   Object.assign(p,guarda(r));fs.appendFileSync(REL,linha(r));}
+  wj(CACHE,cache);fs.rmSync(dir,{recursive:true,force:true});}
+}
 function main(){
  fs.mkdirSync(TMP,{recursive:true});const cache=rj(CACHE,{});const g0=rj(GASTO,{chamadas:0,usd:0});
- let cand;
+ fs.appendFileSync(REL,(fs.existsSync(REL)?'':'# Relatório do caçador de takes\n')+`
+## ${new Date().toISOString().slice(0,16).replace('T',' ')} — alvo ${ALVO} (nota >= ${LIM.nota}, sem HUD >= ${LIM.semHud}; ${ESTOQUE?'direto no estoque':'saída para conferir: '+SAIDA})
+
+| vídeo | t | grande | clímax | sem HUD | bonito | nota | tag | o que aparece | decisão |
+|---|---|---|---|---|---|---|---|---|---|
+`);
+ const aprov=[];let cand;
  if(ARQ){const f=path.resolve(String(ARQ));if(!fs.existsSync(f)){console.error('arquivo não existe: '+f);process.exit(1);}
   const id=path.basename(f).replace(/\.[^.]+$/,'').replace(/[^\w-]/g,'_');cand=[{id,dur:0,titulo:'(gravação própria) '+path.basename(f),local:f}];delete cache[id];}
- else{cand=buscar(cache);wj(CACHE,cache);}
- log(`${cand.length} vídeo(s) para avaliar; até ${NVID}`);
- let feitos=0;const aprov=[];
+ else{reaproveitar(cache,aprov);cand=buscar(cache);wj(CACHE,cache);}
+ log(`${cand.length} vídeo(s) novos para avaliar; até ${NVID}`);
+ let feitos=0;
  for(const v of cand){if(feitos>=NVID)break;
   const gasto=rj(GASTO,{usd:0}).usd-g0.usd;if(!aprov.length&&gasto>TETO){log(`gasto US$ ${gasto.toFixed(2)} passou do teto (${TETO}) sem nenhum aprovado — parei este alvo`);break;}
   let src;if(v.local){const p=run(require('ffprobe-static').path,['-v','error','-select_streams','v','-show_entries','stream=width,height','-of','csv=p=0',v.local]).stdout.trim().split(',');src={url:v.local,w:+p[0],h:+p[1]};}
@@ -158,27 +190,24 @@ function main(){
   feitos++;const dir=path.join(TMP,v.id);fs.mkdirSync(dir,{recursive:true});
   log(`[${feitos}/${NVID}] ${v.id} ${src.w}x${src.h} "${v.titulo.slice(0,60)}"`);
   const tr=triagem(v.id,dir,v.local);if(tr.erro){cache[v.id]={data:hoje(),motivo:tr.erro};wj(CACHE,cache);fs.rmSync(dir,{recursive:true,force:true});continue;}
-  // HUD fixo no meio do quadro = vídeo inteiro poluído; topo/base podem sair no recorte
+  // HUD/texto fixo dentro do recorte do quadrado = vídeo inteiro poluído
   if(tr.hud.quadrado>0.05){cache[v.id]={data:hoje(),motivo:`HUD/texto fixo dentro do recorte (${(tr.hud.quadrado*100).toFixed(0)}%)`,hud:tr.hud};wj(CACHE,cache);log(' HUD fixo, pulei');fs.rmSync(dir,{recursive:true,force:true});continue;}
   const itens=tr.picos.map((p,i)=>({n:i+1,url:src.url,t:p.t,sc:p.sc}));
-  const folha=folhaJuiz(itens,path.join(dir,'juiz.jpg'));if(!folha){cache[v.id]={data:hoje(),motivo:'não consegui quadros 1080p'};continue;}
+  const folha=folhaJuiz(itens,path.join(dir,'juiz.jpg'));if(!folha){cache[v.id]={data:hoje(),motivo:'não consegui quadros 1080p'};wj(CACHE,cache);fs.rmSync(dir,{recursive:true,force:true});continue;}
   const keep=path.join(SAIDA,'_folhas');fs.mkdirSync(keep,{recursive:true});fs.copyFileSync(folha.f,`${keep}/${v.id}.jpg`);
-  let j;try{j=julgar(folha);}catch(e){log(' juiz falhou:',e.message);continue;}
+  let j;try{j=julgar(folha);}catch(e){log(' juiz falhou:',e.message);fs.rmSync(dir,{recursive:true,force:true});continue;}
   const notas=[];
   for(const p of j.picos){const it=itens.find(x=>x.n===p.n);if(!it)continue;const t=+(it.t+0.5*(p.quadro||0)).toFixed(2);
-   const r={video:v.id,titulo:v.titulo,t,...p,decisao:'reprovado'};notas.push(r);
-   if(p.nota<LIM.nota||p.sem_hud_texto<LIM.semHud||p.tag==='nenhuma'||(p.tag!==ALVO&&!arg('qualquer')))continue;
-   const tmp=path.join(dir,`c${p.n}.mp4`);if(!cortar(src.url,t,tmp)){r.decisao='falhou corte';continue;}
-   const q=regua(tmp);r.regua=q;if(!q.ok){r.decisao=`régua (borrado ${q.q.borrado}/${q.s.borrado}, blocos ${q.q.blocos}/${q.s.blocos})`;continue;}
-   r.decisao='aprovado';r.arquivo=entrar(tmp,v.id,p.tag);aprov.push(r);log(' ✓',p.n,p.tag,'nota',p.nota,'→',path.basename(r.arquivo));}
-  rel.push(...notas);cache[v.id]={data:hoje(),alvo:ALVO,picos:notas.map(x=>({t:x.t,nota:x.nota,tag:x.tag,decisao:x.decisao}))};wj(CACHE,cache);
+   const r={video:v.id,...p,t,decisao:'reprovado'};notas.push(r);
+   if(passa(r)&&aprovar(r,src,dir,p.n))aprov.push(r);fs.appendFileSync(REL,linha(r));}
+  cache[v.id]={data:hoje(),alvo:ALVO,titulo:v.titulo,picos:notas.map(guarda)};wj(CACHE,cache);
   fs.rmSync(dir,{recursive:true,force:true});
  }
  const g=rj(GASTO,{chamadas:0,usd:0});
- let md=`\n## ${new Date().toISOString().slice(0,16).replace('T',' ')} — alvo ${ALVO} (${feitos} vídeos, ${ESTOQUE?'direto no estoque':'saída para conferir: '+SAIDA})\n\nChamadas ao Claude nesta rodada: ${g.chamadas-g0.chamadas} (US$ ${(g.usd-g0.usd).toFixed(3)}).\n\n| vídeo | t | grande | clímax | sem HUD | bonito | nota | tag | o que aparece | decisão |\n|---|---|---|---|---|---|---|---|---|---|\n`;
- for(const r of rel)md+=`| ${r.video} | ${r.t} | ${r.avatar_grande} | ${r.climax} | ${r.sem_hud_texto} | ${r.bonito} | **${r.nota}** | ${r.tag} | ${String(r.arma).replace(/\|/g,'/')} | ${r.decisao}${r.arquivo?' → '+path.basename(r.arquivo):''} |\n`;
- fs.appendFileSync(REL,(fs.existsSync(REL)?'':'# Relatório do caçador de takes\n')+md);
- log(`fim: ${aprov.length} takes aprovados; relatório em ${REL}`);
+ fs.appendFileSync(REL,`
+Resumo: ${feitos} vídeos novos avaliados, ${aprov.length} takes aprovados, ${g.chamadas-g0.chamadas} chamadas ao Claude (US$ ${(g.usd-g0.usd).toFixed(3)}).
+`);
+ log(`fim: ${feitos} vídeos, ${aprov.length} aprovados, US$ ${(g.usd-g0.usd).toFixed(2)}; relatório em ${REL}`);
 }
 if(require.main===module)main();
 module.exports={triagem,regua};
