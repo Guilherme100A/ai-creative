@@ -118,6 +118,7 @@ O vídeo é uma pessoa falando para a câmera; a edição coloca por cima anima�
 ## Regras aprendidas com o feedback do dono (valem sempre)
 - Abre com o site mobile em 3D no 1º segundo (site_top2) e, logo depois, gameplay da arma que ela citar NO MOMENTO em que fala o nome.
 - Gameplay (tipo box) só quando a fala pede: arma citada (wpn), raça V4 (pool race), frutas/inventário (pool inv). Poucos quadrados, nada de gameplay aleatório. "any" = gameplay genérica para falas tipo "entrar no jogo".
+- AURA: nas falas sobre a conta ser forte/completa/itens raros ("tudo pronto", "itens que muita gente passa horas tentando conseguir") use tipo montage (vira montagem de AURA: avatar brilhando) ou box com wpn "any". Golpe de arma (wpn) só quando ela cita a arma.
 - Card da marca (brand_intro) quando ela fala "Basic-Build" pela primeira vez; site de feedbacks quando fala de feedback; brand_entrega quando fala da entrega automática.
 - A última frase (o CTA) termina com o card final brand_cta3 ("SÓ R$ 17,90"): ate = 99 (vai até o fim).
 - Nunca cenas com R$ 18,90 (site_top, site_cta, brand_cta) — já foram removidas da lista.

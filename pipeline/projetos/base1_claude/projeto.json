@@ -270,6 +270,11 @@
    "v": "box",
    "pool": "inv"
   },
+  "aura1": {
+   "s": 44.45,
+   "e": 46.6,
+   "v": "montage"
+  },
   "siteFb2": {
    "s": 51.1,
    "e": 54.5,
@@ -295,6 +300,7 @@
   "sg",
   "race",
   "inv",
+  "aura1",
   "siteFb2",
   "brandCta"
  ],
