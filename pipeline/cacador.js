@@ -244,12 +244,13 @@ function entrar(tmp,id,tag,pico){
 // ------------------------------------------------------------------------------------------------
 const linha=r=>`| ${r.video} | ${r.t} | ${r.avatar_grande??'?'} | ${r.climax??'?'} | ${r.sem_hud_texto??'?'} | ${r.bonito??'?'} | **${r.nota}** | ${r.tag} | ${String(r.o_que_mostra||r.arma||'').replace(/\|/g,'/')} | ${r.decisao}${r.arquivo?' → '+path.basename(r.arquivo):''} |
 `;
-const passa=p=>p.nota>=LIM.nota&&p.sem_hud_texto>=LIM.semHud&&p.tag!=='nenhuma'&&(p.tag===ALVO||!!arg('qualquer'));
+// take bom de OUTRA tag (ex.: close de aura achado caçando CDK) também vale: vai para a pasta da tag dele, não se perde
+const passa=p=>p.nota>=LIM.nota&&p.sem_hud_texto>=LIM.semHud&&TAGS.includes(p.tag)&&(p.tag===ALVO||!arg('so-alvo'));
 // corta em alta, passa na régua e entra (saída ou estoque); r ganha decisao/arquivo
 // janela = quadros limpos que o juiz apontou ao redor do centro (passos de 0,5s); precisa ter >=1s e conter o pico
 function aprovar(r,fonte,dir,n){
  const ini=r.centro+0.5*r.limpo_de,fim=r.centro+0.5*r.limpo_ate;
- if(fim-ini<1||r.t<ini||r.t>fim){r.decisao=`janela limpa curta (${ini.toFixed(1)}–${fim.toFixed(1)}s)`;return false;}
+ if(fim-ini<0.999||r.t<ini||r.t>fim){r.decisao=`janela limpa curta (${ini.toFixed(1)}–${fim.toFixed(1)}s)`;return false;}
  const tmp=path.join(dir,`c${n}.mp4`);if(!cortar(fonte,ini,fim-ini,tmp)){r.decisao='falhou corte';return false;}
  const q=regua(tmp);r.regua=q;if(!q.ok){r.decisao=`régua (borrado ${q.q.borrado}/${q.s.borrado}, blocos ${q.q.blocos}/${q.s.blocos})`;return false;}
  r.decisao='aprovado';r.arquivo=entrar(tmp,r.video,r.tag,r.t-ini);log(' ✓',r.video,r.t,r.tag,'nota',r.nota,'→',path.basename(r.arquivo));return true;
