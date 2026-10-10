@@ -1,0 +1,62 @@
+{
+ "lote": 102,
+ "projeto": "base1_ref",
+ "estilo": "ref",
+ "criadoEm": "2026-10-10T00:43:58.767Z",
+ "variacoes": [
+  {
+   "id": "v1003",
+   "order": "ABCDEFGHIJ",
+   "gap": 0.28,
+   "dirs": "padrao",
+   "zoom": [
+    1.12,
+    1
+   ],
+   "pack": "y2",
+   "seed": 1003,
+   "hl": [
+    "limao"
+   ],
+   "reac": "nenhuma",
+   "memes": "poucos",
+   "memeSom": 0.3,
+   "grade": "vivo",
+   "cap": "sombra",
+   "raceInv": false,
+   "fx": {
+    "abertura": true,
+    "legendaSite": false,
+    "nitidez": true,
+    "legenda": "grande",
+    "memeCurado": true,
+    "memeSeco": true,
+    "paletaSite": true,
+    "ctaCurto": true,
+    "ctaVivo": true,
+    "masterOk": true,
+    "pico": true,
+    "boxSeco": true,
+    "boxGrande": true,
+    "aura": true,
+    "zoomCalmo": true,
+    "listaUnica": true,
+    "semCongelar": true,
+    "vocab": true,
+    "aberturaRosto": true,
+    "chips": true,
+    "empurrao": true,
+    "telaDividida": true,
+    "ctaRosto": true,
+    "memeMax": 0,
+    "siteLegivel": true,
+    "musica": {
+     "mood": "leve",
+     "db": -16
+    },
+    "gancho": true,
+    "preferirNovos": true
+   }
+  }
+ ]
+}
